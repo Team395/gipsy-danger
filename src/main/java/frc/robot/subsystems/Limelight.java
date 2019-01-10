@@ -18,9 +18,24 @@ public class Limelight extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+  public static enum Pipeline{
+    leftTarget(0),
+    rightTarget(1);
+
+    public final int id;
+
+    private Pipeline(int id){
+      this.id = id;
+    }
+
+  }
+
   public static NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
-  
+  public static boolean switchPipeline(Pipeline pipeline) {
+    return limelightTable.getEntry("pipeline").setNumber(pipeline.id);
+  }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
