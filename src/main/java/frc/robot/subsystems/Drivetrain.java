@@ -12,8 +12,8 @@ public class Drivetrain extends Subsystem {
     private final int RIGHT_FOLLOWER_TALON = 4;
 
     private final WPI_TalonSRX leftLeader = new WPI_TalonSRX(LEFT_LEADER_TALON);
-    private final WPI_TalonSRX leftFollower = new WPI_TalonSRX(RIGHT_LEADER_TALON);
-    private final WPI_TalonSRX rightLeader = new WPI_TalonSRX(LEFT_FOLLOWER_TALON);
+    private final WPI_TalonSRX leftFollower = new WPI_TalonSRX(LEFT_FOLLOWER_TALON);
+    private final WPI_TalonSRX rightLeader = new WPI_TalonSRX(RIGHT_LEADER_TALON);
     private final WPI_TalonSRX rightFollower = new WPI_TalonSRX(RIGHT_FOLLOWER_TALON);
 
     public Drivetrain(){
