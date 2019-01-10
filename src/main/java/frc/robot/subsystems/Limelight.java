@@ -31,8 +31,8 @@ public class Limelight extends Subsystem {
   }
 
   public static enum CamMode{
-    on,
-    off;
+    vision,
+    driver;
   }
   public static NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -41,7 +41,7 @@ public class Limelight extends Subsystem {
   }
 
   public static boolean setCamMode(CamMode camMode){
-    if(camMode == CamMode.off) {
+    if(camMode == CamMode.vision) {
       return limelightTable.getEntry("camMode").setNumber(0);
     } else {
       return limelightTable.getEntry("camMode").setNumber(1);
