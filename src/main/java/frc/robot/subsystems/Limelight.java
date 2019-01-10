@@ -70,6 +70,18 @@ public class Limelight extends Subsystem {
     }
   }
 
+  public static Contour getBestContour() {
+    if(limelightTable.getEntry("tv").getNumber(0).equals(1)) {
+      return new Contour(limelightTable.getEntry("tx").getDouble(0),
+                        limelightTable.getEntry("ty").getDouble(0),
+                        limelightTable.getEntry("ta").getDouble(0),
+                        limelightTable.getEntry("ts").getDouble(0),
+                        limelightTable.getEntry("tl").getDouble(0));
+    } else {
+      return null;
+    }
+  }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
