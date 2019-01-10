@@ -30,10 +30,22 @@ public class Limelight extends Subsystem {
 
   }
 
+  public static enum CamMode{
+    on,
+    off;
+  }
   public static NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
   public static boolean switchPipeline(Pipeline pipeline) {
     return limelightTable.getEntry("pipeline").setNumber(pipeline.id);
+  }
+
+  public static boolean setCamMode(CamMode camMode){
+    if(camMode == CamMode.off) {
+      return limelightTable.getEntry("camMode").setNumber(0);
+    } else {
+      return limelightTable.getEntry("camMode").setNumber(1);
+    }
   }
 
   @Override
