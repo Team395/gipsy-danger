@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Limelight;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,7 +27,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI oi;
-  public static Drivetrain drivetrain;
+  public static Drivetrain drivetrain = new Drivetrain();
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -121,7 +122,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run();
+//    Scheduler.getInstance().run();
+    Limelight.Contour bestContour = Limelight.getBestContour();
+    if(bestContour != null) {
+      double xOffset = bestContour.tx;
+      double p = 0.25/27;
+      drivetrain.tankDrive(-p*xOffset, p*xOffset);
+    } else {
+      drivetrain.tankDrive(0, 0);
+    }
   }
 
   /**
