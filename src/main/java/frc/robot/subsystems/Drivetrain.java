@@ -19,6 +19,9 @@ public class Drivetrain extends Subsystem {
     public Drivetrain(){
         leftFollower.follow(leftLeader);
         rightFollower.follow(rightLeader);
+
+        rightLeader.setInverted(true);
+        rightFollower.setInverted(true);
     }
 
     @Override
