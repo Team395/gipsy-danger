@@ -72,7 +72,7 @@ public class Limelight extends Subsystem {
 
   public static Contour getBestContour() {
     //Check if a valid contour is found 
-    if(limelightTable.getEntry("tv").getNumber(0).equals(1)) {
+    if(limelightTable.getEntry("tv").getNumber(0).equals(1.0)) {
       return new Contour(limelightTable.getEntry("tx").getDouble(0),
                         limelightTable.getEntry("ty").getDouble(0),
                         limelightTable.getEntry("ta").getDouble(0),
