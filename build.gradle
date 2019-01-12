@@ -49,6 +49,7 @@ dependencies {
     compile wpi.deps.vendor.java()
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
+    compile files('jars/limelight-api-0.1.0.jar')
     testCompile 'junit:junit:4.12'
 }
 
