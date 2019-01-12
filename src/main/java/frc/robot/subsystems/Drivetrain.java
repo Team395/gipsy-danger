@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.TankDrive;
 
@@ -32,5 +33,27 @@ public class Drivetrain extends Subsystem {
     public void tankDrive(double leftSpeed, double rightSpeed) {
         leftLeader.set(leftSpeed);
         rightLeader.set(rightSpeed);
+    }
+
+    //TODO: Look at this for cleanliness
+    public PIDOutput getTurnOutput() {
+        return new PIDOutput(){
+        
+            @Override
+            public void pidWrite(double output) {
+                tankDrive(-output, output);
+            }
+        };
+    }
+
+    //TODO: Look at this for cleanliness
+    public PIDOutput getLinearOutput() {
+        return new PIDOutput(){
+        
+            @Override
+            public void pidWrite(double output) {
+                tankDrive(output, output);
+            }
+        };
     }
 }
