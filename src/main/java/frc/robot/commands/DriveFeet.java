@@ -15,16 +15,16 @@ import frc.robot.subsystems.Drivetrain;
 public class DriveFeet extends Command {
   //Inches per Foot * Ticks per Rotation/(Wheel Diameter * pi)
   public static final double FEET_TO_TICKS = 12 * 4096 / Math.PI / 6;
-  public static final double kP = 1/8;
-  public static final double kI = 0;
-  public static final double kD = 0;
+  public static final double p = 1/8;
+  public static final double i = 0;
+  public static final double d = 0;
   public static final double proportionalHeading = 0.05;
   
   private final boolean holdHeading;
   private final double initialHeading;
 
   private final Drivetrain.LinearOutput linearOutput = Robot.drivetrain.getLinearOutput();
-  private final PIDController pidController = new PIDController(kP, kI, kD, Robot.encoders, linearOutput);
+  private final PIDController pidController = new PIDController(p, i, d, Robot.encoders, linearOutput);
 
   public DriveFeet(double distance) {
     // Use requires() here to declare subsystem dependencies
