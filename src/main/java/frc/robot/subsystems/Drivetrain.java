@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import javax.sound.sampled.Line;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -46,14 +48,23 @@ public class Drivetrain extends Subsystem {
         };
     }
 
-    //TODO: Look at this for cleanliness
-    public PIDOutput getLinearOutput() {
-        return new PIDOutput(){
-        
-            @Override
-            public void pidWrite(double output) {
-                tankDrive(output, output);
-            }
-        };
+    public LinearOutput getLinearOutput(){
+        return new LinearOutput();
     }
+
+    //TODO: Look at this for cleanliness
+    public class LinearOutput implements PIDOutput {
+        private double headingCorrection = 0;
+
+        public void setHeadingCorrection(double headingCorrection) {
+            this.headingCorrection = headingCorrection;
+        }
+
+        @Override
+        public void pidWrite(double output) {
+            tankDrive(output - headingCorrection, output + headingCorrection);
+        }
+    }
+
+    
 }
