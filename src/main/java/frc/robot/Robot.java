@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import com._2train395.limelight.api.Limelight;
+import com._2train395.limelight.api.Target;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -15,7 +18,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.Limelight;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -123,9 +125,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 //    Scheduler.getInstance().run();
-    Limelight.Contour bestContour = Limelight.getBestContour();
-    if(bestContour != null) {
-      double xOffset = bestContour.tx;
+    if (Limelight.hasTarget()) {
+      final Target target = Limelight.getTarget();
+      double xOffset = target.getXOffset();
       double p = 0.25/27;
       drivetrain.tankDrive(-p*xOffset, p*xOffset);
     } else {
