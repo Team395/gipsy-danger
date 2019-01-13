@@ -116,8 +116,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    Scheduler.getInstance().add(new DriveFeet(5));
-    encoders.zeroEncoders();
   }
 
   /**
