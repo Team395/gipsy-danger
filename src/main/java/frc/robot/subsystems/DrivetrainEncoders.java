@@ -18,10 +18,15 @@ import frc.robot.Robot;
 public class DrivetrainEncoders implements PIDSource{
   public static final int LEFT_ENCODER_TALON = 1;
   public static final int RIGHT_ENCODER_TALON = 3;
+  public static final double TICKS_TO_FEET = 4.0 * Math.PI / 4096.0 / 12.0;
 
   private final TalonSRX leftEncoderTalon = Robot.controllerMap.getTalonByID(LEFT_ENCODER_TALON);
   private final TalonSRX rightEncoderTalon = Robot.controllerMap.getTalonByID(RIGHT_ENCODER_TALON);
 
+  public DrivetrainEncoders() {
+    leftEncoderTalon.setSensorPhase(true);
+    rightEncoderTalon.setSensorPhase(true);
+  }
   public double getLeftEncoder() {
     return leftEncoderTalon.getSelectedSensorPosition();
   }
@@ -33,6 +38,10 @@ public class DrivetrainEncoders implements PIDSource{
   public void zeroEncoders() {
     leftEncoderTalon.setSelectedSensorPosition(0);
     rightEncoderTalon.setSelectedSensorPosition(0);
+  }
+
+  public double getDistanceInFeet() {
+    return (getLeftEncoder()+getRightEncoder())/2 * TICKS_TO_FEET;
   }
 
   @Override
@@ -47,8 +56,6 @@ public class DrivetrainEncoders implements PIDSource{
 
   @Override
   public double pidGet(){
-    return (getLeftEncoder()+getRightEncoder())/2;
+    return getDistanceInFeet();
   }
-
-
 }

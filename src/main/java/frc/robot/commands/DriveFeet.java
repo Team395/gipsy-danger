@@ -9,22 +9,24 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.wpilibj.Timer;
 
 public class DriveFeet extends Command {
-  //Inches per Foot * Ticks per Rotation/(Wheel Diameter * pi)
-  public static final double FEET_TO_TICKS = 12 * 4096 / Math.PI / 6;
-  public static final double p = 1/8;
+  public static final double p = 0.8;
   public static final double i = 0;
-  public static final double d = 0;
-  public static final double proportionalHeading = 0.05;
+  public static final double d = 0;//p;
+  public static final double proportionalHeading = 0.01;
   
   private final boolean holdHeading;
-  private final double initialHeading;
+  private double initialHeading;
+  private final double distance;
 
   private final Drivetrain.LinearOutput linearOutput = Robot.drivetrain.getLinearOutput();
   private final PIDController pidController = new PIDController(p, i, d, Robot.encoders, linearOutput);
+  private final Timer onTargetTimer = new Timer();
 
   public DriveFeet(double distance) {
     // Use requires() here to declare subsystem dependencies
@@ -35,19 +37,19 @@ public class DriveFeet extends Command {
   public DriveFeet(double distance, boolean holdHeading){
     requires(Robot.drivetrain);
     this.holdHeading = holdHeading;
-
+    this.distance = distance;
     //Set up PIDController and sensors
-    Robot.encoders.zeroEncoders();
-    this.initialHeading = Robot.gyro.getYaw();
+    pidController.setAbsoluteTolerance(0.08);
 
-    //Set setpoint and enable
-    pidController.setSetpoint(distance * FEET_TO_TICKS);
-    pidController.enable();
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    this.initialHeading = Robot.gyro.getYaw();
+    //Set setpoint and enable
+    pidController.setSetpoint(distance + Robot.encoders.getDistanceInFeet());
+    pidController.enable();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -56,12 +58,23 @@ public class DriveFeet extends Command {
     if(holdHeading){
       linearOutput.setHeadingCorrection(proportionalHeading * (initialHeading - Robot.gyro.getYaw()));
     }
+    SmartDashboard.putData(pidController);
+    SmartDashboard.putNumber("Error", pidController.getError());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return pidController.onTarget();
+    if(pidController.onTarget()) {
+      onTargetTimer.start();
+    } else {
+      onTargetTimer.stop();
+      onTargetTimer.reset();
+    }
+    if(onTargetTimer.hasPeriodPassed(1)){
+      return true;
+    };
+    return false;
   }
 
   // Called once after isFinished returns true
