@@ -15,17 +15,17 @@ public class Targets {
 
     /**
      * @param target
-     * @param targetHeight the height in feet of the center of the target from the
-     *                     ground
+     * @param targetType
      * @param cameraHeight the height in feet of the center of the camera from the
      *                     ground
      * @param cameraAngle  the angle at which the camera is mounted, in degrees,
      *                     from the horizontal
      * @return the distance in feet to the target, parallel to the ground
      */
-    public static double getDistance(final Target target, final double targetHeight, final double cameraHeight,
+    public static double getDistance(final Target target, final TargetType targetType, final double cameraHeight,
             double cameraAngle) {
         final double yOffset = Math.toRadians(target.getYOffset());
+        final double targetHeight = targetType.getHeight();
         cameraAngle = Math.toRadians(cameraAngle);
         return (targetHeight - cameraHeight) / Math.tan(cameraAngle + yOffset);
     }
