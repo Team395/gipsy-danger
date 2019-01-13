@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-
+import frc.robot.Robot;
 /**
  * Add your docs here.
  */
@@ -19,8 +19,8 @@ public class DrivetrainEncoders implements PIDSource{
   public static final int LEFT_ENCODER_TALON = 1;
   public static final int RIGHT_ENCODER_TALON = 3;
 
-  private final TalonSRX leftEncoderTalon = new TalonSRX(LEFT_ENCODER_TALON);
-  private final TalonSRX rightEncoderTalon = new TalonSRX(RIGHT_ENCODER_TALON);
+  private final TalonSRX leftEncoderTalon = Robot.controllerMap.getTalonByID(LEFT_ENCODER_TALON);
+  private final TalonSRX rightEncoderTalon = Robot.controllerMap.getTalonByID(RIGHT_ENCODER_TALON);
 
   public double getLeftEncoder() {
     return leftEncoderTalon.getSelectedSensorPosition();
