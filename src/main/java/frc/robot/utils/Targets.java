@@ -29,4 +29,24 @@ public class Targets {
         cameraAngle = Math.toRadians(cameraAngle);
         return (targetHeight - cameraHeight) / Math.tan(cameraAngle + yOffset);
     }
+    
+    public enum TargetType {
+        LOADING_STATION_HATCH(31.5 - (TARGET_WIDTH / 2)),
+        CARGO_SHIP_HATCH(LOADING_STATION_HATCH.getHeight()),
+        ROCKET_HATCH(LOADING_STATION_HATCH.getHeight()),
+        ROCKET_PORT(39.125 - (TARGET_WIDTH / 2));
+
+        private final double height;
+
+        TargetType(final double height) {
+            this.height = height;
+        }
+
+        /**
+         * @return the height of the center of this target from the ground, in inches
+         */
+        public double getHeight() {
+            return height;
+        }
+    }
 }
