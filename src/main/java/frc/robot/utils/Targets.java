@@ -16,11 +16,11 @@ public class Targets {
     /**
      * @param target
      * @param targetType
-     * @param cameraHeight the height in feet of the center of the camera from the
+     * @param cameraHeight the height in inches of the center of the camera from the
      *                     ground
      * @param cameraAngle  the angle at which the camera is mounted, in degrees,
      *                     from the horizontal
-     * @return the distance in feet to the target, parallel to the ground
+     * @return the distance in inches to the target, parallel to the ground
      */
     public static double getDistance(final Target target, final TargetType targetType, final double cameraHeight,
             double cameraAngle) {
