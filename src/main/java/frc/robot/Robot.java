@@ -15,11 +15,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.DrivetrainEncoders;
-import frc.robot.subsystems.DrivetrainGyro;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,10 +28,10 @@ import frc.robot.subsystems.ExampleSubsystem;
 public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI oi;
+  public static SpeedControllerMap controllerMap = new SpeedControllerMap();
   public static Drivetrain drivetrain = new Drivetrain();
   public static DrivetrainEncoders encoders = new DrivetrainEncoders();
   public static DrivetrainGyro gyro = new DrivetrainGyro();
-  public static SpeedControllerMap controllerMap = new SpeedControllerMap();
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -129,15 +126,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-//    Scheduler.getInstance().run();
-    if (Limelight.hasTarget()) {
-      final Target target = Limelight.getTarget();
-      double xOffset = target.getXOffset();
-      double p = 0.25/27;
-      drivetrain.tankDrive(-p*xOffset, p*xOffset);
-    } else {
-      drivetrain.tankDrive(0, 0);
-    }
+    SmartDashboard.putNumber("Encoder Feet", encoders.getDistanceInFeet());
+    Scheduler.getInstance().run();
   }
 
   /**
