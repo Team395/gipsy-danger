@@ -59,11 +59,21 @@ public class SparkMAX {
     }
 
     public double getPIDSetpoint() {
-        return 0;
+        assert controlType == ControlType.kPosition || controlType == ControlType.kVelocity :
+        "Invalid ControlType: Not PID";
+
+        return setpoint;
     }
 
     public double getPIDError() {
-        return 0;
+        assert controlType == ControlType.kPosition || controlType == ControlType.kVelocity :
+        "Invalid ControlType: Not PID";
+
+        if(controlType == ControlType.kPosition) {
+            return setpoint - getPosition();
+        } else {
+            return setpoint - getVelocity();
+        }
     }
 
     public void setPIDSlot(double p, 
