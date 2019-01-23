@@ -1,12 +1,26 @@
 package frc.robot.utils;
 
 import com.revrobotics.*;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import java.util.*;
 
 public class SparkMAX {
+    CANSparkMax spark;
+    CANEncoder encoder = null;
+    CANPIDController pidController = null;
 
-    public SparkMAX(int deviceID) {
+    public SparkMAX(int deviceID, MotorType motorType) {
+        this(deviceID, motorType, motorType == MotorType.kBrushless);
+    }
 
+    public SparkMAX(int deviceID, MotorType motorType, boolean encoderConnected) {
+        spark = new CANSparkMax(deviceID, motorType);
+        
+        if(encoderConnected) {
+            encoder = spark.getEncoder();
+            pidController = spark.getPIDController();
+        }
     }
 
     public void set(double output) {
