@@ -23,14 +23,12 @@ import frc.robot.subsystems.ExampleSubsystem;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-import frc.robot.subsystems.TestPIDSubsystem;
 public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-  public static TestPIDSubsystem test = new TestPIDSubsystem();
 
   /**
    * This function is run when the robot is first started up and should be
