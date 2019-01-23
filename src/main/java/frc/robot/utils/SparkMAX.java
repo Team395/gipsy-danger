@@ -9,8 +9,9 @@ public class SparkMAX {
     CANSparkMax spark;
     CANPIDController pidController;
     CANEncoder encoder = null;
-    
     ControlType controlType = ControlType.kVoltage;
+    double setpoint = 0;
+
     public SparkMAX(int deviceID, MotorType motorType) {
         this(deviceID, motorType, motorType == MotorType.kBrushless);
     }
@@ -40,7 +41,13 @@ public class SparkMAX {
     }
 
     public void setPIDSetpoint(double setpoint, int slot, ControlType controlType) {
+        assert controlType == ControlType.kPosition || controlType == ControlType.kVelocity :
+            "Invalid ControlType: Not PID";
+        
+        this.controlType = controlType;
+        this.setpoint = setpoint;
 
+        pidController.setReference(setpoint, controlType, slot);
     }
 
     public double getPIDSetpoint() {
