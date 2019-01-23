@@ -92,6 +92,7 @@ public class SparkMAX {
         pidController.setOutputRange(minOutput, maxOutput, slot);
     }    
 
+    //Here if we want to get, modify, and reset using getPIDSlot()
     public void setPIDSlot(List<Double> params, int slot) {
         assert params.size() == 7 : "Wrong number of parameters";
 
@@ -120,7 +121,8 @@ public class SparkMAX {
     }  
 
     public void disable() {
-
+        setpoint = 0;
+        set(0);
     }
 
     public double getPosition() {
