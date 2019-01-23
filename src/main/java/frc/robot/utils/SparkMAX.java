@@ -11,6 +11,7 @@ public class SparkMAX {
     CANEncoder encoder = null;
     ControlType controlType = ControlType.kVoltage;
     double setpoint = 0;
+    double zeroPosition = 0;
 
     public SparkMAX(int deviceID, MotorType motorType) {
         //If no value for encoder is provided, assume there is an encoder only if it's brushless
@@ -127,7 +128,7 @@ public class SparkMAX {
 
     public double getPosition() {
         assert encoder != null : "No encoder connected";
-        return encoder.getPosition();
+        return encoder.getPosition() - zeroPosition;
     }
 
     public double getVelocity() {
@@ -137,6 +138,8 @@ public class SparkMAX {
     }
 
     public void zeroPosition() {
-
+        //GRRRR that we have to do this. Bad REV!
+        assert encoder != null : "No encoder connected";
+        this.zeroPosition = encoder.getPosition();
     }
 }
