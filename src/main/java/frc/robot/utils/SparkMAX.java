@@ -13,13 +13,18 @@ public class SparkMAX {
     double setpoint = 0;
 
     public SparkMAX(int deviceID, MotorType motorType) {
+        //If no value for encoder is provided, assume there is an encoder only if it's brushless
         this(deviceID, motorType, motorType == MotorType.kBrushless);
     }
 
     public SparkMAX(int deviceID, MotorType motorType, boolean encoderConnected) {
+        //Construct the spark
         spark = new CANSparkMax(deviceID, motorType);
+        
+        //We need the controller for voltage control no matter what
         pidController = spark.getPIDController();
 
+        //Only construct an encoder if it's plugged in
         if(encoderConnected) {
             encoder = spark.getEncoder();
         }
@@ -41,12 +46,15 @@ public class SparkMAX {
     }
 
     public void setPIDSetpoint(double setpoint, int slot, ControlType controlType) {
+        //Make sure this is actually PID
         assert controlType == ControlType.kPosition || controlType == ControlType.kVelocity :
             "Invalid ControlType: Not PID";
         
+        //Bookkeeping. Grr that we have to do this
         this.controlType = controlType;
         this.setpoint = setpoint;
 
+        //Actually set CANPIDController
         pidController.setReference(setpoint, controlType, slot);
     }
 
