@@ -10,6 +10,7 @@ public class SparkMAX {
     CANPIDController pidController;
     CANEncoder encoder = null;
     
+    ControlType controlType = ControlType.kVoltage;
     public SparkMAX(int deviceID, MotorType motorType) {
         this(deviceID, motorType, motorType == MotorType.kBrushless);
     }
@@ -27,8 +28,7 @@ public class SparkMAX {
         //Basically equivalent to duty cycle control, should be a bit more reliable
         pidController.setReference(output * 12, ControlType.kVoltage);
         //TODO: Test that this isn't affected by PID parameters
-
-
+        controlType = ControlType.kVoltage;
     }
 
     public double get() {
@@ -36,7 +36,7 @@ public class SparkMAX {
     }
 
     public ControlType getControlType() {
-        return null;
+        return controlType;
     }
 
     public void setPIDSetpoint(double setpoint, int slot, ControlType controlType) {
