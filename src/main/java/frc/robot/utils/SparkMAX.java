@@ -84,15 +84,35 @@ public class SparkMAX {
                            double minOutput, 
                            double maxOutput, 
                            int slot) {
-
+        pidController.setP(p, slot);
+        pidController.setI(i, slot);
+        pidController.setD(d, slot);
+        pidController.setFF(ff, slot);
+        pidController.setIZone(iZone, slot);
+        pidController.setOutputRange(minOutput, maxOutput, slot);
     }    
 
     public void setPIDSlot(List<Double> params, int slot) {
+        assert params.size() == 7 : "Wrong number of parameters";
 
+        setPIDSlot(params.get(0),
+                   params.get(1),
+                   params.get(2),
+                   params.get(3),
+                   params.get(4),
+                   params.get(5),
+                   params.get(6),
+                   slot);
     }
 
     public List<Double> getPIDSlot(int slot) {
-        return null;
+        return Arrays.asList(pidController.getP(slot),
+                             pidController.getI(slot),
+                             pidController.getD(slot),
+                             pidController.getFF(slot),
+                             pidController.getIZone(slot),
+                             pidController.getOutputMin(slot),
+                             pidController.getOutputMax(slot));
     }
 
     public PIDTuner getTuner() {
