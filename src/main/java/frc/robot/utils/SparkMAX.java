@@ -117,8 +117,8 @@ public class SparkMAX {
                              pidController.getOutputMax(slot));
     }
 
-    public PIDTuner getTuner() {
-        return null;
+    public PIDTuner getTuner(String name) {
+        return new REVPIDTuner(name, pidController);
     }  
 
     public void disable() {
