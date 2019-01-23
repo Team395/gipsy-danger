@@ -126,11 +126,14 @@ public class SparkMAX {
     }
 
     public double getPosition() {
-        return 0;
+        assert encoder != null : "No encoder connected";
+        return encoder.getPosition();
     }
 
     public double getVelocity() {
-        return 0;
+        assert encoder != null : "No encoder connected";
+        //TODO: Smooth it out
+        return encoder.getVelocity();
     }
 
     public void zeroPosition() {
