@@ -2,6 +2,7 @@ package frc.robot.utils;
 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.Timer;
 
 import java.util.*;
 
@@ -12,6 +13,13 @@ public class SparkMAX {
     ControlType controlType = ControlType.kVoltage;
     double setpoint = 0;
     double zeroPosition = 0;
+    
+    //Velocity Smoothing
+    final static int velocitySampleSize = 5;
+    double[] velocitySamples = new double[5];
+    final static double expirationTime = 0.1;
+    double lastSampleTime = 0;
+    int sampleIndex = 0;
 
     public SparkMAX(int deviceID, MotorType motorType) {
         //If no value for encoder is provided, assume there is an encoder only if it's brushless
@@ -133,8 +141,36 @@ public class SparkMAX {
 
     public double getVelocity() {
         assert encoder != null : "No encoder connected";
-        //TODO: Smooth it out
-        return encoder.getVelocity();
+
+        //Refresh sample array if old
+        if(Timer.getFPGATimestamp() - lastSampleTime > 0.1)
+            velocitySamples = new double[velocitySampleSize];
+
+        //Store values and increment index 
+        velocitySamples[sampleIndex++] = encoder.getVelocity();
+        lastSampleTime = Timer.getFPGATimestamp();
+        
+        //Make sure index doesn't overrun end
+        if(sampleIndex == velocitySampleSize)
+            sampleIndex = 0;
+
+        //Sum up and divide by number of nonzero samples
+        double sum = 0;
+        int validSamples = 0;
+        
+        //Add up samples and count nonzero
+        for(double sample : velocitySamples) {
+            sum += sample;
+            if(sample != 0.0)
+                validSamples++;
+        }
+        
+        //Protect against 0/0
+        if(validSamples == 0)
+            validSamples++;
+
+        //Return average
+        return sum/validSamples;
     }
 
     public void zeroPosition() {
