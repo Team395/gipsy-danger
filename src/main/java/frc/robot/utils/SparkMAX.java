@@ -63,4 +63,16 @@ public class SparkMAX {
     public void disable() {
 
     }
+
+    public double getPosition() {
+        return 0;
+    }
+
+    public double getVelocity() {
+        return 0;
+    }
+
+    public void zeroPosition() {
+
+    }
 }
