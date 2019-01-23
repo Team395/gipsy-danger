@@ -7,32 +7,32 @@ import java.util.*;
 
 public class SparkMAX {
     CANSparkMax spark;
+    CANPIDController pidController;
     CANEncoder encoder = null;
-    CANPIDController pidController = null;
-
+    
     public SparkMAX(int deviceID, MotorType motorType) {
         this(deviceID, motorType, motorType == MotorType.kBrushless);
     }
 
     public SparkMAX(int deviceID, MotorType motorType, boolean encoderConnected) {
         spark = new CANSparkMax(deviceID, motorType);
-        
+        pidController = spark.getPIDController();
+
         if(encoderConnected) {
             encoder = spark.getEncoder();
-            pidController = spark.getPIDController();
         }
     }
 
     public void set(double output) {
+        //Basically equivalent to duty cycle control, should be a bit more reliable
+        pidController.setReference(output * 12, ControlType.kVoltage);
+        //TODO: Test that this isn't affected by PID parameters
+
 
     }
 
-    public void set(double output, ControlType controlType) {
-
-    } 
-
     public double get() {
-        return 0;
+        return spark.getAppliedOutput();
     }
 
     public ControlType getControlType() {
