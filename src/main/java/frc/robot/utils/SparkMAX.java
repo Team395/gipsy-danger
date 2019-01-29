@@ -56,8 +56,8 @@ public class SparkMAX {
 
     public void setPIDSetpoint(double setpoint, int slot, ControlType controlType) {
         //Make sure this is actually PID
-        assert controlType == ControlType.kPosition || controlType == ControlType.kVelocity :
-            "Invalid ControlType: Not PID";
+        if(controlType != ControlType.kPosition && controlType != ControlType.kVelocity)
+            throw new IllegalStateException("Invalid ControlType: Not PID");
         
         //Bookkeeping. Grr that we have to do this
         this.controlType = controlType;
@@ -68,15 +68,15 @@ public class SparkMAX {
     }
 
     public double getPIDSetpoint() {
-        assert controlType == ControlType.kPosition || controlType == ControlType.kVelocity :
-        "Invalid ControlType: Not PID";
+        if(controlType != ControlType.kPosition && controlType != ControlType.kVelocity)
+            throw new IllegalStateException("Invalid ControlType: Not PID");
 
         return setpoint;
     }
 
     public double getPIDError() {
-        assert controlType == ControlType.kPosition || controlType == ControlType.kVelocity :
-        "Invalid ControlType: Not PID";
+        if(controlType != ControlType.kPosition && controlType != ControlType.kVelocity)
+            throw new IllegalStateException("Invalid ControlType: Not PID");
 
         if(controlType == ControlType.kPosition) {
             return setpoint - getPosition();
@@ -175,7 +175,9 @@ public class SparkMAX {
 
     public void zeroPosition() {
         //GRRRR that we have to do this. Bad REV!
-        assert encoder != null : "No encoder connected";
+        if(encoder == null)
+            throw new NoEncoderException();
+
         this.zeroPosition = encoder.getPosition();
     }
 }
