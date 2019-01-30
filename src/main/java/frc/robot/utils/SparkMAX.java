@@ -21,6 +21,8 @@ public class SparkMAX {
     double lastSampleTime = 0;
     int sampleIndex = 0;
 
+    PIDTuner tuner = new REVPIDTuner("SPARK" + spark.getDeviceId(), pidController);
+
     public SparkMAX(int deviceID, MotorType motorType) {
         //If no value for encoder is provided, assume there is an encoder only if it's brushless
         this(deviceID, motorType, motorType == MotorType.kBrushless);
@@ -130,7 +132,7 @@ public class SparkMAX {
     }
 
     public PIDTuner getTuner(String name) {
-        return new REVPIDTuner(name, pidController);
+        return tuner;
     }  
 
     public void disable() {
