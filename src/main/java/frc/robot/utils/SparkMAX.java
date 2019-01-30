@@ -188,7 +188,7 @@ public class SparkMAX {
         if(acceptableError == null) {
             throw new IllegalStateException("acceptableError not set");
         } 
-        
+
         return Math.abs(getPIDError()) <= acceptableError;
     }
 
@@ -318,4 +318,9 @@ public class SparkMAX {
 
         this.zeroPosition = encoder.getPosition();
     }
+
+    public void follow(SparkMAX leader) {
+        spark.follow(leader.spark);
+    }
+    
 }
