@@ -128,6 +128,11 @@ public class SparkMAX {
         }
     }
 
+    /*
+     *  Sets the amount of acceptable error in native units for the controller
+     *  to be on target.
+     */
+
     public void setAcceptableError(double acceptableError) {
         if(acceptableError < 0) {
             throw new IllegalArgumentException("acceptableError cannot be negative");
@@ -135,12 +140,22 @@ public class SparkMAX {
         this.acceptableError = acceptableError;
     }
 
+    /*
+     *  Sets the amount of time error needs to be acceptable before controller
+     *  is on target. Currently unused.
+     */
+
     public void setOnTargetTime(double onTargetTime) {
         if(onTargetTime < 0) {
             throw new IllegalArgumentException("onTargetTime cannot be negative");
         }
         this.onTargetTime = onTargetTime;
     }
+
+    /*
+     *  Returns true if the controller is within the bounds of the acceptable
+     *  error as set above.
+     */
 
     public boolean onTarget() {
         if(onTargetTime == null) {
