@@ -27,6 +27,10 @@ public class SparkMAX {
 
     //Instance of PIDTuner to return
     PIDTuner tuner = new REVPIDTuner("SPARK" + spark.getDeviceId(), pidController);
+    
+    //onTarget bookkeeping
+    Double acceptableError;
+    Double onTargetTime;
 
     /*
      *  Constructs a new SparkMAX, assuming an encoder only if the motor type is brushless
@@ -102,7 +106,7 @@ public class SparkMAX {
      *  Returns the last setpoint given to the PIDController.
      */ 
 
-    public double getPIDSetpoint() {
+    private double getPIDSetpoint() {
         if(controlType != ControlType.kPosition && controlType != ControlType.kVelocity)
             throw new IllegalStateException("Invalid ControlType: Not PID");
 
@@ -113,7 +117,7 @@ public class SparkMAX {
      *  Returns the current distance from the setpoint.
      */
 
-    public double getPIDError() {
+    private double getPIDError() {
         if(controlType != ControlType.kPosition && controlType != ControlType.kVelocity)
             throw new IllegalStateException("Invalid ControlType: Not PID");
 
@@ -122,6 +126,31 @@ public class SparkMAX {
         } else {
             return setpoint - getVelocity();
         }
+    }
+
+    public void setAcceptableError(double acceptableError) {
+        if(acceptableError < 0) {
+            throw new IllegalArgumentException("acceptableError cannot be negative");
+        }
+        this.acceptableError = acceptableError;
+    }
+
+    public void setOnTargetTime(double onTargetTime) {
+        if(onTargetTime < 0) {
+            throw new IllegalArgumentException("onTargetTime cannot be negative");
+        }
+        this.onTargetTime = onTargetTime;
+    }
+
+    public boolean onTarget() {
+        if(onTargetTime == null) {
+            throw new IllegalStateException("onTargetTime not set");
+        } else if(acceptableError == null) {
+            throw new IllegalStateException("acceptableError not set");
+        } 
+
+        //TODO: Incorporate time element into onTarget()
+        return Math.abs(getPIDError()) <= acceptableError;
     }
 
     /*
