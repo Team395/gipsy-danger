@@ -322,5 +322,9 @@ public class SparkMAX {
     public void follow(SparkMAX leader) {
         spark.follow(leader.spark);
     }
-    
+
+    public void setInverted(boolean isInverted) {
+        spark.setInverted(isInverted);
+    }
+
 }
