@@ -16,7 +16,7 @@ public class SparkMAX {
     
     //Velocity Smoothing
     final static int velocitySampleSize = 5;
-    double[] velocitySamples = new double[5];
+    double[] velocitySamples = new double[velocitySampleSize];
     final static double expirationTime = 0.1;
     double lastSampleTime = 0;
     int sampleIndex = 0;
