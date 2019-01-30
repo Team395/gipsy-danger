@@ -40,6 +40,10 @@ public class SparkMAX {
     }
 
     public void set(double output) {
+        //Cut down to [-1, +1] like in the wpilib 
+        output = Math.max(output, 1);
+        output = Math.min(output, -1);
+
         //Basically equivalent to duty cycle control, should be a bit more reliable
         pidController.setReference(output * 12, ControlType.kVoltage);
         //TODO: Test that this isn't affected by PID parameters
