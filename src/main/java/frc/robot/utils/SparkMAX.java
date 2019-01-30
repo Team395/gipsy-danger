@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.Timer;
 import java.util.*;
 
 public class SparkMAX {
-
     //Integral Members of the Controller
     CANSparkMax spark;
     CANPIDController pidController;
@@ -18,11 +17,13 @@ public class SparkMAX {
     double setpoint = 0;
     double zeroPosition = 0;
     
+    //The expiration time of samples for all sampling based methods
+    final static double expirationTime = 0.1;
+
     //Velocity Smoothing
     final static int velocitySampleSize = 5;
     double[] velocitySamples = new double[velocitySampleSize];
-    final static double expirationTime = 0.1;
-    double lastSampleTime = 0;
+    double lastVelocitySampleTime = 0;
     int sampleIndex = 0;
 
     //Instance of PIDTuner to return
@@ -31,16 +32,20 @@ public class SparkMAX {
     //onTarget bookkeeping
     Double acceptableError;
     Double onTargetTime;
+    double lastTargetSampleTime = Timer.getFPGATimestamp();
+    double firstTargetSampleTime = Timer.getFPGATimestamp();
 
     /*
-     *  Constructs a new SparkMAX, assuming an encoder only if the motor type is brushless
+     *  Constructs a new SparkMAX, assuming an encoder only if the motor type 
+     *  is brushless.
      */
     public SparkMAX(int deviceID, MotorType motorType) {
         this(deviceID, motorType, motorType == MotorType.kBrushless);
     }
 
     /*
-     * Overload of previous constructor to support a brushed motor with an encoder
+     * Overload of previous constructor to support a brushed motor with an 
+     * encoder.
      */
     public SparkMAX(int deviceID, MotorType motorType, boolean encoderConnected) {
         //Construct the spark
@@ -142,7 +147,7 @@ public class SparkMAX {
 
     /*
      *  Sets the amount of time error needs to be acceptable before controller
-     *  is on target. Currently unused.
+     *  is on target.
      */
 
     public void setOnTargetTime(double onTargetTime) {
@@ -153,8 +158,9 @@ public class SparkMAX {
     }
 
     /*
-     *  Returns true if the controller is within the bounds of the acceptable
-     *  error as set above.
+     *  Returns true if the controller has been within the bounds of the
+     *  acceptable error for onTargetTime AND if this method has been called
+     *  at least once every 0.1 seconds. Intended to be checked continuously.
      */
 
     public boolean onTarget() {
@@ -162,9 +168,27 @@ public class SparkMAX {
             throw new IllegalStateException("onTargetTime not set");
         } else if(acceptableError == null) {
             throw new IllegalStateException("acceptableError not set");
-        } 
+        }
 
-        //TODO: Incorporate time element into onTarget()
+        if(!withinAcceptableError() || Timer.getFPGATimestamp() - lastTargetSampleTime > expirationTime ) {
+            firstTargetSampleTime = Timer.getFPGATimestamp();
+        }
+
+        lastTargetSampleTime = Timer.getFPGATimestamp();
+
+        return lastTargetSampleTime - firstTargetSampleTime >= onTargetTime;
+    }
+
+    /*
+     *  Returns true if the controller is within the bounds of the acceptable
+     *  error as set above.
+     */
+
+    public boolean withinAcceptableError() {
+        if(acceptableError == null) {
+            throw new IllegalStateException("acceptableError not set");
+        } 
+        
         return Math.abs(getPIDError()) <= acceptableError;
     }
 
@@ -254,12 +278,12 @@ public class SparkMAX {
         assert encoder != null : "No encoder connected";
 
         //Refresh sample array if old
-        if(Timer.getFPGATimestamp() - lastSampleTime > 0.1)
+        if(Timer.getFPGATimestamp() - lastVelocitySampleTime > 0.1)
             velocitySamples = new double[velocitySampleSize];
 
         //Store values and increment index 
         velocitySamples[sampleIndex++] = encoder.getVelocity();
-        lastSampleTime = Timer.getFPGATimestamp();
+        lastVelocitySampleTime = Timer.getFPGATimestamp();
         
         //Make sure index doesn't overrun end
         if(sampleIndex == velocitySampleSize)
