@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.PIDSource;
@@ -21,7 +20,7 @@ public class DrivetrainGyro implements PIDSource{
   public static final int GYRO_TALON = 5;
   private static final int YAW_INDEX = 0;
 
-  private final PigeonIMU pigeon = new PigeonIMU(Robot.controllerMap.getTalonByID(5));
+  private final PigeonIMU pigeon = new PigeonIMU(0);
 
   public double getYaw(){
     double[] returnArray = new double[3];
