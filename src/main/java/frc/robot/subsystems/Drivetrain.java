@@ -1,24 +1,25 @@
 package frc.robot.subsystems;
 
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.commands.TankDrive;
+import frc.robot.utils.SparkMAX;
 
 public class Drivetrain extends Subsystem {
-    private final int LEFT_LEADER_TALON = 1;
-    private final int LEFT_FOLLOWER_TALON = 2;
-    private final int RIGHT_LEADER_TALON = 3;
-    private final int RIGHT_FOLLOWER_TALON = 4;
 
-    private final WPI_TalonSRX leftLeader    = Robot.controllerMap.getTalonByID(LEFT_LEADER_TALON);
-    private final WPI_TalonSRX leftFollower  = Robot.controllerMap.getTalonByID(LEFT_FOLLOWER_TALON);
-    private final WPI_TalonSRX rightLeader   = Robot.controllerMap.getTalonByID(RIGHT_LEADER_TALON);
-    private final WPI_TalonSRX rightFollower = Robot.controllerMap.getTalonByID(RIGHT_FOLLOWER_TALON);
+    SparkMAX leftFollower  = Robot.controllerMap.getSparkByID(RobotMap.LEFT_FOLLOWER_SPARK);
+    SparkMAX rightLeader   = Robot.controllerMap.getSparkByID(RobotMap.RIGHT_LEADER_SPARK);
+    SparkMAX leftLeader    = Robot.controllerMap.getSparkByID(RobotMap.LEFT_LEADER_SPARK);
+    SparkMAX rightFollower = Robot.controllerMap.getSparkByID(RobotMap.RIGHT_FOLLOWER_SPARK);
 
+    DoubleSolenoid shifter = new DoubleSolenoid(0,1);
+    
     public Drivetrain(){
         leftFollower.follow(leftLeader);
         rightFollower.follow(rightLeader);
@@ -66,5 +67,11 @@ public class Drivetrain extends Subsystem {
         }
     }
 
-    
+    public void shiftHigh() {
+        shifter.set(Value.kForward);
+    }
+
+    public void shiftLow() {
+        shifter.set(Value.kReverse);
+    }
 }
