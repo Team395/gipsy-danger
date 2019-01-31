@@ -13,13 +13,18 @@ import frc.robot.utils.SparkMAX;
 
 public class Drivetrain extends Subsystem {
 
+    public enum Gear {
+        kHigh,
+        kLow;
+    }
+
     SparkMAX leftFollower  = Robot.controllerMap.getSparkByID(RobotMap.LEFT_FOLLOWER_SPARK);
     SparkMAX rightLeader   = Robot.controllerMap.getSparkByID(RobotMap.RIGHT_LEADER_SPARK);
     SparkMAX leftLeader    = Robot.controllerMap.getSparkByID(RobotMap.LEFT_LEADER_SPARK);
     SparkMAX rightFollower = Robot.controllerMap.getSparkByID(RobotMap.RIGHT_FOLLOWER_SPARK);
 
     DoubleSolenoid shifter = new DoubleSolenoid(0,1);
-    
+
     public Drivetrain(){
         leftFollower.follow(leftLeader);
         rightFollower.follow(rightLeader);
@@ -67,11 +72,15 @@ public class Drivetrain extends Subsystem {
         }
     }
 
-    public void shiftHigh() {
-        shifter.set(Value.kForward);
+    public void shift(Gear gear) {
+        if(gear == Gear.kHigh)
+            shifter.set(Value.kForward);
+        else if(gear == Gear.kLow)
+            shifter.set(Value.kReverse);
+        Robot.encoders.setGearing(gear);
     }
 
-    public void shiftLow() {
-        shifter.set(Value.kReverse);
+    public Gear getShifterState() {
+        return shifter.get() == Value.kForward ? Gear.kHigh : Gear.kLow;
     }
 }

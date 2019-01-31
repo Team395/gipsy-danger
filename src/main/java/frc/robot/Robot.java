@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putNumber("Encoder Feet", encoders.getDistanceInFeet());
+    SmartDashboard.putNumber("Encoder Feet", encoders.getAveragedEncoderFeet());
     Scheduler.getInstance().run();
     
   }

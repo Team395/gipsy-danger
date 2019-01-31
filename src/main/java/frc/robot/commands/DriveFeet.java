@@ -48,7 +48,7 @@ public class DriveFeet extends Command {
   protected void initialize() {
     this.initialHeading = Robot.gyro.getYaw();
     //Set setpoint and enable
-    pidController.setSetpoint(distance + Robot.encoders.getDistanceInFeet());
+    pidController.setSetpoint(distance + Robot.encoders.getAveragedEncoderFeet());
     pidController.enable();
   }
 
