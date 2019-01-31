@@ -15,24 +15,32 @@ public class OI {
     public final Joystick rightJoystick = new Joystick(RobotMap.RIGHT_JOYSTICK);
     public final XboxController xboxController = new XboxController(2);
 
-    Button backwardsThreeFeet = new JoystickButton(xboxController, 1);
-    Button right90 = new JoystickButton(xboxController, 2);
-    Button left90 = new JoystickButton(xboxController, 3);
-    Button forwardThreeFeet = new JoystickButton(xboxController, 4);
+    // Button backwardsThreeFeet = new JoystickButton(xboxController, 1);
+    // Button right90 = new JoystickButton(xboxController, 2);
+    // Button left90 = new JoystickButton(xboxController, 3);
+    // Button forwardThreeFeet = new JoystickButton(xboxController, 4);
 
 
     public OI() {
-        forwardThreeFeet.whenPressed(new DriveFeet(3,true));
-        right90.whenPressed(new TurnDegrees(-90));
-        left90.whenPressed(new TurnDegrees(90));
-        backwardsThreeFeet.whenPressed(new DriveFeet(-3,true));
+        // forwardThreeFeet.whenPressed(new DriveFeet(3,true));
+        // right90.whenPressed(new TurnDegrees(-90));
+        // left90.whenPressed(new TurnDegrees(90));
+        // backwardsThreeFeet.whenPressed(new DriveFeet(-3,true));
     }
 
     public double getLeftY() {
-        return xboxController.getY(Hand.kLeft);//-leftJoystick.getY();
+        return -leftJoystick.getY();
     }
 
     public double getRightY() {
-        return xboxController.getY(Hand.kRight);//-rightJoystick.getY();
+        return -rightJoystick.getY();
+    }
+
+    public boolean getShiftHigh() {
+        return leftJoystick.getTrigger(); 
+    }
+
+    public boolean getShiftLow() {
+        return rightJoystick.getTrigger();
     }
 }
