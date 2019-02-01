@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class TurnDegrees extends Command {
-  public static final double p = 1/60;
+  public static final double p = 1.0/45.0;
   public static final double i = 0;
-  public static final double d = 0;
+  public static final double d = p/10;
 
   private final PIDController pidController = new PIDController(p, i, d, Robot.gyro, Robot.drivetrain.getTurnOutput());
   private final double degrees;
@@ -26,6 +26,8 @@ public class TurnDegrees extends Command {
     // eg. requires(chassis);
     this.degrees = degrees;
     pidController.setAbsoluteTolerance(1);
+    pidController.setOutputRange(-0.5, 0.5);
+    setInterruptible(false);
   }
 
   // Called just before this Command runs the first time

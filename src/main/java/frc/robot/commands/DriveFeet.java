@@ -14,9 +14,9 @@ import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 
 public class DriveFeet extends Command {
-  public static final double p = 0.8;
+  public static final double p = 0.5;
   public static final double i = 0;
-  public static final double d = 0;//p;
+  public static final double d = 1;
   public static final double proportionalHeading = 0.01;
   
   private final boolean holdHeading;
@@ -37,7 +37,8 @@ public class DriveFeet extends Command {
     this.holdHeading = holdHeading;
     this.distance = distance;
     //Set up PIDController and sensors
-    pidController.setAbsoluteTolerance(0.08);
+    pidController.setAbsoluteTolerance(1);
+    pidController.setOutputRange(-0.75, 0.75);
 
     setInterruptible(false);
   }
