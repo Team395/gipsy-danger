@@ -15,11 +15,11 @@ public class ApproachTarget extends CommandGroup {
     /**
      * The height in inches of the center of the camera from the ground.
      */
-    private static final double CAMERA_HEIGHT = 0.0; // TODO: Measure this value
+    private static final double CAMERA_HEIGHT = 16.125;
     /**
      * The angle at which the camera is mounted, in degrees, from the horizontal.
      */
-    private static final double CAMERA_ANGLE = 0.0; // TODO: Measure this value
+    private static final double CAMERA_ANGLE = 60.0;
 
     public ApproachTarget(final TargetType targetType, final ApproachingDirection approachingDirection) {
         final Target target = Limelight.getTarget();
