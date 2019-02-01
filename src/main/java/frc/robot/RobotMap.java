@@ -15,8 +15,8 @@ public class RobotMap {
 
   //Drivetrain
   public static final int LEFT_LEADER_SPARK = 1;
-  public static final int LEFT_FOLLOWER_SPARK = 2;
-  public static final int RIGHT_LEADER_SPARK = 3;
+  public static final int LEFT_FOLLOWER_SPARK = 3;
+  public static final int RIGHT_LEADER_SPARK = 2;
   public static final int RIGHT_FOLLOWER_SPARK = 4;
 
 }
