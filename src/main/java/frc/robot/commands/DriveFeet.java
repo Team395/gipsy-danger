@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
-import edu.wpi.first.wpilibj.Timer;
 
 public class DriveFeet extends Command {
   public static final double p = 0.8;
@@ -26,7 +25,6 @@ public class DriveFeet extends Command {
 
   private final Drivetrain.LinearOutput linearOutput = Robot.drivetrain.getLinearOutput();
   private final PIDController pidController = new PIDController(p, i, d, Robot.encoders, linearOutput);
-  private final Timer onTargetTimer = new Timer();
 
   public DriveFeet(double distance) {
     // Use requires() here to declare subsystem dependencies
@@ -41,6 +39,7 @@ public class DriveFeet extends Command {
     //Set up PIDController and sensors
     pidController.setAbsoluteTolerance(0.08);
 
+    setInterruptible(false);
   }
 
   // Called just before this Command runs the first time
@@ -65,16 +64,7 @@ public class DriveFeet extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(pidController.onTarget()) {
-      onTargetTimer.start();
-    } else {
-      onTargetTimer.stop();
-      onTargetTimer.reset();
-    }
-    if(onTargetTimer.hasPeriodPassed(1)){
-      return true;
-    };
-    return false;
+    return pidController.onTarget();
   }
 
   // Called once after isFinished returns true
@@ -88,5 +78,6 @@ public class DriveFeet extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

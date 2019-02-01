@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.Timer;
 
 import frc.robot.Robot;
 
@@ -19,8 +18,8 @@ public class TurnDegrees extends Command {
   public static final double d = 0;
 
   private final PIDController pidController = new PIDController(p, i, d, Robot.gyro, Robot.drivetrain.getTurnOutput());
-  private final Timer onTargetTimer = new Timer();
   private final double degrees;
+
   public TurnDegrees(double degrees) {
     requires(Robot.drivetrain);
     // Use requires() here to declare subsystem dependencies
@@ -44,16 +43,7 @@ public class TurnDegrees extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(pidController.onTarget()) {
-      onTargetTimer.start();
-    } else {
-      onTargetTimer.stop();
-      onTargetTimer.reset();
-    }
-    if(onTargetTimer.hasPeriodPassed(1)){
-      return true;
-    };
-    return false;
+    return pidController.onTarget();
   }
 
   // Called once after isFinished returns true
@@ -67,5 +57,6 @@ public class TurnDegrees extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }
