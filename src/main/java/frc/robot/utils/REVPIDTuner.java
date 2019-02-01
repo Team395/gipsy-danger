@@ -2,7 +2,6 @@ package frc.robot.utils;
 
 import com.revrobotics.CANPIDController;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class REVPIDTuner implements PIDTuner {
 

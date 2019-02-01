@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 
@@ -58,8 +57,6 @@ public class DriveFeet extends Command {
     if(holdHeading){
       linearOutput.setHeadingCorrection(proportionalHeading * (initialHeading - Robot.gyro.getYaw()));
     }
-    SmartDashboard.putData(pidController);
-    SmartDashboard.putNumber("Error", pidController.getError());
   }
 
   // Make this return true when this Command no longer needs to run execute()

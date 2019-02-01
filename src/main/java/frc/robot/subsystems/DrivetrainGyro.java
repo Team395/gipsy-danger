@@ -11,7 +11,6 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import frc.robot.Robot;
 
 public class DrivetrainGyro implements PIDSource{
   // Put methods for controlling this subsystem
