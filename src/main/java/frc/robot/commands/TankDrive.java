@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.Drivetrain.Gear;
 
 public class TankDrive extends Command {
   public TankDrive() {
@@ -26,6 +27,12 @@ public class TankDrive extends Command {
   @Override
   protected void execute() {
     Robot.drivetrain.tankDrive(Robot.oi.getLeftY(), Robot.oi.getRightY());
+    
+    if(Robot.oi.getShiftHigh())
+      Robot.drivetrain.shift(Gear.kHigh);
+
+    else if(Robot.oi.getShiftLow())
+      Robot.drivetrain.shift(Gear.kLow);
   }
 
   // Make this return true when this Command no longer needs to run execute()

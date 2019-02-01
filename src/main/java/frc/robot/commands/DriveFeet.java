@@ -9,15 +9,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
-import edu.wpi.first.wpilibj.Timer;
 
 public class DriveFeet extends Command {
-  public static final double p = 0.8;
+  public static final double p = 0.5;
   public static final double i = 0;
-  public static final double d = 0;//p;
+  public static final double d = 1;
   public static final double proportionalHeading = 0.01;
   
   private final boolean holdHeading;
@@ -26,7 +24,6 @@ public class DriveFeet extends Command {
 
   private final Drivetrain.LinearOutput linearOutput = Robot.drivetrain.getLinearOutput();
   private final PIDController pidController = new PIDController(p, i, d, Robot.encoders, linearOutput);
-  private final Timer onTargetTimer = new Timer();
 
   public DriveFeet(double distance) {
     // Use requires() here to declare subsystem dependencies
@@ -39,8 +36,10 @@ public class DriveFeet extends Command {
     this.holdHeading = holdHeading;
     this.distance = distance;
     //Set up PIDController and sensors
-    pidController.setAbsoluteTolerance(0.08);
+    pidController.setAbsoluteTolerance(1);
+    pidController.setOutputRange(-0.75, 0.75);
 
+    setInterruptible(false);
   }
 
   // Called just before this Command runs the first time
@@ -48,7 +47,7 @@ public class DriveFeet extends Command {
   protected void initialize() {
     this.initialHeading = Robot.gyro.getYaw();
     //Set setpoint and enable
-    pidController.setSetpoint(distance + Robot.encoders.getDistanceInFeet());
+    pidController.setSetpoint(distance + Robot.encoders.getAveragedEncoderFeet());
     pidController.enable();
   }
 
@@ -58,23 +57,12 @@ public class DriveFeet extends Command {
     if(holdHeading){
       linearOutput.setHeadingCorrection(proportionalHeading * (initialHeading - Robot.gyro.getYaw()));
     }
-    SmartDashboard.putData(pidController);
-    SmartDashboard.putNumber("Error", pidController.getError());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(pidController.onTarget()) {
-      onTargetTimer.start();
-    } else {
-      onTargetTimer.stop();
-      onTargetTimer.reset();
-    }
-    if(onTargetTimer.hasPeriodPassed(1)){
-      return true;
-    };
-    return false;
+    return pidController.onTarget();
   }
 
   // Called once after isFinished returns true
@@ -88,5 +76,6 @@ public class DriveFeet extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

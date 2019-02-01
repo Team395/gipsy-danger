@@ -1,30 +1,37 @@
 package frc.robot.subsystems;
 
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.commands.TankDrive;
+import frc.robot.utils.SparkMAX;
 
 public class Drivetrain extends Subsystem {
-    private final int LEFT_LEADER_TALON = 1;
-    private final int LEFT_FOLLOWER_TALON = 2;
-    private final int RIGHT_LEADER_TALON = 3;
-    private final int RIGHT_FOLLOWER_TALON = 4;
 
-    private final WPI_TalonSRX leftLeader    = Robot.controllerMap.getTalonByID(LEFT_LEADER_TALON);
-    private final WPI_TalonSRX leftFollower  = Robot.controllerMap.getTalonByID(LEFT_FOLLOWER_TALON);
-    private final WPI_TalonSRX rightLeader   = Robot.controllerMap.getTalonByID(RIGHT_LEADER_TALON);
-    private final WPI_TalonSRX rightFollower = Robot.controllerMap.getTalonByID(RIGHT_FOLLOWER_TALON);
+    public enum Gear {
+        kHigh,
+        kLow;
+    }
+
+    SparkMAX leftFollower  = Robot.controllerMap.getSparkByID(RobotMap.LEFT_FOLLOWER_SPARK);
+    SparkMAX rightLeader   = Robot.controllerMap.getSparkByID(RobotMap.RIGHT_LEADER_SPARK);
+    SparkMAX leftLeader    = Robot.controllerMap.getSparkByID(RobotMap.LEFT_LEADER_SPARK);
+    SparkMAX rightFollower = Robot.controllerMap.getSparkByID(RobotMap.RIGHT_FOLLOWER_SPARK);
+
+    DoubleSolenoid shifter = new DoubleSolenoid(0,1);
 
     public Drivetrain(){
+        leftLeader.setInverted(true);
+        leftFollower.setInverted(true);
+        rightLeader.setInverted(false);
+        rightFollower.setInverted(false);
+
         leftFollower.follow(leftLeader);
         rightFollower.follow(rightLeader);
-
-        rightLeader.setInverted(true);
-        rightFollower.setInverted(true);
     }
 
     @Override
@@ -66,5 +73,15 @@ public class Drivetrain extends Subsystem {
         }
     }
 
-    
+    public void shift(Gear gear) {
+        if(gear == Gear.kHigh)
+            shifter.set(Value.kForward);
+        else if(gear == Gear.kLow)
+            shifter.set(Value.kReverse);
+        Robot.encoders.setGearing(gear);
+    }
+
+    public Gear getShifterState() {
+        return shifter.get() == Value.kForward ? Gear.kHigh : Gear.kLow;
+    }
 }
