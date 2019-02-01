@@ -26,11 +26,13 @@ public class Drivetrain extends Subsystem {
     DoubleSolenoid shifter = new DoubleSolenoid(0,1);
 
     public Drivetrain(){
+        leftLeader.setInverted(true);
+        leftFollower.setInverted(true);
+        rightLeader.setInverted(false);
+        rightFollower.setInverted(false);
+
         leftFollower.follow(leftLeader);
         rightFollower.follow(rightLeader);
-
-        rightLeader.setInverted(true);
-        rightFollower.setInverted(true);
     }
 
     @Override
