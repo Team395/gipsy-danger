@@ -20,10 +20,10 @@ import frc.robot.utils.SparkMAX;
 public class DrivetrainEncoders implements PIDSource{
   Gear currentGearing = Robot.drivetrain.getShifterState();
   
-  final double lowGearRatio = 1.0/9.2;
-  final double highGearRatio = 1.0/20.8;
+  final double highGearRatio = 1.0/9.2;
+  final double lowGearRatio = 1.0/20.8;
   
-  final double wheelDiameter = 8;
+  final double wheelDiameter = 0.5;
   
   SparkMAX leftLeader    = Robot.controllerMap.getSparkByID(RobotMap.LEFT_LEADER_SPARK);
   SparkMAX leftFollower  = Robot.controllerMap.getSparkByID(RobotMap.LEFT_FOLLOWER_SPARK);
@@ -31,15 +31,16 @@ public class DrivetrainEncoders implements PIDSource{
   SparkMAX rightFollower = Robot.controllerMap.getSparkByID(RobotMap.RIGHT_FOLLOWER_SPARK);
   
   public DrivetrainEncoders() {
-    //TODO: Check phase
+
   }
   
+  //Left Side Is Negated
   public double getLeftEncoderFeet() {
     if(currentGearing == Gear.kLow)
-      return (leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
+      return -(leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
               lowGearRatio * Math.PI * wheelDiameter;
     else
-      return (leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
+      return -(leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
               highGearRatio * Math.PI * wheelDiameter;
   }
   
