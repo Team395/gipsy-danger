@@ -68,8 +68,8 @@ public class SparkMAX {
      *  0 to 12 rather than 0 to VCC.
      */
     public void set(double output) {
-        output = Math.max(output, 1);
-        output = Math.min(output, -1);
+        output = Math.min(output, 1);
+        output = Math.max(output, -1);
 
         pidController.setReference(output * 12, ControlType.kVoltage);
         //TODO: Test that this isn't affected by PID parameters
