@@ -29,10 +29,16 @@ public class OI {
     }
 
     public double getLeftY() {
+        if (Math.abs(leftJoystick.getY()) < 0.1){
+            return 0;
+        }
         return -leftJoystick.getY();
     }
 
     public double getRightY() {
+        if (Math.abs(rightJoystick.getY()) < 0.1){
+            return 0;
+        }
         return -rightJoystick.getY();
     }
 
