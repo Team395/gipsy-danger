@@ -49,4 +49,8 @@ public class OI {
     public boolean getShiftLow() {
         return rightJoystick.getTrigger();
     }
+
+    public boolean getVisionSnapshot() {
+        return leftJoystick.getRawButton(3);
+    }
 }
