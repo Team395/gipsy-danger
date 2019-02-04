@@ -15,6 +15,7 @@ public class OI {
     public final Joystick rightJoystick = new Joystick(RobotMap.RIGHT_JOYSTICK);
     public final XboxController xboxController = new XboxController(2);
 
+    Button approachTarget = new JoystickButton(leftJoystick, 2);
     // Button backwardsThreeFeet = new JoystickButton(xboxController, 1);
     // Button right90 = new JoystickButton(xboxController, 2);
     // Button left90 = new JoystickButton(xboxController, 3);
@@ -26,6 +27,7 @@ public class OI {
         // right90.whenPressed(new TurnDegrees(-90));
         // left90.whenPressed(new TurnDegrees(90));
         // backwardsThreeFeet.whenPressed(new DriveFeet(-3,true));
+        approachTarget.whileHeld(new ApproachTarget());
     }
 
     public double getLeftY() {
