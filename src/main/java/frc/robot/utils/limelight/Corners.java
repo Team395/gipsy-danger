@@ -10,31 +10,32 @@ import org.opencv.core.Point;
  */
 public class Corners {
 
-    Point[] corners;
+    public final boolean validCorners;
+    public final Point topLeft;
+    public final Point topRight;
+    public final Point bottomLeft;
+    public final Point bottomRight;
 
     public Corners(double[] xCorners, double[] yCorners) {
         if((xCorners == null || xCorners.length != 4) || (yCorners == null || yCorners.length != 4)) {
-            corners = null;
+            validCorners = false;
+            topLeft = null;
+            topRight = null;
+            bottomLeft = null;
+            bottomRight = null;
             return;
         }
 
+        validCorners = true;
         ArrayList<Point> temp = new ArrayList<>();
 
         for(int i = 0; i < 4; i++) {
             temp.add(i, new Point(xCorners[i], yCorners[i]));
         }
 
-        corners = new Point[]{Collections.max(temp, (Point pt1, Point pt2)->Double.compare(-pt1.x - pt1.y, -pt2.x - pt2.y)),
-                                   Collections.max(temp, (Point pt1, Point pt2)->Double.compare(-pt1.x + pt1.y, -pt2.x + pt2.y)),
-                                   Collections.max(temp, (Point pt1, Point pt2)->Double.compare( pt1.x + pt1.y,  pt2.x + pt2.y)),
-                                   Collections.max(temp, (Point pt1, Point pt2)->Double.compare( pt1.x - pt1.y,  pt2.x - pt2.y))};
+        topLeft     = Collections.max(temp, (Point pt1, Point pt2)->Double.compare(-pt1.x - pt1.y, -pt2.x - pt2.y));
+        bottomLeft  = Collections.max(temp, (Point pt1, Point pt2)->Double.compare(-pt1.x + pt1.y, -pt2.x + pt2.y));
+        topRight    = Collections.max(temp, (Point pt1, Point pt2)->Double.compare( pt1.x + pt1.y,  pt2.x + pt2.y));
+        bottomRight = Collections.max(temp, (Point pt1, Point pt2)->Double.compare( pt1.x - pt1.y,  pt2.x - pt2.y));
     }
-
-    /**
-     * @return an array containing corners counterclockwise from the top left
-     */
-    public Point[] getCorners() {
-        return corners;
-    }
-
 }

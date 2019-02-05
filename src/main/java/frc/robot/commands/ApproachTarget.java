@@ -8,6 +8,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain.Gear;
 import frc.robot.utils.Targets.TargetType;
 import frc.robot.utils.limelight.Contour;
+import frc.robot.utils.limelight.Corners;
 import frc.robot.utils.limelight.Limelight;
 import org.opencv.core.Point;
 public class ApproachTarget extends Command {
@@ -66,10 +67,9 @@ public class ApproachTarget extends Command {
             
             //If the left side is higher than the right side, the target is to our left
             //Otherwise the target is to our right
-            Point[] corners = Limelight.getContourCorners().getCorners();
-            if(corners != null){
-                side = corners[0].y > corners[3].y ? Side.kLeft : Side.kRight;
-            }
+            Corners corners = Limelight.getContourCorners();
+            if(corners.validCorners)
+                side = corners.topLeft.y > corners.topRight.y ? Side.kLeft : Side.kRight;
             
             if(side != null){
                 double headingCorrection = MAX_OFFSET
@@ -88,9 +88,8 @@ public class ApproachTarget extends Command {
                 linearOutput.setHeadingCorrection(-proportionalHeading * xOffset);
             }
 
-            if(!pidController.isEnabled()){
+            if(!pidController.isEnabled())
                 pidController.enable();
-            }
         }
     }
     
