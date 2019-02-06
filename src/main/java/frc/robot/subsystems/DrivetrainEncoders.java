@@ -25,6 +25,9 @@ public class DrivetrainEncoders implements PIDSource{
   
   final double wheelDiameter = 0.5;
   
+  final int phaseLeft = -1;
+  final int phaseRight = 1;
+
   SparkMAX leftLeader    = Robot.controllerMap.getSparkByID(RobotMap.LEFT_LEADER_SPARK);
   SparkMAX leftFollower  = Robot.controllerMap.getSparkByID(RobotMap.LEFT_FOLLOWER_SPARK);
   SparkMAX rightLeader   = Robot.controllerMap.getSparkByID(RobotMap.RIGHT_LEADER_SPARK);
@@ -37,19 +40,19 @@ public class DrivetrainEncoders implements PIDSource{
   //Left Side Is Negated
   public double getLeftEncoderFeet() {
     if(currentGearing == Gear.kLow)
-      return -(leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
+      return phaseLeft * (leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
               lowGearRatio * Math.PI * wheelDiameter;
     else
-      return -(leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
+      return phaseLeft * (leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
               highGearRatio * Math.PI * wheelDiameter;
   }
   
   public double getRightEncoderFeet() {
     if(currentGearing == Gear.kLow)
-      return (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
+      return phaseRight * (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
               lowGearRatio * Math.PI * wheelDiameter;
     else
-      return (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
+      return phaseRight * (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
               highGearRatio * Math.PI * wheelDiameter;
   }
   
@@ -85,4 +88,16 @@ public class DrivetrainEncoders implements PIDSource{
       zeroEncoders();
     }
   }
+  
+  public double getCurrentVelocity() {
+    double averageSpeed = (phaseLeft * leftLeader.getVelocity() + 
+                           phaseLeft * leftFollower.getVelocity() +
+                           phaseRight * rightLeader.getVelocity() +
+                           phaseRight * rightFollower.getVelocity()) /4;
+     if(currentGearing == Gear.kHigh) {
+       return 6 * Math.PI * averageSpeed * highGearRatio / (12 * 60);
+     } else {
+       return 6 * Math.PI * averageSpeed * highGearRatio / (12 * 60);
+     }
+    }
 }

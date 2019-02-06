@@ -7,11 +7,19 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain.Gear;
 
 public class TankDrive extends Command {
+
+  public final static double lowShiftSpeed = 3;
+  public final static double highShiftSpeed = 9;
+  double lastShiftTime = Timer.getFPGATimestamp();
+  final static double shiftDelay = 1;
+
   public TankDrive() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -27,14 +35,24 @@ public class TankDrive extends Command {
   @Override
   protected void execute() {
     Robot.drivetrain.tankDrive(Robot.oi.getLeftY(), Robot.oi.getRightY());
-    
-    if(Robot.oi.getShiftHigh())
-      Robot.drivetrain.shift(Gear.kHigh);
+    if(Timer.getFPGATimestamp() - lastShiftTime > shiftDelay) {
+      if(Math.abs(Robot.encoders.getCurrentVelocity()) < highShiftSpeed) {
+        Robot.drivetrain.shift(Gear.kLow);
+        lastShiftTime = Timer.getFPGATimestamp();
+      }
+      else if(Math.abs(Robot.encoders.getCurrentVelocity()) > lowShiftSpeed) {
+        Robot.drivetrain.shift(Gear.kHigh);
+        lastShiftTime = Timer.getFPGATimestamp();
+      }
+    }
+    // if(Robot.oi.getShiftHigh())
+    //   Robot.drivetrain.shift(Gear.kHigh);
 
-    else if(Robot.oi.getShiftLow())
-      Robot.drivetrain.shift(Gear.kLow);
+    // else if(Robot.oi.getShiftLow())
+    //   Robot.drivetrain.shift(Gear.kLow);
+    SmartDashboard.putNumber("velocity", Robot.encoders.getCurrentVelocity());
   }
-
+  
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
