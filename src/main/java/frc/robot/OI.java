@@ -27,7 +27,7 @@ public class OI {
         // right90.whenPressed(new TurnDegrees(-90));
         // left90.whenPressed(new TurnDegrees(90));
         // backwardsThreeFeet.whenPressed(new DriveFeet(-3,true));
-        approachTarget.whileHeld(new ApproachTarget());
+        approachTarget.whenPressed(new ApproachTarget());
     }
 
     public double getLeftY() {
@@ -54,5 +54,9 @@ public class OI {
 
     public boolean getVisionSnapshot() {
         return leftJoystick.getRawButton(3);
+    }
+
+    public boolean getSquareUp() {
+        return leftJoystick.getRawButton(2);
     }
 }

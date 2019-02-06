@@ -1,40 +1,42 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain.Gear;
-import frc.robot.utils.Targets.TargetType;
 import frc.robot.utils.limelight.Contour;
 import frc.robot.utils.limelight.Corners;
 import frc.robot.utils.limelight.Limelight;
-import org.opencv.core.Point;
 public class ApproachTarget extends Command {
     
-    private enum Side {
+    enum Side {
         kLeft,
         kRight
     };
 
-    private static final double CAMERA_HEIGHT = 16.125;
+    static final double CAMERA_HEIGHT = 16.125;
     //Angle from the horizontal in radians
-    private static final double CAMERA_ANGLE = Math.PI/6;
-    private static final double MAX_OFFSET = 45;
-    private static final double MAX_OFFSET_DISTANCE = 10;
-    private static final double TARGET_CENTER_HEIGHT = 31.25 + 0.5 * 5.826;
+    static final double CAMERA_ANGLE = Math.PI/6;
+    static final double MAX_OFFSET = 15;
+    static final double MAX_OFFSET_DISTANCE = 8;
+    static final double TARGET_CENTER_HEIGHT = 31.25 + 0.5 * 5.826;
+    static final double MAX_TIME_WITHOUT_CONTOUR = 0.1;
 
     Contour contour;
     Side side;
-    public static final double p = 0.5;
-    public static final double i = 0;
-    public static final double d = 0;
-    public static final double proportionalHeading = 0.01;
+    static final double p = 0.5;
+    static final double i = 0;
+    static final double d = 1;
+    static final double proportionalHeading = 0.013;
     
-    private final Drivetrain.LinearOutput linearOutput = Robot.drivetrain.getLinearOutput();
-    private final PIDController pidController = new PIDController(p, i, d, Robot.encoders, linearOutput);
+    Drivetrain.LinearOutput linearOutput = Robot.drivetrain.getLinearOutput();
+    PIDController pidController = new PIDController(p, i, d, Robot.encoders, linearOutput);
     
+    double lastContourSeenTime = 0;
+
     public ApproachTarget() {
         requires(Robot.drivetrain);
         setInterruptible(false);
@@ -45,6 +47,7 @@ public class ApproachTarget extends Command {
         pidController.setOutputRange(-0.5, 0.5);
         Robot.drivetrain.shift(Gear.kLow);
         contour = Limelight.getBestContour();
+        lastContourSeenTime = Timer.getFPGATimestamp();
         Robot.encoders.zeroEncoders();
     }
     
@@ -53,11 +56,12 @@ public class ApproachTarget extends Command {
     protected void execute() {    
         //Get the target
         contour = Limelight.getBestContour();
-
         if(contour != null) {
+            lastContourSeenTime = Timer.getFPGATimestamp();
+
             double xOffset = contour.tx;
             double yOffset = contour.ty;
-    
+            
             // Calculate distance
             double distance = (TARGET_CENTER_HEIGHT-CAMERA_HEIGHT) / 
                         Math.tan(CAMERA_ANGLE+ Math.toRadians(yOffset)) / 12;
@@ -73,30 +77,39 @@ public class ApproachTarget extends Command {
             
             if(side != null){
                 double headingCorrection = MAX_OFFSET
-                    * distance / MAX_OFFSET_DISTANCE
-                    * Math.max(Math.min(1, contour.ts/15), 0.25);
+                    * Math.min(1, distance / MAX_OFFSET_DISTANCE);
                 linearOutput.setHeadingCorrection(-proportionalHeading * 
                     (xOffset + 
-                        (
+                        ( 
                             side == Side.kLeft
                                 ? -headingCorrection
                                 : headingCorrection
                         )
                     )
                 );
+                SmartDashboard.putNumber("Heading setpoint", -proportionalHeading * 
+                (xOffset + 
+                    (side == Side.kLeft
+                    ? -headingCorrection
+                    : headingCorrection)
+                ));
+                
             } else {
                 linearOutput.setHeadingCorrection(-proportionalHeading * xOffset);
+                SmartDashboard.putNumber("Heading setpoint", xOffset);
             }
 
             if(!pidController.isEnabled())
                 pidController.enable();
+        } else {
+            linearOutput.setHeadingCorrection(0);
         }
     }
     
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return contour == null ;
+        return Timer.getFPGATimestamp() - lastContourSeenTime > MAX_TIME_WITHOUT_CONTOUR;
     }
     
     // Called once after isFinished returns true

@@ -35,7 +35,7 @@ public class Corners {
 
         topLeft     = Collections.max(temp, (Point pt1, Point pt2)->Double.compare(-pt1.x - pt1.y, -pt2.x - pt2.y));
         bottomLeft  = Collections.max(temp, (Point pt1, Point pt2)->Double.compare(-pt1.x + pt1.y, -pt2.x + pt2.y));
-        topRight    = Collections.max(temp, (Point pt1, Point pt2)->Double.compare( pt1.x + pt1.y,  pt2.x + pt2.y));
-        bottomRight = Collections.max(temp, (Point pt1, Point pt2)->Double.compare( pt1.x - pt1.y,  pt2.x - pt2.y));
+        bottomRight = Collections.max(temp, (Point pt1, Point pt2)->Double.compare( pt1.x + pt1.y,  pt2.x + pt2.y));
+        topRight    = Collections.max(temp, (Point pt1, Point pt2)->Double.compare( pt1.x - pt1.y,  pt2.x - pt2.y));
     }
 }

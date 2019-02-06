@@ -1,15 +1,18 @@
 package frc.robot;
 
+import java.util.concurrent.CountDownLatch;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DrivetrainEncoders;
 import frc.robot.subsystems.DrivetrainGyro;
 import frc.robot.utils.SpeedControllerMap;
+import frc.robot.utils.limelight.Contour;
 import frc.robot.utils.limelight.Limelight;
 import frc.robot.utils.limelight.VisionProcessor;
-import  org.opencv.core.*;
 
 /**
 * The VM is configured to automatically run this class, and to call the
@@ -85,8 +88,15 @@ public class Robot extends TimedRobot {
 	*/
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-	}
+    Scheduler.getInstance().run();
+    
+    Contour contour = Limelight.getBestContour();
+    if(contour != null) {
+
+      SmartDashboard.putNumber("skew", contour.ts); 
+      SmartDashboard.putNumber("skew_magnitude", Math.min(-contour.ts, 90+contour.ts)); 
+    }
+  }
 	
 	/**
 	* This function is called periodically during test mode.
