@@ -66,7 +66,7 @@ public class Elevator extends Subsystem {
     
     talonConfiguration.continuousCurrentLimit = 30;
     talonConfiguration.peakCurrentLimit = 50;
-    talonConfiguration.peakCurrentDuration = 500;
+    talonConfiguration.peakCurrentDuration = 500;  
     
     talonConfiguration.closedloopRamp = 0.25;
     
@@ -94,7 +94,7 @@ public class Elevator extends Subsystem {
     return Math.abs(elevatorLeader.getClosedLoopError() * inchesPerTick) < 
                     allowableErrorInches;
   }
-
+ 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

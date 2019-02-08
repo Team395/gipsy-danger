@@ -20,6 +20,7 @@ public class RobotMap {
   // public static int rightMotor = 2;
   public static int elevatorLeaderTalon = 1;
   public static int elevatorFollowerTalon = 2;
+  public static int xBoxController = 2;
 
 
   // If you are using multiple modules, make sure to define both the port
