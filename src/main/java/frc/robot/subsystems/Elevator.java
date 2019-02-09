@@ -85,8 +85,8 @@ public class Elevator extends Subsystem {
   }
 
   public void setEndEffectorHeight(double inches) {
-    int setpointTicks = (int) ((inches - heightOffset) / 
-                        (inchesPerTick * cascadeCorrection));
+    int setpointTicks = (int) ((inches - heightOffset) * ticksPerInch / 
+                        cascadeCorrection);
     elevatorLeader.set(ControlMode.MotionMagic, setpointTicks);
   }
 
