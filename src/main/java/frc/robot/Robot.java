@@ -39,6 +39,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     oi = new OI();
+    oi.setUpTriggers();
+
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
@@ -54,7 +56,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    oi.setUpTriggers();
   }
 
   /**

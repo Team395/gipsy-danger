@@ -68,5 +68,4 @@ public class OI {
     low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
     stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
   }
-
 }
