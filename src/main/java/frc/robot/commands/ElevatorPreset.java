@@ -22,7 +22,9 @@ public class ElevatorPreset extends Command {
     kHatchMedium(47.0),
     kHatchLow(19.0),
     kHatchShip(19.0),
-    kHatchLoading(19.0);
+    kHatchLoading(19.0),
+    kZero(1.0),
+    kMaxHeight(80);
 
     private final double height;
 

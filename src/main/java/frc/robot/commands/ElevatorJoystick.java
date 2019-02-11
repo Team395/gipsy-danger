@@ -28,10 +28,10 @@ public class ElevatorJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.elevator.setEndEffectorHeight(Robot.m_oi.getElevatorThrottle() * 0.5 + 
+    Robot.elevator.setEndEffectorHeight(Robot.oi.getElevatorThrottle() + 
                                         Robot.elevator.getEndEffectorHeight());
   }
-  
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {

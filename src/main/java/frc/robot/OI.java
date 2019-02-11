@@ -9,8 +9,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.commands.ElevatorJoystick;
+import frc.robot.commands.ElevatorPreset;
+import frc.robot.commands.ElevatorPreset.PresetHeight;
 import frc.robot.triggers.ElevatorTrigger;
 
 /**
@@ -46,14 +50,23 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
-  private XboxController xBoxController = new XboxController(RobotMap.xBoxController);
+  private XboxController xboxController = new XboxController(RobotMap.xBoxController);
 
+  Button high = new JoystickButton(xboxController, 4);
+  Button medium = new JoystickButton(xboxController, 1);
+  Button low = new JoystickButton(xboxController, 2);
+  Button stick = new JoystickButton(xboxController, 9);
+  
   public double getElevatorThrottle() {
-		return xBoxController.getY(Hand.kLeft);
+    return -1 * xboxController.getY(Hand.kLeft);
 	}
 
   public void setUpTriggers() {
     elevatorTrigger.whenActive(new ElevatorJoystick());
+    high.whenPressed(new ElevatorPreset(PresetHeight.kMaxHeight));
+    medium.whenPressed(new ElevatorPreset(PresetHeight.kCargoMedium));
+    low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
+    stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
   }
 
 }

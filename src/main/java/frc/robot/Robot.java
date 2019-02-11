@@ -25,7 +25,7 @@ import frc.robot.subsystems.ExampleSubsystem;
  */
 public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
-  public static OI m_oi;
+  public static OI oi;
   public static SpeedControllerMap speedControllerMap = new SpeedControllerMap();
   public static Elevator elevator = new Elevator();
 
@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_oi = new OI();
+    oi = new OI();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
@@ -54,6 +54,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    oi.setUpTriggers();
   }
 
   /**
@@ -123,6 +124,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    SmartDashboard.putNumber("elev throttle", oi.getElevatorThrottle());
+    //elevator.test(oi.getElevatorThrottle());
   }
 
   /**

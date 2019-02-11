@@ -16,6 +16,6 @@ import frc.robot.Robot;
 public class ElevatorTrigger extends Trigger {
   @Override
   public boolean get() {
-    return Math.abs(Robot.m_oi.getElevatorThrottle()) > 0.20;
+    return Math.abs(Robot.oi.getElevatorThrottle()) > 0.20;
   }
 }

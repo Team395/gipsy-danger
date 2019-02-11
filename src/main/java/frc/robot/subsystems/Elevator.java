@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -32,7 +33,8 @@ public class Elevator extends Subsystem {
   //Output is [0,1023] not [0,1]
   //Velocity is calculated as ticks/100 ms
   
-  TalonSRXConfiguration talonConfiguration = new TalonSRXConfiguration();
+  TalonSRXConfiguration leaderConfig = new TalonSRXConfiguration();
+  TalonSRXConfiguration defaultConfig = new TalonSRXConfiguration();
   SlotConfiguration slot0 = new SlotConfiguration();
 
   /**
@@ -53,30 +55,35 @@ public class Elevator extends Subsystem {
 
   public Elevator() {
     
-    slot0.kP = 0; //TODO
+    slot0.kP = 0.5; //TODO
     slot0.kI = 0; //TODO
     slot0.kD = 0; //TODO
-    slot0.kF = 0; //TODO
+    slot0.kF = 0.27;//0.2046; //5000 units/100 ms
 
     slot0.integralZone = 0; //TODO
     slot0.allowableClosedloopError = 0;
 
-    talonConfiguration.motionCruiseVelocity = 0; //TODO
-    talonConfiguration.motionAcceleration = 0; //TODO
+    leaderConfig.motionCruiseVelocity = 5000; //TODO
+    leaderConfig.motionAcceleration = 9000; //TODO
     
-    talonConfiguration.continuousCurrentLimit = 30;
-    talonConfiguration.peakCurrentLimit = 50;
-    talonConfiguration.peakCurrentDuration = 500;  
+    leaderConfig.continuousCurrentLimit = 30;
+    leaderConfig.peakCurrentLimit = 30;
+    leaderConfig.peakCurrentDuration = 500;  
     
-    talonConfiguration.closedloopRamp = 0.25;
+    leaderConfig.closedloopRamp = 0.15;
+    leaderConfig.openloopRamp = 0.15;
     
-    talonConfiguration.forwardSoftLimitEnable = true;
-    talonConfiguration.forwardSoftLimitThreshold = 0;//TODO
+    leaderConfig.reverseSoftLimitEnable = true;
+    leaderConfig.reverseSoftLimitThreshold = 100;
+    leaderConfig.forwardSoftLimitEnable = true;
+    leaderConfig.forwardSoftLimitThreshold = 36000;//TODO
     
-    talonConfiguration.slot0 = slot0;
+    leaderConfig.slot0 = slot0;
 
     elevatorFollower.follow(elevatorLeader); 
     
+    elevatorLeader.configAllSettings(leaderConfig);
+    elevatorFollower.configAllSettings(defaultConfig);
   }
 
   public double getEndEffectorHeight() {
@@ -85,9 +92,9 @@ public class Elevator extends Subsystem {
   }
 
   public void setEndEffectorHeight(double inches) {
-    int setpointTicks = (int) ((inches - heightOffset) / 
-                        (inchesPerTick * cascadeCorrection));
-    elevatorLeader.set(ControlMode.MotionMagic, setpointTicks);
+    int setpointTicks = (int) ((inches - heightOffset) * ticksPerInch / 
+                        (cascadeCorrection));
+    elevatorLeader.set(ControlMode.MotionMagic, setpointTicks, DemandType.ArbitraryFeedForward, 0.05);
   }
 
   public boolean onTarget() {
@@ -95,6 +102,10 @@ public class Elevator extends Subsystem {
                     allowableErrorInches;
   }
  
+  public void test(double speed) {
+    elevatorLeader.set(ControlMode.PercentOutput, speed);
+  }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
