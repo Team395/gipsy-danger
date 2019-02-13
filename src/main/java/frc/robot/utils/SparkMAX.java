@@ -35,6 +35,9 @@ public class SparkMAX {
     double lastTargetSampleTime = Timer.getFPGATimestamp();
     double firstTargetSampleTime = Timer.getFPGATimestamp();
 
+    //Encoder reversal
+    int encoderInverted = 1;
+
     /*
      *  Constructs a new SparkMAX, assuming an encoder only if the motor type 
      *  is brushless.
@@ -267,7 +270,7 @@ public class SparkMAX {
 
     public double getPosition() {
         assert encoder != null : "No encoder connected";
-        return encoder.getPosition() - zeroPosition;
+        return encoderInverted * encoder.getPosition() - zeroPosition;
     }
 
     /*
@@ -305,7 +308,7 @@ public class SparkMAX {
             validSamples++;
 
         //Return average
-        return sum/validSamples;
+        return encoderInverted * sum/validSamples;
     }
 
     /*
@@ -316,7 +319,7 @@ public class SparkMAX {
         if(encoder == null)
             throw new NoEncoderException();
 
-        this.zeroPosition = encoder.getPosition();
+        this.zeroPosition = encoderInverted * encoder.getPosition();
     }
 
     public void follow(SparkMAX leader) {
@@ -325,6 +328,7 @@ public class SparkMAX {
 
     public void setInverted(boolean isInverted) {
         spark.setInverted(isInverted);
+        encoderInverted = -1;
     }
 
 }
