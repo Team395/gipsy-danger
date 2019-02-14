@@ -13,8 +13,8 @@ import frc.robot.subsystems.GroundIntake;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static OI m_oi;
   public static GroundIntake intake = new GroundIntake();
+  public static OI oi;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_oi = new OI();
+    oi = new OI();
   }
 
   /**
