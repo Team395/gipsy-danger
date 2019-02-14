@@ -74,12 +74,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    if(m_oi.getExtendIntake())
-      intake.actuateIntake(Value.kForward);
-    else if(m_oi.getRetractIntake())
-      intake.actuateIntake(Value.kReverse);
-
-    intake.setRollerSpeed(m_oi.getIntakeThrottle());
   }
 
   /**
