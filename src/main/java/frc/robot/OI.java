@@ -1,57 +1,21 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import frc.robot.commands.ElevatorJoystick;
-import frc.robot.commands.ElevatorPreset;
-import frc.robot.commands.ElevatorPreset.PresetHeight;
-import frc.robot.triggers.ElevatorTrigger;
+import frc.robot.commands.*;
+import frc.robot.triggers.*;
+import frc.robot.commands.ElevatorPreset.PresetHeight;;
 
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
 public class OI {
+  Joystick leftJoystick = new Joystick(0);
+  Joystick rightJoystick = new Joystick(1);
+  XboxController xboxController = new XboxController(2);
+
   Trigger elevatorTrigger = new ElevatorTrigger();
-  //// CREATING BUTTONS
-  // One type of button is a joystick button which is any button on a
-  //// joystick.
-  // You create one by telling it which joystick it's on and which button
-  // number it is.
-  // Joystick stick = new Joystick(port);
-  // Button button = new JoystickButton(stick, buttonNumber);
-
-  // There are a few additional built in buttons you can use. Additionally,
-  // by subclassing Button you can create custom triggers and bind those to
-  // commands the same as any other Button.
-
-  //// TRIGGERING COMMANDS WITH BUTTONS
-  // Once you have a button, it's trivial to bind it to a button in one of
-  // three ways:
-
-  // Start the command when the button is pressed and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenPressed(new ExampleCommand());
-
-  // Run the command while the button is being held down and interrupt it once
-  // the button is released.
-  // button.whileHeld(new ExampleCommand());
-
-  // Start the command when the button is released and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenReleased(new ExampleCommand());
-  private XboxController xboxController = new XboxController(RobotMap.xBoxController);
-
   Button high = new JoystickButton(xboxController, 4);
   Button medium = new JoystickButton(xboxController, 1);
   Button low = new JoystickButton(xboxController, 2);
@@ -67,5 +31,41 @@ public class OI {
     medium.whenPressed(new ElevatorPreset(PresetHeight.kCargoMedium));
     low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
     stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
+  }
+
+ 
+
+  static final double joystickDeadzone = 0.1;
+  static final double xboxDeadzone = 0.1;
+
+  private double getJoyY(Joystick stick) {
+      if(Math.abs(stick.getY()) < joystickDeadzone) {
+          return 0;
+      }
+
+      return stick.getY();     
+  }
+
+  public double getLeftY() {
+      return getJoyY(leftJoystick);
+  }
+
+  public double getRightY() {
+      return getJoyY(rightJoystick);
+  }
+
+  public double getIntakeThrottle() {
+      if(Math.abs(xboxController.getY(Hand.kRight)) < xboxDeadzone) {
+          return 0;
+      }
+      return xboxController.getY(Hand.kRight);
+  }
+
+  public boolean getExtendIntake() {
+      return xboxController.getBumper(Hand.kRight);
+  }
+
+  public boolean getRetractIntake() {
+      return xboxController.getBumper(Hand.kLeft);
   }
 }

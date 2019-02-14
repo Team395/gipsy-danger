@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
@@ -24,7 +25,7 @@ public class Elevator extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   WPI_TalonSRX elevatorLeader = Robot.speedControllerMap.getTalonByID(RobotMap.elevatorLeaderTalon);
-  WPI_TalonSRX elevatorFollower = Robot.speedControllerMap.getTalonByID(RobotMap.elevatorFollowerTalon);
+  WPI_VictorSPX elevatorFollower = Robot.speedControllerMap.getVictorByID(RobotMap.elevatorFollowerVictor);
   
   //Gear ratio is 21.32:1
 
@@ -83,7 +84,6 @@ public class Elevator extends Subsystem {
     elevatorFollower.follow(elevatorLeader); 
     
     elevatorLeader.configAllSettings(leaderConfig);
-    elevatorFollower.configAllSettings(defaultConfig);
   }
 
   public double getEndEffectorHeight() {
