@@ -41,9 +41,4 @@ public class REVPIDTuner implements PIDTuner {
                 controller.setFF(preferences.getDouble(name + "_FF" + i, 0), i);
         }
     }
-
-    @Override
-    public void publishTelemetry(){
-        throw new UnsupportedOperationException();
-    }
 }
