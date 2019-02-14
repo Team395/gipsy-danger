@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.XboxController;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-    
+
     Joystick leftJoystick = new Joystick(0);
     Joystick rightJoystick = new Joystick(1);
     XboxController xboxController = new XboxController(2);
@@ -17,8 +17,10 @@ public class OI {
     static final double xboxDeadzone = 0.1;
 
     private double getJoyY(Joystick stick) {
-        if(Math.abs(stick.getY()) < joystickDeadzone)
+        if(Math.abs(stick.getY()) < joystickDeadzone) {
             return 0;
+        }
+
         return stick.getY();     
     }
 
