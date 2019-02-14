@@ -15,28 +15,23 @@ public class OI {
   Joystick rightJoystick = new Joystick(1);
   XboxController xboxController = new XboxController(2);
 
-  Trigger elevatorTrigger = new ElevatorTrigger();
+  Trigger elevatorTrigger;
   Button high = new JoystickButton(xboxController, 4);
   Button medium = new JoystickButton(xboxController, 1);
   Button low = new JoystickButton(xboxController, 2);
   Button stick = new JoystickButton(xboxController, 9);
   
-  public double getElevatorThrottle() {
-    return -1 * xboxController.getY(Hand.kLeft);
-	}
+  static final double joystickDeadzone = 0.1;
+  static final double xboxDeadzone = 0.1;  
 
   public void setUpTriggers() {
+    elevatorTrigger = new ElevatorTrigger();
     elevatorTrigger.whenActive(new ElevatorJoystick());
     high.whenPressed(new ElevatorPreset(PresetHeight.kMaxHeight));
     medium.whenPressed(new ElevatorPreset(PresetHeight.kCargoMedium));
     low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
     stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
   }
-
- 
-
-  static final double joystickDeadzone = 0.1;
-  static final double xboxDeadzone = 0.1;
 
   private double getJoyY(Joystick stick) {
       if(Math.abs(stick.getY()) < joystickDeadzone) {
@@ -54,6 +49,10 @@ public class OI {
       return getJoyY(rightJoystick);
   }
 
+  public double getElevatorThrottle() {
+    return -1 * xboxController.getY(Hand.kLeft);
+  }
+  
   public double getIntakeThrottle() {
       if(Math.abs(xboxController.getY(Hand.kRight)) < xboxDeadzone) {
           return 0;

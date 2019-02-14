@@ -13,11 +13,11 @@ public class SpeedControllerMap {
     public SpeedControllerMap() {
         talonMap.put(1, new WPI_TalonSRX(1));
         talonMap.put(2, new WPI_TalonSRX(2));
-        talonMap.put(1, new WPI_TalonSRX(3));
-        talonMap.put(2, new WPI_TalonSRX(4));
-        talonMap.put(1, new WPI_TalonSRX(5));
-        talonMap.put(2, new WPI_TalonSRX(6));
-        talonMap.put(1, new WPI_TalonSRX(7));
+        talonMap.put(3, new WPI_TalonSRX(3));
+        talonMap.put(4, new WPI_TalonSRX(4));
+        talonMap.put(5, new WPI_TalonSRX(5));
+        talonMap.put(6, new WPI_TalonSRX(6));
+        talonMap.put(7, new WPI_TalonSRX(7));
         victorMap.put(8, new WPI_VictorSPX(8));
     }
 

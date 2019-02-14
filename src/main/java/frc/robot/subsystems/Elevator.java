@@ -77,7 +77,7 @@ public class Elevator extends Subsystem {
     leaderConfig.reverseSoftLimitEnable = true;
     leaderConfig.reverseSoftLimitThreshold = 100;
     leaderConfig.forwardSoftLimitEnable = true;
-    leaderConfig.forwardSoftLimitThreshold = 36000;//TODO
+    leaderConfig.forwardSoftLimitThreshold = 37000;//TODO
     
     leaderConfig.slot0 = slot0;
 
