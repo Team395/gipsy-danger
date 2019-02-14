@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -32,4 +33,18 @@ public class OI {
         return getJoyY(rightJoystick);
     }
 
+    public double getIntakeThrottle() {
+        if(Math.abs(xboxController.getY(Hand.kRight)) < xboxDeadzone) {
+            return 0;
+        }
+        return xboxController.getY(Hand.kRight);
+    }
+
+    public boolean getExtendIntake() {
+        return xboxController.getBumper(Hand.kRight);
+    }
+
+    public boolean getRetractIntake() {
+        return xboxController.getBumper(Hand.kLeft);
+    }
 }

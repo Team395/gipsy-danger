@@ -1,10 +1,9 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.GroundIntake;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -14,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
+  public static GroundIntake intake = new GroundIntake();
   public static OI oi;
 
   /**
@@ -66,7 +66,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-
   }
 
   /**
