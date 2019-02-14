@@ -1,13 +1,12 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
-import frc.robot.utils.*;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.DrivetrainEncoders;
+import frc.robot.subsystems.DrivetrainGyro;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.GroundIntake;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -18,11 +17,13 @@ import frc.robot.utils.*;
  */
 public class Robot extends TimedRobot {
   public static OI oi;
-  public static SpeedControllerMap controllerMap = new SpeedControllerMap();
+  public static SpeedControllerMap speedControllerMap = new SpeedControllerMap();
+  public static Elevator elevator = new Elevator();
+  public static GroundIntake intake = new GroundIntake();
   public static Drivetrain drivetrain = new Drivetrain();
   public static DrivetrainEncoders encoders = new DrivetrainEncoders();
   public static DrivetrainGyro gyro = new DrivetrainGyro();
-  public static Compressor compressor = new Compressor();
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -30,7 +31,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     oi = new OI();
-    compressor.setClosedLoopControl(true);
+    oi.setUpTriggers();
   }
 
   /**
@@ -74,7 +75,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-
+    
   }
 
   /**

@@ -17,10 +17,10 @@ public class Drivetrain extends Subsystem {
         kLow;
     }
 
-    SparkMAX leftFollower  = Robot.controllerMap.getSparkByID(RobotMap.LEFT_FOLLOWER_SPARK);
-    SparkMAX rightLeader   = Robot.controllerMap.getSparkByID(RobotMap.RIGHT_LEADER_SPARK);
-    SparkMAX leftLeader    = Robot.controllerMap.getSparkByID(RobotMap.LEFT_LEADER_SPARK);
-    SparkMAX rightFollower = Robot.controllerMap.getSparkByID(RobotMap.RIGHT_FOLLOWER_SPARK);
+    SparkMAX leftLeader    = Robot.speedControllerMap.getSparkByID(RobotMap.leftLeaderSpark);
+    SparkMAX leftFollower  = Robot.speedControllerMap.getSparkByID(RobotMap.leftFollowerSpark);
+    SparkMAX rightLeader   = Robot.speedControllerMap.getSparkByID(RobotMap.rightLeaderSpark);
+    SparkMAX rightFollower = Robot.speedControllerMap.getSparkByID(RobotMap.rightLeaderSpark);
 
     DoubleSolenoid shifter = new DoubleSolenoid(0,1);
 
@@ -44,7 +44,6 @@ public class Drivetrain extends Subsystem {
         rightLeader.set(rightSpeed);
     }
 
-    //TODO: Look at this for cleanliness
     public PIDOutput getTurnOutput() {
         return new PIDOutput(){
         
@@ -59,7 +58,6 @@ public class Drivetrain extends Subsystem {
         return new LinearOutput();
     }
 
-    //TODO: Look at this for cleanliness
     public class LinearOutput implements PIDOutput {
         private double headingCorrection = 0;
 
