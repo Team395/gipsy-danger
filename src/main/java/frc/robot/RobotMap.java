@@ -7,5 +7,10 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
+    //Talons
+    public static final int groundIntakeTalon = 0;
 
+    //Solenoids
+    public static final int deployIntakeChannel = 0;
+    public static final int retractIntakeChannel = 0;
 }
