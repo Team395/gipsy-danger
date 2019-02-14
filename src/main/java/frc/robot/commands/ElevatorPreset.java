@@ -16,8 +16,8 @@ public class ElevatorPreset extends Command {
     kCargoHigh(83.5),
     kCargoMedium(55.5),
     kCargoLow(27.5),
-    kCargoShip(0),
-    kCargoLoading(0),
+    kCargoShip(0), //TODO
+    kCargoLoading(0), //TODO
     kHatchHigh(75.0),
     kHatchMedium(47.0),
     kHatchLow(19.0),
