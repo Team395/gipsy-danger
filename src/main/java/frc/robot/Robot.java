@@ -1,6 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.GroundIntake;
@@ -13,8 +15,10 @@ import frc.robot.subsystems.GroundIntake;
  * project.
  */
 public class Robot extends TimedRobot {
+  public static OI oi = new OI();
+  public static SpeedControllerMap speedControllerMap = new SpeedControllerMap();
+  public static Elevator elevator = new Elevator();
   public static GroundIntake intake = new GroundIntake();
-  public static OI oi;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -22,7 +26,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    oi = new OI();
+    oi.setUpTriggers();
   }
 
   /**
@@ -66,6 +70,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    
   }
 
   /**
