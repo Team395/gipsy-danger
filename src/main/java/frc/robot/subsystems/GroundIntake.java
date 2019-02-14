@@ -22,15 +22,16 @@ public class GroundIntake extends Subsystem {
                                                      RobotMap.retractIntakeChannel);
 
   public void setRollerSpeed(double speed) {
-    if(deploySolenoid.get() == Value.kForward)
+    if(deploySolenoid.get() == Value.kForward) {
       intakeController.set(ControlMode.PercentOutput,speed);
+    } else {
+      intakeController.set(0);
+    }
   }
 
   public void actuateIntake(Value value) {
     deploySolenoid.set(value);
     
-    if(value != Value.kForward)
-      intakeController.set(0);
   }
 
   public Value getIntakePosition() {
