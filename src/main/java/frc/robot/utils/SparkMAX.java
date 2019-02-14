@@ -220,8 +220,9 @@ public class SparkMAX {
      */
 
     public void setPIDSlot(List<Double> params, int slot) {
-        assert params.size() == 7 : "Wrong number of parameters";
-
+        if(params.size() != 7) {
+            throw new IllegalArgumentException("Wrong number of parameters given.");
+        }
         setPIDSlot(params.get(0),
                    params.get(1),
                    params.get(2),
@@ -269,7 +270,8 @@ public class SparkMAX {
      */
 
     public double getPosition() {
-        assert encoder != null : "No encoder connected";
+        if(encoder == null) 
+            throw new IllegalStateException("No encoder connected");
         return encoderInverted * encoder.getPosition() - zeroPosition;
     }
 
@@ -278,7 +280,8 @@ public class SparkMAX {
      */
 
     public double getVelocity() {
-        assert encoder != null : "No encoder connected";
+        if(encoder == null) 
+            throw new IllegalStateException("No encoder connected");
 
         //Refresh sample array if old
         if(Timer.getFPGATimestamp() - lastVelocitySampleTime > 0.1)
