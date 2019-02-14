@@ -328,7 +328,7 @@ public class SparkMAX {
 
     public void setInverted(boolean isInverted) {
         spark.setInverted(isInverted);
-        encoderInverted = -1;
+        encoderInverted = isInverted ? -1 : 1;
     }
 
 }
