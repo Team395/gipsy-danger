@@ -27,7 +27,7 @@ public class SparkMAX {
     int sampleIndex = 0;
 
     //Instance of PIDTuner to return
-    PIDTuner tuner = new REVPIDTuner("SPARK" + spark.getDeviceId(), pidController);
+    PIDTuner tuner;
     
     //onTarget bookkeeping
     Double acceptableError;
@@ -61,6 +61,8 @@ public class SparkMAX {
         if(encoderConnected) {
             encoder = spark.getEncoder();
         }
+
+        tuner = new REVPIDTuner("SPARK" + spark.getDeviceId(), pidController);
     }
 
     /*

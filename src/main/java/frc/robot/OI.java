@@ -38,7 +38,7 @@ public class OI {
           return 0;
       }
 
-      return stick.getY();     
+      return -stick.getY();     
   }
 
   public double getLeftY() {
@@ -66,5 +66,13 @@ public class OI {
 
   public boolean getRetractIntake() {
       return xboxController.getBumper(Hand.kLeft);
+  }
+
+  public boolean getShiftHigh() {
+    return leftJoystick.getTrigger(); 
+  }
+
+public boolean getShiftLow() {
+    return rightJoystick.getTrigger();
   }
 }

@@ -2,9 +2,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.DrivetrainEncoders;
+import frc.robot.subsystems.DrivetrainGyro;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.GroundIntake;
 
 /**
@@ -15,10 +16,13 @@ import frc.robot.subsystems.GroundIntake;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static OI oi = new OI();
+  public static OI oi;
   public static SpeedControllerMap speedControllerMap = new SpeedControllerMap();
   public static Elevator elevator = new Elevator();
   public static GroundIntake intake = new GroundIntake();
+  public static Drivetrain drivetrain = new Drivetrain();
+  public static DrivetrainEncoders encoders = new DrivetrainEncoders();
+  public static DrivetrainGyro gyro = new DrivetrainGyro();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -26,6 +30,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    oi = new OI();
     oi.setUpTriggers();
   }
 
