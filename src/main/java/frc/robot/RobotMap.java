@@ -11,6 +11,8 @@ public class RobotMap {
     public static final int leftFollowerSpark = 2;
     public static final int rightLeaderSpark = 3;
     public static final int rightFollowerSpark = 4;
+    public static final int shiftLowChannel = 2;
+    public static final int shiftHighChannel = 3;
 
     //Intake
     public static final int groundIntakeTalon = 7;
