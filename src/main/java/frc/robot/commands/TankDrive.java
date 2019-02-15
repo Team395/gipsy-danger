@@ -45,11 +45,7 @@ public class TankDrive extends Command {
         lastShiftTime = Timer.getFPGATimestamp();
       }
     }
-    // if(Robot.oi.getShiftHigh())
-    //   Robot.drivetrain.shift(Gear.kHigh);
 
-    // else if(Robot.oi.getShiftLow())
-    //   Robot.drivetrain.shift(Gear.kLow);
     SmartDashboard.putNumber("velocity", Robot.encoders.getCurrentVelocity());
   }
   
