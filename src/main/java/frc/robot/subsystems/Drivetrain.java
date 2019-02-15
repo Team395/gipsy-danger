@@ -20,9 +20,11 @@ public class Drivetrain extends Subsystem {
     SparkMAX leftLeader    = Robot.speedControllerMap.getSparkByID(RobotMap.leftLeaderSpark);
     SparkMAX leftFollower  = Robot.speedControllerMap.getSparkByID(RobotMap.leftFollowerSpark);
     SparkMAX rightLeader   = Robot.speedControllerMap.getSparkByID(RobotMap.rightLeaderSpark);
-    SparkMAX rightFollower = Robot.speedControllerMap.getSparkByID(RobotMap.rightLeaderSpark);
+    SparkMAX rightFollower = Robot.speedControllerMap.getSparkByID(RobotMap.rightFollowerSpark);
 
-    DoubleSolenoid shifter = new DoubleSolenoid(0,1);
+
+    DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shiftLowChannel
+        , RobotMap.shiftHighChannel);
 
     public Drivetrain(){
         leftLeader.setInverted(true);
