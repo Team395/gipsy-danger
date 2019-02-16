@@ -23,7 +23,7 @@ public class DrivetrainEncoders implements PIDSource{
 	final double highGearRatio = 1.0/9.2;
 	final double lowGearRatio = 1.0/20.8;
 	
-	final double wheelDiameter = 0.5;
+	final double wheelDiameterFeet = 0.5;
 	
 	SparkMAX leftLeader    = Robot.speedControllerMap.getSparkByID(RobotMap.leftLeaderSpark);
 	SparkMAX leftFollower  = Robot.speedControllerMap.getSparkByID(RobotMap.leftFollowerSpark);
@@ -38,21 +38,21 @@ public class DrivetrainEncoders implements PIDSource{
 	public double getLeftEncoderFeet() {
 		if(currentGearing == Gear.kLow) {
 			return (leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
-					lowGearRatio * Math.PI * wheelDiameter;
+					lowGearRatio * Math.PI * wheelDiameterFeet;
 		}
 		else {
 			return (leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
-					highGearRatio * Math.PI * wheelDiameter;
+					highGearRatio * Math.PI * wheelDiameterFeet;
 		}
 	}
 	
 	public double getRightEncoderFeet() {
 		if(currentGearing == Gear.kLow) {
 			return (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
-					lowGearRatio * Math.PI * wheelDiameter;
+					lowGearRatio * Math.PI * wheelDiameterFeet;
 		else {
 			return (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
-					highGearRatio * Math.PI * wheelDiameter;
+					highGearRatio * Math.PI * wheelDiameterFeet;
 		}
 	}
 	
@@ -93,9 +93,9 @@ public class DrivetrainEncoders implements PIDSource{
 		double averagedRPM = (leftLeader.getVelocity() + 
 							  leftFollower.getVelocity()) / 2;
 		if(currentGearing == Gear.kHigh) {
-			return wheelDiameter * Math.PI * averagedRPM * highGearRatio / 60;
+			return wheelDiameterFeet * Math.PI * averagedRPM * highGearRatio / 60;
 		} else {
-			return wheelDiameter * Math.PI * averagedRPM * lowGearRatio / 60;
+			return wheelDiameterFeet * Math.PI * averagedRPM * lowGearRatio / 60;
 		}
 	}
 	
@@ -103,9 +103,9 @@ public class DrivetrainEncoders implements PIDSource{
 		double averagedRPM = (rightLeader.getVelocity() + 
 							  rightFollower.getVelocity()) / 2;
 		if(currentGearing == Gear.kHigh) {
-			return wheelDiameter * Math.PI * averagedRPM * highGearRatio / 60;
+			return wheelDiameterFeet * Math.PI * averagedRPM * highGearRatio / 60;
 		} else {
-			return wheelDiameter * Math.PI * averagedRPM * lowGearRatio / 60;
+			return wheelDiameterFeet * Math.PI * averagedRPM * lowGearRatio / 60;
 		}
 	}
 	
