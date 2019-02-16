@@ -100,9 +100,9 @@ public class DrivetrainEncoders implements PIDSource{
 		double averagedRPM = (rightLeader.getVelocity() + 
 		rightFollower.getVelocity()) / 2;
 		if(currentGearing == Gear.kHigh) {
-			return 6 * Math.PI * averagedRPM * highGearRatio / (12 * 60);
+			return wheelDiameter * Math.PI * averagedRPM * highGearRatio / 60;
 		} else {
-			return 6 * Math.PI * averagedRPM * lowGearRatio / (12 * 60);
+			return wheelDiameter * Math.PI * averagedRPM * lowGearRatio / 60;
 		}
 	}
 	
