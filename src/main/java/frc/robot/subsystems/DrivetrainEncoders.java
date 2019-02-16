@@ -36,21 +36,24 @@ public class DrivetrainEncoders implements PIDSource{
 	
 	//Left Side Is Negated
 	public double getLeftEncoderFeet() {
-		if(currentGearing == Gear.kLow)
-		return (leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
-		lowGearRatio * Math.PI * wheelDiameter;
-		else
-		return (leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
-		highGearRatio * Math.PI * wheelDiameter;
+		if(currentGearing == Gear.kLow) {
+			return (leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
+					lowGearRatio * Math.PI * wheelDiameter;
+		}
+		else {
+			return (leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
+					highGearRatio * Math.PI * wheelDiameter;
+		}
 	}
 	
 	public double getRightEncoderFeet() {
-		if(currentGearing == Gear.kLow)
-		return (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
-		lowGearRatio * Math.PI * wheelDiameter;
-		else
-		return (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
-		highGearRatio * Math.PI * wheelDiameter;
+		if(currentGearing == Gear.kLow) {
+			return (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
+					lowGearRatio * Math.PI * wheelDiameter;
+		else {
+			return (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
+					highGearRatio * Math.PI * wheelDiameter;
+		}
 	}
 	
 	public void zeroEncoders() {
@@ -88,7 +91,7 @@ public class DrivetrainEncoders implements PIDSource{
 	
 	public double getLeftVelocity() {
 		double averagedRPM = (leftLeader.getVelocity() + 
-		leftFollower.getVelocity()) / 2;
+							  leftFollower.getVelocity()) / 2;
 		if(currentGearing == Gear.kHigh) {
 			return 6 * Math.PI * averagedRPM * highGearRatio / (12 * 60);
 		} else {
@@ -98,7 +101,7 @@ public class DrivetrainEncoders implements PIDSource{
 	
 	public double getRightVelocity() {
 		double averagedRPM = (rightLeader.getVelocity() + 
-		rightFollower.getVelocity()) / 2;
+							  rightFollower.getVelocity()) / 2;
 		if(currentGearing == Gear.kHigh) {
 			return wheelDiameter * Math.PI * averagedRPM * highGearRatio / 60;
 		} else {
