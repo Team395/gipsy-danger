@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class IntakeTest extends Command {
-  public IntakeTest() {
+public class JoystickIntake extends Command {
+  public JoystickIntake() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.intake);
@@ -26,12 +26,6 @@ public class IntakeTest extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Robot.oi.getExtendIntake()) {
-      Robot.intake.actuateIntake(Value.kForward);
-    } else if(Robot.oi.getRetractIntake()) {
-      Robot.intake.actuateIntake(Value.kReverse);
-    }
-
     Robot.intake.setRollerSpeed(Robot.oi.getIntakeThrottle());
   }
 
@@ -44,6 +38,7 @@ public class IntakeTest extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.intake.setRollerSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
