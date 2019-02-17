@@ -24,7 +24,7 @@ public class ElevatorPreset extends Command {
     kHatchShip(19.0),
     kHatchLoading(19.0),
     kZero(1.0),
-    kMaxHeight(85.35);
+    kMaxHeight(84.43);
 
     private final double height;
 

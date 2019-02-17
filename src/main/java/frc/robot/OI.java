@@ -17,8 +17,8 @@ public class OI {
 
   Trigger elevatorTrigger;
   Button high = new JoystickButton(xboxController, 4);
-  Button medium = new JoystickButton(xboxController, 1);
-  Button low = new JoystickButton(xboxController, 2);
+  Button medium = new JoystickButton(xboxController, 2);
+  Button low = new JoystickButton(xboxController, 1);
   Button stick = new JoystickButton(xboxController, 9);
   
   static final double joystickDeadzone = 0.1;
