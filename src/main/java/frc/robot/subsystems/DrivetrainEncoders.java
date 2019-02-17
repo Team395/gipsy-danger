@@ -50,6 +50,7 @@ public class DrivetrainEncoders implements PIDSource{
 		if(currentGearing == Gear.kLow) {
 			return (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
 					lowGearRatio * Math.PI * wheelDiameterFeet;
+		}
 		else {
 			return (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
 					highGearRatio * Math.PI * wheelDiameterFeet;
