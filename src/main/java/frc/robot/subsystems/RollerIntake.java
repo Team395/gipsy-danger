@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.JoystickIntake;;
+import frc.robot.commands.IntakeJoystick;
 
 public class RollerIntake extends Subsystem {
 
@@ -24,6 +24,6 @@ public class RollerIntake extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new JoystickIntake());
+    setDefaultCommand(new IntakeJoystick());
   }
 }
