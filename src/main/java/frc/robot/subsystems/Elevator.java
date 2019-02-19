@@ -72,8 +72,8 @@ public class Elevator extends Subsystem {
     leaderConfig.peakCurrentLimit = 30;
     leaderConfig.peakCurrentDuration = 500;  
     
-    leaderConfig.closedloopRamp = 0.15;
-    leaderConfig.openloopRamp = 0.15;
+    leaderConfig.closedloopRamp = 0.25;
+    leaderConfig.openloopRamp = 0.25;
     
     leaderConfig.reverseSoftLimitEnable = true;
     leaderConfig.reverseSoftLimitThreshold = 100;
@@ -100,7 +100,7 @@ public class Elevator extends Subsystem {
   public void setEndEffectorHeight(double inches) {
     int setpointTicks = (int) ((inches - heightOffset) * ticksPerInch / 
                         (cascadeCorrection));
-    elevatorLeader.set(ControlMode.MotionMagic, setpointTicks, DemandType.ArbitraryFeedForward, 0.05);
+    //elevatorLeader.set(ControlMode.MotionMagic, setpointTicks, DemandType.ArbitraryFeedForward, 0.05);
   }
 
   public boolean onTarget() {
