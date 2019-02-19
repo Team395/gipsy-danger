@@ -19,7 +19,7 @@ public class Robot extends TimedRobot {
   public static OI oi;
   public static SpeedControllerMap speedControllerMap = new SpeedControllerMap();
   public static Elevator elevator = new Elevator();
-  public static RollerIntake intake = new RollerIntake();
+  public static RollerIntake rollerIntake = new RollerIntake();
   public static Drivetrain drivetrain = new Drivetrain();
   public static DrivetrainEncoders encoders = new DrivetrainEncoders();
   public static DrivetrainGyro gyro = new DrivetrainGyro();
@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
     oi.setUpTriggers();
   }
 
-  /**
+  /**s
    * This function is called every robot packet, no matter the mode. Use
    * this for items like diagnostics that you want ran during disabled,
    * autonomous, teleoperated and test.
