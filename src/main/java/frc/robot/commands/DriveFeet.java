@@ -10,7 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.utils.LinearOutput;
 
 public class DriveFeet extends Command {
   public static final double p = 0.5;
@@ -21,10 +21,10 @@ public class DriveFeet extends Command {
   private final boolean holdHeading;
   private double initialHeading;
   private final double distance;
-
-  private final Drivetrain.LinearOutput linearOutput = Robot.drivetrain.getLinearOutput();
+  
+  private final LinearOutput linearOutput = Robot.drivetrain.getLinearOutput();
   private final PIDController pidController = new PIDController(p, i, d, Robot.encoders, linearOutput);
-
+  
   public DriveFeet(double distance) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -38,10 +38,10 @@ public class DriveFeet extends Command {
     //Set up PIDController and sensors
     pidController.setAbsoluteTolerance(1);
     pidController.setOutputRange(-0.75, 0.75);
-
+    
     setInterruptible(false);
   }
-
+  
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
@@ -50,7 +50,7 @@ public class DriveFeet extends Command {
     pidController.setSetpoint(distance + Robot.encoders.getAveragedEncoderFeet());
     pidController.enable();
   }
-
+  
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
@@ -58,20 +58,20 @@ public class DriveFeet extends Command {
       linearOutput.setHeadingCorrection(proportionalHeading * (initialHeading - Robot.gyro.getYaw()));
     }
   }
-
+  
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return pidController.onTarget();
   }
-
+  
   // Called once after isFinished returns true
   @Override
   protected void end() {
     pidController.disable();
     Robot.drivetrain.tankDrive(0,0);
   }
-
+  
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override

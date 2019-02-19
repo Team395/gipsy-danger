@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.TankDrive;
+import frc.robot.utils.LinearOutput;
 import frc.robot.utils.SparkMAX;
 
 public class Drivetrain extends Subsystem {
@@ -57,20 +58,7 @@ public class Drivetrain extends Subsystem {
     }
 
     public LinearOutput getLinearOutput(){
-        return new LinearOutput();
-    }
-
-    public class LinearOutput implements PIDOutput {
-        private double headingCorrection = 0;
-
-        public void setHeadingCorrection(double headingCorrection) {
-            this.headingCorrection = headingCorrection;
-        }
-
-        @Override
-        public void pidWrite(double output) {
-            tankDrive(output - headingCorrection, output + headingCorrection);
-        }
+        return new LinearOutput(this);
     }
 
     public void shift(Gear gear) {

@@ -17,7 +17,7 @@ public class TurnDegrees extends Command {
   public static final double i = 0;
   public static final double d = p/10;
 
-  private final PIDController pidController = new PIDController(p, i, d, Robot.gyro, Robot.drivetrain.getTurnOutput());
+  private final PIDController pidController = new PIDController(p, i, d, Robot.gyro.getYawSource(), Robot.drivetrain.getTurnOutput());
   private final double degrees;
 
   public TurnDegrees(double degrees) {
