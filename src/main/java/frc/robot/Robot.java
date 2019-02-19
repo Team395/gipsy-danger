@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DrivetrainEncoders;
 import frc.robot.subsystems.DrivetrainGyro;
@@ -23,6 +24,7 @@ public class Robot extends TimedRobot {
   public static Drivetrain drivetrain = new Drivetrain();
   public static DrivetrainEncoders encoders = new DrivetrainEncoders();
   public static DrivetrainGyro gyro = new DrivetrainGyro();
+  public static Climber climber = new Climber();
 
   /**
    * This function is run when the robot is first started up and should be

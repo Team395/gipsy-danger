@@ -20,5 +20,9 @@ public class RobotMap {
     //Solenoids
     public static final int deployIntakeChannel = 1;
     public static final int retractIntakeChannel = 0;
+
+    //Climber
+    public static final int leadScrewTalon = 7;
+    public static final int wheelPodTalon = 6;
 }
  
