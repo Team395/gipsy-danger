@@ -75,15 +75,7 @@ public class OI {
           return backward;
       }
   }
-
-  public boolean getExtendIntake() {
-      return xboxController.getBumper(Hand.kRight);
-  }
-
-  public boolean getRetractIntake() {
-      return xboxController.getBumper(Hand.kLeft);
-  }
-
+  
   public boolean getShiftHigh() {
     return leftJoystick.getTrigger(); 
   }

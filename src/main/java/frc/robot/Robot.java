@@ -7,7 +7,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DrivetrainEncoders;
 import frc.robot.subsystems.DrivetrainGyro;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.GroundIntake;
+import frc.robot.subsystems.RollerIntake;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -20,7 +20,7 @@ public class Robot extends TimedRobot {
   public static OI oi;
   public static SpeedControllerMap speedControllerMap = new SpeedControllerMap();
   public static Elevator elevator = new Elevator();
-  public static GroundIntake intake = new GroundIntake();
+  public static RollerIntake rollerIntake = new RollerIntake();
   public static Drivetrain drivetrain = new Drivetrain();
   public static DrivetrainEncoders encoders = new DrivetrainEncoders();
   public static DrivetrainGyro gyro = new DrivetrainGyro();
@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
     oi.setUpTriggers();
   }
 
-  /**
+  /**s
    * This function is called every robot packet, no matter the mode. Use
    * this for items like diagnostics that you want ran during disabled,
    * autonomous, teleoperated and test.
