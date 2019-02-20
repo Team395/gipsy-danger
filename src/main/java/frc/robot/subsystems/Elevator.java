@@ -9,12 +9,15 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.can.FilterConfiguration;
 import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -38,6 +41,9 @@ public class Elevator extends Subsystem {
   TalonSRXConfiguration leaderConfig = new TalonSRXConfiguration();
   VictorSPXConfiguration defaultConfig = new VictorSPXConfiguration();
   SlotConfiguration slot0 = new SlotConfiguration();
+  SlotConfiguration slot1 = new SlotConfiguration();
+
+  FilterConfiguration gyroFilterConfiguration = new FilterConfiguration();
 
   /**
    * 1 rot / 4096 ticks *
@@ -53,14 +59,14 @@ public class Elevator extends Subsystem {
   final double cascadeCorrection = 2;
   final double heightOffset = 0;
   
-  final double allowableErrorInches = 0.25; 
+  final double allowableErrorInches = 0.25;
+  final double climbingFeedforward = 0.2; //TODO
 
   public Elevator() {
-    
     slot0.kP = 0.5; //TODO
     slot0.kI = 0; //TODO
     slot0.kD = 0; //TODO
-    slot0.kF = 0.27;//0.2046; //5000 units/100 ms
+    slot0.kF = 0.27; //0.2046; //5000 units/100 ms
 
     slot0.integralZone = 0; //TODO
     slot0.allowableClosedloopError = 0;
@@ -107,7 +113,17 @@ public class Elevator extends Subsystem {
     return Math.abs(elevatorLeader.getClosedLoopError() * inchesPerTick) < 
                     allowableErrorInches;
   }
- 
+  
+  public PIDOutput levelElevator() {
+    return new PIDOutput(){
+    
+      @Override
+      public void pidWrite(double output) {
+        elevatorLeader.set(ControlMode.PercentOutput, output, DemandType.ArbitraryFeedForward, climbingFeedforward);
+      }
+    };
+  }
+
   public void test(double speed) {
     elevatorLeader.set(ControlMode.PercentOutput, speed);
   }

@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DrivetrainEncoders;
@@ -86,7 +87,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    SmartDashboard.putNumber("RobotRoll", gyro.getRoll());
     elevator.test(oi.getElevatorThrottle());
+    SmartDashboard.putNumber("ElevatorThrottle", oi.getElevatorThrottle());
   }
 
   /**
