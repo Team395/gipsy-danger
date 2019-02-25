@@ -60,7 +60,7 @@ public class Elevator extends Subsystem {
   final double heightOffset = 0;
   
   final double allowableErrorInches = 0.25;
-  final double climbingFeedforward = 0.2; //TODO
+  final double climbingFeedforward = -0.17; //TODO
 
   public Elevator() {
     slot0.kP = 0.5; //TODO
@@ -72,14 +72,14 @@ public class Elevator extends Subsystem {
     slot0.allowableClosedloopError = 0;
 
     leaderConfig.motionCruiseVelocity = 5000; //TODO
-    leaderConfig.motionAcceleration = 9000; //TODO
+    leaderConfig.motionAcceleration = 3500; //TODO
     
     leaderConfig.continuousCurrentLimit = 30;
     leaderConfig.peakCurrentLimit = 30;
-    leaderConfig.peakCurrentDuration = 500;  
+    leaderConfig.peakCurrentDuration = 0;  
     
-    leaderConfig.closedloopRamp = 0.25;
-    leaderConfig.openloopRamp = 0.25;
+    leaderConfig.closedloopRamp = 0.5;
+    leaderConfig.openloopRamp = 0.5;
     
     leaderConfig.reverseSoftLimitEnable = true;
     leaderConfig.reverseSoftLimitThreshold = 100;
@@ -106,7 +106,7 @@ public class Elevator extends Subsystem {
   public void setEndEffectorHeight(double inches) {
     int setpointTicks = (int) ((inches - heightOffset) * ticksPerInch / 
                         (cascadeCorrection));
-    //elevatorLeader.set(ControlMode.MotionMagic, setpointTicks, DemandType.ArbitraryFeedForward, 0.05);
+    elevatorLeader.set(ControlMode.MotionMagic, setpointTicks, DemandType.ArbitraryFeedForward, 0.05);
   }
 
   public boolean onTarget() {

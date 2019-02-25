@@ -21,17 +21,20 @@ public class OI {
   Button low = new JoystickButton(xboxController, 1);
   Button stick = new JoystickButton(xboxController, 9);
   
+  Button climbMode = new JoystickButton(xboxController, 3);
+
   static final double joystickDeadzone = 0.1;
   static final double xboxDeadzone = 0.25;
 
   public void setUpTriggers() {
-    elevatorTrigger = new ElevatorTrigger();
-    elevatorTrigger.whenActive(new ElevatorJoystick());
-    high.whenPressed(new ElevatorPreset(PresetHeight.kMaxHeight));
-    medium.whenPressed(new ElevatorPreset(PresetHeight.kCargoMedium));
-    low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
-    stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
-  }
+        elevatorTrigger = new ElevatorTrigger();
+        elevatorTrigger.whenActive(new ElevatorJoystick());
+        high.whenPressed(new ElevatorPreset(PresetHeight.kMaxHeight));
+        medium.whenPressed(new ElevatorPreset(PresetHeight.kCargoMedium));
+        low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
+        stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
+        climbMode.whileHeld(new LevelRobot());
+    }
 
   private double getJoyY(Joystick stick) {
       if(Math.abs(stick.getY()) < joystickDeadzone) {

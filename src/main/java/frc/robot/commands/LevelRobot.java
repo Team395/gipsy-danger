@@ -14,12 +14,17 @@ import frc.robot.Robot;
 public class LevelRobot extends Command {
 
   //P is negative because nose down should lower elevator and nose down is negative angle
-  PIDController pidController = new PIDController(-1.0/15.0, 0, 0, Robot.gyro.getPitchSource(), Robot.elevator.levelElevator());
+  PIDController pidController = new PIDController(1.0/20.0, 0, 1.0/200.0, Robot.gyro.getRollSource(), Robot.elevator.levelElevator());
+
+  public LevelRobot() {
+    requires(Robot.elevator);
+    setInterruptible(false);
+  }
 
   @Override
   protected void initialize() {
     pidController.enable();
-    pidController.setSetpoint(0);
+    pidController.setSetpoint(Robot.gyro.getRoll());
   }
 
   // Called repeatedly when this Command is scheduled to run
