@@ -1,62 +1,78 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.buttons.Button;
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
+import frc.robot.commands.*;
+import frc.robot.triggers.*;
+import frc.robot.commands.ElevatorPreset.PresetHeight;;
+
 public class OI {
-    public final Joystick leftJoystick = new Joystick(RobotMap.LEFT_JOYSTICK);
-    public final Joystick rightJoystick = new Joystick(RobotMap.RIGHT_JOYSTICK);
-    public final XboxController xboxController = new XboxController(2);
+  Joystick leftJoystick = new Joystick(0);
+  Joystick rightJoystick = new Joystick(1);
+  XboxController xboxController = new XboxController(2);
 
-    Button approachTarget = new JoystickButton(leftJoystick, 2);
-    // Button backwardsThreeFeet = new JoystickButton(xboxController, 1);
-    // Button right90 = new JoystickButton(xboxController, 2);
-    // Button left90 = new JoystickButton(xboxController, 3);
-    // Button forwardThreeFeet = new JoystickButton(xboxController, 4);
+  Trigger elevatorTrigger;
+  Button high = new JoystickButton(xboxController, 4);
+  Button medium = new JoystickButton(xboxController, 1);
+  Button low = new JoystickButton(xboxController, 2);
+  Button stick = new JoystickButton(xboxController, 9);
+  
+  static final double joystickDeadzone = 0.1;
+  static final double xboxDeadzone = 0.1;  
 
+  public void setUpTriggers() {
+    elevatorTrigger = new ElevatorTrigger();
+    elevatorTrigger.whenActive(new ElevatorJoystick());
+    high.whenPressed(new ElevatorPreset(PresetHeight.kMaxHeight));
+    medium.whenPressed(new ElevatorPreset(PresetHeight.kCargoMedium));
+    low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
+    stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
+  }
 
-    public OI() {
-        // forwardThreeFeet.whenPressed(new DriveFeet(3,true));
-        // right90.whenPressed(new TurnDegrees(-90));
-        // left90.whenPressed(new TurnDegrees(90));
-        // backwardsThreeFeet.whenPressed(new DriveFeet(-3,true));
-        approachTarget.whenPressed(new ApproachTarget());
-    }
+  private double getJoyY(Joystick stick) {
+      if(Math.abs(stick.getY()) < joystickDeadzone) {
+          return 0;
+      }
 
-    public double getLeftY() {
-        if (Math.abs(leftJoystick.getY()) < 0.1){
-            return 0;
-        }
-        return -leftJoystick.getY();
-    }
+      return -stick.getY();     
+  }
 
-    public double getRightY() {
-        if (Math.abs(rightJoystick.getY()) < 0.1){
-            return 0;
-        }
-        return -rightJoystick.getY();
-    }
+  public double getLeftY() {
+      return getJoyY(leftJoystick);
+  }
 
-    public boolean getShiftHigh() {
-        return leftJoystick.getTrigger(); 
-    }
+  public double getRightY() {
+      return getJoyY(rightJoystick);
+  }
 
-    public boolean getShiftLow() {
-        return rightJoystick.getTrigger();
-    }
+  public double getElevatorThrottle() {
+    return -1 * xboxController.getY(Hand.kLeft);
+  }
+  
+  public double getIntakeThrottle() {
+      if(Math.abs(xboxController.getY(Hand.kRight)) < xboxDeadzone) {
+          return 0;
+      }
+      return xboxController.getY(Hand.kRight);
+  }
 
-    public boolean getVisionSnapshot() {
-        return leftJoystick.getRawButton(3);
-    }
+  public boolean getExtendIntake() {
+      return xboxController.getBumper(Hand.kRight);
+  }
 
-    public boolean getSquareUp() {
-        return leftJoystick.getRawButton(2);
-    }
+  public boolean getRetractIntake() {
+      return xboxController.getBumper(Hand.kLeft);
+  }
+
+  public boolean getShiftHigh() {
+    return leftJoystick.getTrigger(); 
+  }
+
+public boolean getShiftLow() {
+    return rightJoystick.getTrigger();
+  }
 }

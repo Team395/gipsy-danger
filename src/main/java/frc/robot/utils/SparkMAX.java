@@ -35,6 +35,9 @@ public class SparkMAX {
     double lastTargetSampleTime = Timer.getFPGATimestamp();
     double firstTargetSampleTime = Timer.getFPGATimestamp();
 
+    //Encoder reversal
+    int encoderInverted = 1;
+
     /*
      *  Constructs a new SparkMAX, assuming an encoder only if the motor type 
      *  is brushless.
@@ -219,8 +222,9 @@ public class SparkMAX {
      */
 
     public void setPIDSlot(List<Double> params, int slot) {
-        assert params.size() == 7 : "Wrong number of parameters";
-
+        if(params.size() != 7) {
+            throw new IllegalArgumentException("Wrong number of parameters given.");
+        }
         setPIDSlot(params.get(0),
                    params.get(1),
                    params.get(2),
@@ -268,8 +272,9 @@ public class SparkMAX {
      */
 
     public double getPosition() {
-        assert encoder != null : "No encoder connected";
-        return encoder.getPosition() - zeroPosition;
+        if(encoder == null) 
+            throw new IllegalStateException("No encoder connected");
+        return encoderInverted * encoder.getPosition() - zeroPosition;
     }
 
     /*
@@ -277,7 +282,8 @@ public class SparkMAX {
      */
 
     public double getVelocity() {
-        assert encoder != null : "No encoder connected";
+        if(encoder == null) 
+            throw new IllegalStateException("No encoder connected");
 
         //Refresh sample array if old
         if(Timer.getFPGATimestamp() - lastVelocitySampleTime > 0.1)
@@ -307,7 +313,7 @@ public class SparkMAX {
             validSamples++;
 
         //Return average
-        return sum/validSamples;
+        return encoderInverted * sum/validSamples;
     }
 
     /*
@@ -318,7 +324,7 @@ public class SparkMAX {
         if(encoder == null)
             throw new NoEncoderException();
 
-        this.zeroPosition = encoder.getPosition();
+        this.zeroPosition = encoderInverted * encoder.getPosition();
     }
 
     public void follow(SparkMAX leader) {
@@ -327,6 +333,7 @@ public class SparkMAX {
 
     public void setInverted(boolean isInverted) {
         spark.setInverted(isInverted);
+        encoderInverted = isInverted ? -1 : 1;
     }
 
 }
