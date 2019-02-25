@@ -10,37 +10,20 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.IntakeTest;
+import frc.robot.commands.IntakeJoystick;
 
-public class GroundIntake extends Subsystem {
+public class RollerIntake extends Subsystem {
 
-  WPI_TalonSRX intakeController = new WPI_TalonSRX(RobotMap.groundIntakeTalon);
-  DoubleSolenoid deploySolenoid = new DoubleSolenoid(RobotMap.deployIntakeChannel, 
-                                                     RobotMap.retractIntakeChannel);
+  WPI_TalonSRX intakeController = new WPI_TalonSRX(RobotMap.rollerIntakeTalon);
 
   public void setRollerSpeed(double speed) {
-    if(deploySolenoid.get() == Value.kForward) {
-      intakeController.set(ControlMode.PercentOutput,speed);
-    } else {
-      intakeController.set(0);
-    }
-  }
-
-  public void actuateIntake(Value value) {
-    deploySolenoid.set(value);
-    
-  }
-
-  public Value getIntakePosition() {
-    return deploySolenoid.get();
+    intakeController.set(ControlMode.PercentOutput,speed);
   }
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new IntakeTest());
+    setDefaultCommand(new IntakeJoystick());
   }
 }

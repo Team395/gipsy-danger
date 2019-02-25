@@ -10,61 +10,34 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorPreset extends Command {
-  
-  public static enum PresetHeight {
-    kCargoHigh(83.5),
-    kCargoMedium(55.5),
-    kCargoLow(27.5),
-    kCargoShip(0), //TODO
-    kCargoLoading(0), //TODO
-    kHatchHigh(75.0),
-    kHatchMedium(47.0),
-    kHatchLow(19.0),
-    kHatchShip(19.0),
-    kHatchLoading(19.0),
-    kZero(1.0),
-    kMaxHeight(84.43);
-
-    private final double height;
-
-    public double getHeight() {
-      return height;
-    }
-
-    private PresetHeight(double height) {
-      this.height = height;
-    }
-  }
-  
-  PresetHeight setpoint;
-
-  public ElevatorPreset(PresetHeight setpoint) {
-    requires(Robot.elevator);
-
-    this.setpoint = setpoint;
+public class IntakeJoystick extends Command {
+  public IntakeJoystick() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(Robot.rollerIntake);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.elevator.setEndEffectorHeight(setpoint.getHeight());
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    // Robot.rollerIntake.setRollerSpeed(Robot.oi.getIntakeThrottle());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.elevator.onTarget();
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.rollerIntake.setRollerSpeed(0);
   }
 
   // Called when another command which requires one or more of the same

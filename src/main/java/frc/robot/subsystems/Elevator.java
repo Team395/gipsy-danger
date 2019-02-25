@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.VictorSPXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -35,7 +36,7 @@ public class Elevator extends Subsystem {
   //Velocity is calculated as ticks/100 ms
   
   TalonSRXConfiguration leaderConfig = new TalonSRXConfiguration();
-  TalonSRXConfiguration defaultConfig = new TalonSRXConfiguration();
+  VictorSPXConfiguration defaultConfig = new VictorSPXConfiguration();
   SlotConfiguration slot0 = new SlotConfiguration();
 
   /**
@@ -77,13 +78,18 @@ public class Elevator extends Subsystem {
     leaderConfig.reverseSoftLimitEnable = true;
     leaderConfig.reverseSoftLimitThreshold = 100;
     leaderConfig.forwardSoftLimitEnable = true;
-    leaderConfig.forwardSoftLimitThreshold = 37000;//TODO
+    leaderConfig.forwardSoftLimitThreshold = 36600;//TODO
     
     leaderConfig.slot0 = slot0;
+
+    elevatorFollower.configAllSettings(defaultConfig);
 
     elevatorFollower.follow(elevatorLeader); 
     
     elevatorLeader.configAllSettings(leaderConfig);
+
+    elevatorLeader.setSelectedSensorPosition(0);
+    elevatorLeader.setSelectedSensorPosition(0, 0, 20);
   }
 
   public double getEndEffectorHeight() {

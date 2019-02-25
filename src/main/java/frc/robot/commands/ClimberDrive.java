@@ -7,15 +7,12 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class IntakeTest extends Command {
-  public IntakeTest() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.intake);
+public class ClimberDrive extends Command {
+  public ClimberDrive() {
+    requires(Robot.climber);
   }
 
   // Called just before this Command runs the first time
@@ -26,13 +23,8 @@ public class IntakeTest extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Robot.oi.getExtendIntake()) {
-      Robot.intake.actuateIntake(Value.kForward);
-    } else if(Robot.oi.getRetractIntake()) {
-      Robot.intake.actuateIntake(Value.kReverse);
-    }
-
-    Robot.intake.setRollerSpeed(Robot.oi.getIntakeThrottle());
+    Robot.climber.leadScrewDrive(Robot.oi.getClimberThrottle());
+    Robot.climber.wheelPodDrive(Robot.oi.getWheelThrottle());
   }
 
   // Make this return true when this Command no longer needs to run execute()
