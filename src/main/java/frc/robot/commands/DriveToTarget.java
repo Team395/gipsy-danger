@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain.Gear;
+import frc.robot.utils.LinearOutput;
 import frc.robot.utils.limelight.Contour;
 import frc.robot.utils.limelight.Corners;
 import frc.robot.utils.limelight.Limelight;
@@ -32,7 +32,7 @@ public class ApproachTarget extends Command {
     static final double d = 1;
     static final double proportionalHeading = 0.013;
     
-    Drivetrain.LinearOutput linearOutput = Robot.drivetrain.getLinearOutput();
+    LinearOutput linearOutput = Robot.drivetrain.getLinearOutput();
     PIDController pidController = new PIDController(p, i, d, Robot.encoders, linearOutput);
     
     double lastContourSeenTime = 0;

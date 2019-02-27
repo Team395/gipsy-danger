@@ -39,7 +39,7 @@ public class Climber extends Subsystem {
   }
 
   public void leadScrewDrive(double speed) {
-    double maxSpeed = Preferences.getInstance().getDouble("climberMaxSpeed", 0.0);
+    double maxSpeed = Preferences.getInstance().getDouble("climberMaxSpeed", 1.0);
     double scalingFactor = Preferences.getInstance().getDouble("climberScalingFactor", 1.0);
     double actualSpeed = speed * scalingFactor;
     if (Math.abs(actualSpeed) > maxSpeed) {
@@ -49,7 +49,7 @@ public class Climber extends Subsystem {
   }
 
   public void wheelPodDrive(double speed) {
-    double maxSpeed = Preferences.getInstance().getDouble("wheelPodMaxSpeed", 0.0);
+    double maxSpeed = Preferences.getInstance().getDouble("wheelPodMaxSpeed", 1.0);
     double scalingFactor = Preferences.getInstance().getDouble("wheelPodScalingFactor", 1.0);
     double actualSpeed = speed * scalingFactor;
     if (Math.abs(actualSpeed) > maxSpeed) {

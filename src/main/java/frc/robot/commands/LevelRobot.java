@@ -9,32 +9,22 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
-
 import frc.robot.Robot;
 
-public class TurnDegrees extends Command {
-  public static final double p = 1.0/45.0;
-  public static final double i = 0;
-  public static final double d = p/10;
+public class LevelRobot extends Command {
 
-  private final PIDController pidController = new PIDController(p, i, d, Robot.gyro.getYawSource(), Robot.drivetrain.getTurnOutput());
-  private final double degrees;
+  //P is negative because nose down should lower elevator and nose down is negative angle
+  PIDController pidController = new PIDController(1.0/20.0, 0, 1.0/200.0, Robot.gyro.getRollSource(), Robot.elevator.levelElevator());
 
-  public TurnDegrees(double degrees) {
-    requires(Robot.drivetrain);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    this.degrees = degrees;
-    pidController.setAbsoluteTolerance(1);
-    pidController.setOutputRange(-0.5, 0.5);
+  public LevelRobot() {
+    requires(Robot.elevator);
     setInterruptible(false);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    pidController.setSetpoint(Robot.gyro.getYaw() + degrees);
     pidController.enable();
+    pidController.setSetpoint(Robot.gyro.getRoll());
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -45,14 +35,13 @@ public class TurnDegrees extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return pidController.onTarget();
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
     pidController.disable();
-    Robot.drivetrain.tankDrive(0, 0);
   }
 
   // Called when another command which requires one or more of the same
@@ -61,4 +50,5 @@ public class TurnDegrees extends Command {
   protected void interrupted() {
     end();
   }
+
 }
