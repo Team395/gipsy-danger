@@ -78,6 +78,7 @@ public class Elevator extends Subsystem {
     leaderConfig.peakCurrentLimit = 30;
     leaderConfig.peakCurrentDuration = 0;  
     
+    //TODO: Retune
     leaderConfig.closedloopRamp = 0.5;
     leaderConfig.openloopRamp = 0.5;
     

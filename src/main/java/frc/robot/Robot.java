@@ -87,9 +87,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    SmartDashboard.putNumber("RobotRoll", gyro.getRoll());
-    //elevator.test(oi.getElevatorThrottle());
-    SmartDashboard.putNumber("ElevatorThrottle", oi.getElevatorThrottle());
   }
   
   /**

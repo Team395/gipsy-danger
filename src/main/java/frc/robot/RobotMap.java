@@ -2,6 +2,7 @@ package frc.robot;
 
 public class RobotMap {
 
+    //TODO: Namespace variables consistently
     //Elevator
     public static int elevatorLeaderTalon = 8;
     public static int elevatorFollowerVictor = 12;
