@@ -16,7 +16,7 @@ import frc.robot.commands.IntakeJoystick;
 
 public class RollerIntake extends Subsystem {
 
-  WPI_TalonSRX intakeController = new WPI_TalonSRX(RobotMap.rollerIntakeTalon);
+  WPI_TalonSRX intakeController = new WPI_TalonSRX(RobotMap.intakeRollerTalonID);
 
   public void setRollerSpeed(double speed) {
     intakeController.set(ControlMode.PercentOutput,speed);

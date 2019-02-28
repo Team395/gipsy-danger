@@ -20,8 +20,8 @@ import frc.robot.commands.ClimberDrive;
  */
 public class Climber extends Subsystem {
 
-  WPI_TalonSRX leadScrew = Robot.speedControllerMap.getTalonByID(RobotMap.leadScrewTalon);
-  WPI_TalonSRX wheelPod = Robot.speedControllerMap.getTalonByID(RobotMap.wheelPodTalon);
+  WPI_TalonSRX leadScrew = Robot.speedControllerMap.getTalonByID(RobotMap.climberLeadScrewTalonID);
+  WPI_TalonSRX wheelPod = Robot.speedControllerMap.getTalonByID(RobotMap.climberWheelPodTalonID);
 
   double fixedSpeedForTesting = 0;
 
