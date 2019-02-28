@@ -10,11 +10,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class IntakeJoystick extends Command {
-  public IntakeJoystick() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.rollerIntake);
+public class ClimberDrive extends Command {
+  public ClimberDrive() {
+    requires(Robot.climber);
   }
 
   // Called just before this Command runs the first time
@@ -25,7 +23,8 @@ public class IntakeJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // Robot.rollerIntake.setRollerSpeed(Robot.oi.getIntakeThrottle());
+    Robot.climber.leadScrewDrive(Robot.oi.getClimberThrottle());
+    Robot.climber.wheelPodDrive(Robot.oi.getWheelThrottle());
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -37,7 +36,6 @@ public class IntakeJoystick extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.rollerIntake.setRollerSpeed(0);
   }
 
   // Called when another command which requires one or more of the same

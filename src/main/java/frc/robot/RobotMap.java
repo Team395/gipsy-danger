@@ -2,6 +2,7 @@ package frc.robot;
 
 public class RobotMap {
 
+    //TODO: Namespace variables consistently
     //Elevator
     public static int elevatorLeaderTalon = 8;
     public static int elevatorFollowerVictor = 12;
@@ -16,5 +17,9 @@ public class RobotMap {
 
     //Intake
     public static final int rollerIntakeTalon = 11;
+
+    //Climber
+    public static final int leadScrewTalon = 7;
+    public static final int wheelPodTalon = 6;
 }
  

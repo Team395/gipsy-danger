@@ -21,17 +21,20 @@ public class OI {
   Button low = new JoystickButton(xboxController, 1);
   Button stick = new JoystickButton(xboxController, 9);
   
+  Button climbMode = new JoystickButton(xboxController, 3);
+
   static final double joystickDeadzone = 0.1;
-  static final double xboxDeadzone = 0.1;  
+  static final double xboxDeadzone = 0.25;
 
   public void setUpTriggers() {
-    elevatorTrigger = new ElevatorTrigger();
-    elevatorTrigger.whenActive(new ElevatorJoystick());
-    high.whenPressed(new ElevatorPreset(PresetHeight.kMaxHeight));
-    medium.whenPressed(new ElevatorPreset(PresetHeight.kCargoMedium));
-    low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
-    stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
-  }
+        elevatorTrigger = new ElevatorTrigger();
+        elevatorTrigger.whenActive(new ElevatorJoystick());
+        high.whenPressed(new ElevatorPreset(PresetHeight.kMaxHeight));
+        medium.whenPressed(new ElevatorPreset(PresetHeight.kCargoMedium));
+        low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
+        stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
+        climbMode.whileHeld(new LevelRobot());
+    }
 
   private double getJoyY(Joystick stick) {
       if(Math.abs(stick.getY()) < joystickDeadzone) {
@@ -53,11 +56,27 @@ public class OI {
     return -1 * xboxController.getY(Hand.kLeft);
   }
   
-  public double getIntakeThrottle() {
+  public double getClimberThrottle() {
       if(Math.abs(xboxController.getY(Hand.kRight)) < xboxDeadzone) {
           return 0;
       }
-      return xboxController.getY(Hand.kRight);
+      return -1 * xboxController.getY(Hand.kRight);
+  }
+
+  public double getWheelThrottle() {
+      double forward = xboxController.getTriggerAxis(Hand.kRight);
+      double backward = -1.0 * xboxController.getTriggerAxis(Hand.kLeft);
+      if(Math.abs(xboxController.getTriggerAxis(Hand.kRight)) < xboxDeadzone) {
+          forward = 0.0;
+      }
+      if(Math.abs(xboxController.getTriggerAxis(Hand.kLeft)) < xboxDeadzone) {
+          backward = 0.0;
+      }
+      if (forward > 0.0) {
+          return forward;
+      } else {
+          return backward;
+      }
   }
   
   public boolean getShiftHigh() {
