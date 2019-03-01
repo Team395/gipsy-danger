@@ -25,10 +25,10 @@ public class DrivetrainEncoders implements PIDSource{
 	
 	final double wheelDiameterFeet = 0.5;
 	
-	SparkMAX leftLeader    = Robot.speedControllerMap.getSparkByID(RobotMap.leftLeaderSpark);
-	SparkMAX leftFollower  = Robot.speedControllerMap.getSparkByID(RobotMap.leftFollowerSpark);
-	SparkMAX rightLeader   = Robot.speedControllerMap.getSparkByID(RobotMap.rightLeaderSpark);
-	SparkMAX rightFollower = Robot.speedControllerMap.getSparkByID(RobotMap.rightFollowerSpark);
+	SparkMAX leftLeader    = Robot.speedControllerMap.getSparkByID(RobotMap.driveLeftLeaderSparkID);
+	SparkMAX leftFollower  = Robot.speedControllerMap.getSparkByID(RobotMap.driveLeftFollowerSparkID);
+	SparkMAX rightLeader   = Robot.speedControllerMap.getSparkByID(RobotMap.driveRightLeaderSparkID);
+	SparkMAX rightFollower = Robot.speedControllerMap.getSparkByID(RobotMap.driveRightFollowerSparkID);
 	
 	public DrivetrainEncoders() {
 		

@@ -28,8 +28,8 @@ import frc.robot.RobotMap;
 public class Elevator extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  WPI_TalonSRX elevatorLeader = Robot.speedControllerMap.getTalonByID(RobotMap.elevatorLeaderTalon);
-  WPI_VictorSPX elevatorFollower = Robot.speedControllerMap.getVictorByID(RobotMap.elevatorFollowerVictor);
+  WPI_TalonSRX elevatorLeader = Robot.speedControllerMap.getTalonByID(RobotMap.elevatorLeaderTalonID);
+  WPI_VictorSPX elevatorFollower = Robot.speedControllerMap.getVictorByID(RobotMap.elevatorFollowerVictorID);
   
   //Gear ratio is 21.32:1
 
@@ -78,6 +78,7 @@ public class Elevator extends Subsystem {
     leaderConfig.peakCurrentLimit = 30;
     leaderConfig.peakCurrentDuration = 0;  
     
+    //TODO: Retune
     leaderConfig.closedloopRamp = 0.5;
     leaderConfig.openloopRamp = 0.5;
     
