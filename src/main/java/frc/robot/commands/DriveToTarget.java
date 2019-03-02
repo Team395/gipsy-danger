@@ -10,106 +10,132 @@ import frc.robot.utils.LinearOutput;
 import frc.robot.utils.limelight.Contour;
 import frc.robot.utils.limelight.Corners;
 import frc.robot.utils.limelight.Limelight;
-public class ApproachTarget extends Command {
+
+public class DriveToTarget extends Command {
     
     enum Side {
         kLeft,
         kRight
     };
 
-    static final double CAMERA_HEIGHT = 16.125;
-    //Angle from the horizontal in radians
-    static final double CAMERA_ANGLE = Math.PI/6;
-    static final double MAX_OFFSET = 15;
-    static final double MAX_OFFSET_DISTANCE = 8;
-    static final double TARGET_CENTER_HEIGHT = 31.25 + 0.5 * 5.826;
-    static final double MAX_TIME_WITHOUT_CONTOUR = 0.1;
+    //Camera Parameters
+    static final double cameraHeight = 16.125;
+    static final double cameraAngle = 30;
 
-    Contour contour;
-    Side side;
+    /**
+     * agressiveSkewThreshold: The threshold in native limelight skew that determines if we take an agressive appraoch.
+     * maxOffsetAgressive: The angle offset an agressive approach will target.
+     * maxOffsetNormal: The angle offset a normal approach will target.
+     * offsetScalingFactor: The maximum distance at which we will use the maximum offset. Below this distance we scale offset down linearly
+     */
+
+    static final double aggressiveSkewThreshold = 15;
+    static final double maxOffsetAggressive = 25;
+    static final double maxOffsetNormal = 12.5;
+    static final double maxOffsetDistance = 6.0;
+
+    static final double lowTargetHeight = 33.893;
+    static final double highTargetHeight = 0;
+
+    //The amount of time the command will continue to run without seeing a contour in seconds.
+    static final double maxTimeWithoutContour = 0.1;
+
+    //The PID coefficients of the linear drive.
     static final double p = 0.5;
     static final double i = 0;
     static final double d = 1;
-    static final double proportionalHeading = 0.013;
-    
+    static final double maxOutput = 0.5;
+
+    //The proportional constant for the angle adjustment 
+    static final double rotationP = 0.013;
+
+    //The PID controller and PIDOutput. We maintain a reference to linearOutput to set the heading correction.
     LinearOutput linearOutput = Robot.drivetrain.getLinearOutput();
     PIDController pidController = new PIDController(p, i, d, Robot.encoders, linearOutput);
     
-    double lastContourSeenTime = 0;
+    Contour contour;
+    Side side;
+    double initialSkewAbs;
+    double xOffset;
+    double distance;
 
-    public ApproachTarget() {
+    //A timer which starts when a contour is not seen to determine if we should kill the command.
+    Timer contourNotSeen = new Timer();
+
+    public DriveToTarget() {
         requires(Robot.drivetrain);
         setInterruptible(false);
     }
+    
+
+    private double calculateHeadingCorrection() {
+        double additionalOffset;
+
+        if(side == null) {
+            additionalOffset = 0;
+        } else {
+            double maxOffset = initialSkewAbs > aggressiveSkewThreshold ? maxOffsetAggressive : maxOffsetNormal;
+            double additionalOffsetSign = side == Side.kRight ? 1 : -1;
+            double distanceScaling = Math.min(1, distance/maxOffsetDistance);
+            
+            additionalOffset = maxOffset * distanceScaling * additionalOffsetSign;
+        }
+        return rotationP * (xOffset + additionalOffset);
+
+    }
+
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        pidController.setOutputRange(-0.5, 0.5);
+        //Drive slow in 
         Robot.drivetrain.shift(Gear.kLow);
+        pidController.setOutputRange(-maxOutput, maxOutput);
+        
         contour = Limelight.getBestContour();
-        lastContourSeenTime = Timer.getFPGATimestamp();
-        Robot.encoders.zeroEncoders();
+        if(contour != null) {
+            initialSkewAbs = Math.abs(contour.ts);
+        }
     }
     
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {    
-        //Get the target
         contour = Limelight.getBestContour();
-        if(contour != null) {
-            lastContourSeenTime = Timer.getFPGATimestamp();
 
-            double xOffset = contour.tx;
+        if(contour == null) {
+            contourNotSeen.start();
+            linearOutput.setHeadingCorrection(0);
+        } else {
+            contourNotSeen.stop();
+            contourNotSeen.reset();
+            
+            xOffset = contour.tx;
             double yOffset = contour.ty;
             
-            // Calculate distance
-            double distance = (TARGET_CENTER_HEIGHT-CAMERA_HEIGHT) / 
-                        Math.tan(CAMERA_ANGLE+ Math.toRadians(yOffset)) / 12;
+            double distanceFeet = (lowTargetHeight - cameraHeight) / 
+                        Math.tan(Math.toRadians(cameraAngle + yOffset)) / 12;
 
-            //Set the setpoint for distance
-            pidController.setSetpoint(Robot.encoders.getAveragedEncoderFeet() + distance);
+            //Set the setpoint for distance relative to current position
+            pidController.setSetpoint(Robot.encoders.getAveragedEncoderFeet() + distanceFeet);
             
-            //If the left side is higher than the right side, the target is to our left
-            //Otherwise the target is to our right
+            //Determine the side by picking which upper corner is higher
             Corners corners = Limelight.getContourCorners();
-            if(corners.validCorners)
-                side = corners.topLeft.y > corners.topRight.y ? Side.kLeft : Side.kRight;
-            
-            if(side != null){
-                double headingCorrection = MAX_OFFSET
-                    * Math.min(1, distance / MAX_OFFSET_DISTANCE);
-                linearOutput.setHeadingCorrection(-proportionalHeading * 
-                    (xOffset + 
-                        ( 
-                            side == Side.kLeft
-                                ? -headingCorrection
-                                : headingCorrection
-                        )
-                    )
-                );
-                SmartDashboard.putNumber("Heading setpoint", -proportionalHeading * 
-                (xOffset + 
-                    (side == Side.kLeft
-                    ? -headingCorrection
-                    : headingCorrection)
-                ));
-                
-            } else {
-                linearOutput.setHeadingCorrection(-proportionalHeading * xOffset);
-                SmartDashboard.putNumber("Heading setpoint", xOffset);
+            if(corners.validCorners) {
+                side = corners.topRight.y > corners.topLeft.y ? Side.kRight : Side.kLeft;            
             }
 
-            if(!pidController.isEnabled())
+            linearOutput.setHeadingCorrection(calculateHeadingCorrection());
+
+            if(!pidController.isEnabled()){
                 pidController.enable();
-        } else {
-            linearOutput.setHeadingCorrection(0);
+            }
         }
     }
     
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return Timer.getFPGATimestamp() - lastContourSeenTime > MAX_TIME_WITHOUT_CONTOUR;
+        return contourNotSeen.hasPeriodPassed(maxTimeWithoutContour);
     }
     
     // Called once after isFinished returns true
