@@ -6,7 +6,8 @@ public class ApproachTarget extends CommandGroup {
 
   public ApproachTarget() {
     addSequential(new AimAtTarget());
-    addSequential(new DriveToTarget());
+    //TODO: Decide this based on robot state
+    addSequential(new DriveToTarget(DriveToTarget.TargetType.kLowTarget));
   }
   
 }

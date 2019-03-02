@@ -13,10 +13,17 @@ import frc.robot.utils.limelight.Limelight;
 
 public class DriveToTarget extends Command {
     
+    public enum TargetType {
+        kHighTarget,
+        kLowTarget;
+    }
+
     enum Side {
         kLeft,
         kRight
     };
+    
+ 
 
     //Camera Parameters
     static final double cameraHeight = 16.125;
@@ -35,7 +42,7 @@ public class DriveToTarget extends Command {
     static final double maxOffsetDistance = 6.0;
 
     static final double lowTargetHeight = 33.893;
-    static final double highTargetHeight = 0;
+    static final double highTargetHeight = 41.787;
 
     //The amount of time the command will continue to run without seeing a contour in seconds.
     static final double maxTimeWithoutContour = 0.1;
@@ -55,6 +62,7 @@ public class DriveToTarget extends Command {
     
     Contour contour;
     Side side;
+    final double targetHeight;
     double initialSkewAbs;
     double xOffset;
     double distance;
@@ -62,9 +70,10 @@ public class DriveToTarget extends Command {
     //A timer which starts when a contour is not seen to determine if we should kill the command.
     Timer contourNotSeen = new Timer();
 
-    public DriveToTarget() {
+    public DriveToTarget(TargetType targetType) {
         requires(Robot.drivetrain);
         setInterruptible(false);
+        targetHeight = (targetType == TargetType.kHighTarget) ? highTargetHeight : lowTargetHeight;
     }
     
 
