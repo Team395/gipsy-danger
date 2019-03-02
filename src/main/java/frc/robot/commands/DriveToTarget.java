@@ -36,8 +36,8 @@ public class DriveToTarget extends Command {
      * offsetScalingFactor: The maximum distance at which we will use the maximum offset. Below this distance we scale offset down linearly
      */
 
-    static final double aggressiveSkewThreshold = 15;
-    static final double maxOffsetAggressive = 25;
+    static final double aggressiveSkewThreshold = 15; //TODO: Tune
+    static final double maxOffsetAggressive = 25; //TODO: Tune
     static final double maxOffsetNormal = 12.5;
     static final double maxOffsetDistance = 6.0;
 
