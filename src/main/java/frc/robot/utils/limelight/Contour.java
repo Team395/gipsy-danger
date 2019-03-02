@@ -2,21 +2,21 @@ package frc.robot.utils.limelight;
 
 public class Contour {
     //Horizontal offset from -27 to 27 degrees
-    public final double tx;
+    public final double xOffset;
     //Vertical offset from -20.5 to 20.5 degrees
-    public final double ty;
+    public final double yOffset;
     //Area as a percent of total image
-    public final double ta;
+    public final double percentArea;
     //Skew of target from -90 to 0 degrees
-    public final double ts;
+    public final double skewAngle;
     //Latency of the pipeline in ms
-    public final double tl;
+    public final double pipelineLatency;
 
-    public Contour(double tx, double ty, double ta, double ts, double tl){
-        this.tx = tx;
-        this.ty = ty;
-        this.ta = ta;
-        this.ts = ts;
-        this.tl = tl;
+    public Contour(double xOffset, double yOffset, double percentArea, double skewAngle, double pipelineLatency){
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+        this.percentArea = percentArea;
+        this.skewAngle = skewAngle;
+        this.pipelineLatency = pipelineLatency;
     }
 }
