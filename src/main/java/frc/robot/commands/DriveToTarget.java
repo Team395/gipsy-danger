@@ -111,7 +111,7 @@ public class DriveToTarget extends Command {
             xOffset = contour.tx;
             double yOffset = contour.ty;
             
-            double distanceFeet = (lowTargetHeight - cameraHeight) / 
+            double distanceFeet = (targetHeight - cameraHeight) / 
                         Math.tan(Math.toRadians(cameraAngle + yOffset)) / 12;
 
             //Set the setpoint for distance relative to current position
