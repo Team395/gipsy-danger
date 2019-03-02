@@ -3,27 +3,20 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain.Gear;
 import frc.robot.utils.LinearOutput;
 import frc.robot.utils.limelight.Contour;
 import frc.robot.utils.limelight.Corners;
 import frc.robot.utils.limelight.Limelight;
+import frc.robot.enums.TargetType;
 
 public class DriveToTarget extends Command {
     
-    public enum TargetType {
-        kHighTarget,
-        kLowTarget;
-    }
-
     enum Side {
         kLeft,
         kRight
-    };
-    
- 
+    }; 
 
     //Camera Parameters
     static final double cameraHeight = 16.125;
@@ -40,9 +33,6 @@ public class DriveToTarget extends Command {
     static final double maxOffsetAggressive = 25; //TODO: Tune
     static final double maxOffsetNormal = 12.5;
     static final double maxOffsetDistance = 6.0;
-
-    static final double lowTargetHeight = 33.893;
-    static final double highTargetHeight = 41.787;
 
     //The amount of time the command will continue to run without seeing a contour in seconds.
     static final double maxTimeWithoutContour = 0.1;
@@ -73,7 +63,7 @@ public class DriveToTarget extends Command {
     public DriveToTarget(TargetType targetType) {
         requires(Robot.drivetrain);
         setInterruptible(false);
-        targetHeight = (targetType == TargetType.kHighTarget) ? highTargetHeight : lowTargetHeight;
+        targetHeight = targetType.getHeight();
     }
     
 

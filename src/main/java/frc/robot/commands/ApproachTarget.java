@@ -1,13 +1,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.enums.TargetType;
 
 public class ApproachTarget extends CommandGroup {
 
-  public ApproachTarget() {
+  public ApproachTarget(TargetType targetType) {
     addSequential(new AimAtTarget());
-    //TODO: Decide this based on robot state
-    addSequential(new DriveToTarget(DriveToTarget.TargetType.kLowTarget));
+    addSequential(new DriveToTarget(targetType));
   }
   
 }
