@@ -11,8 +11,8 @@ public class Limelight {
   // here. Call these from Commands.
 
   public static enum Pipeline{
-    leftTarget(0),
-    rightTarget(1);
+    kLeftTarget(0),
+    kRightTarget(1);
 
     public final int id;
 
@@ -23,8 +23,8 @@ public class Limelight {
   }
 
   public static enum CamMode{
-    vision(0),
-    driver(1);
+    kVision(0),
+    kDriver(1);
 
     public final int id;
 
