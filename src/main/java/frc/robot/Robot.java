@@ -20,12 +20,12 @@ import frc.robot.subsystems.RollerIntake;
 public class Robot extends TimedRobot {
   public static OI oi;
   public static SpeedControllerMap speedControllerMap = new SpeedControllerMap();
-  public static Elevator elevator = new Elevator();
-  public static RollerIntake rollerIntake = new RollerIntake();
+  public static Elevator elevator;// = new Elevator();
+  public static RollerIntake rollerIntake;// = new RollerIntake();
   public static Drivetrain drivetrain = new Drivetrain();
   public static DrivetrainEncoders encoders = new DrivetrainEncoders();
   public static DrivetrainGyro gyro = new DrivetrainGyro();
-  public static Climber climber = new Climber();
+  public static Climber climber;// = new Climber();
   
   /**
   * This function is run when the robot is first started up and should be

@@ -27,13 +27,13 @@ public class OI {
   static final double xboxDeadzone = 0.25;
 
   public void setUpTriggers() {
-        elevatorTrigger = new ElevatorTrigger();
-        elevatorTrigger.whenActive(new ElevatorJoystick());
-        high.whenPressed(new ElevatorPreset(PresetHeight.kMaxHeight));
-        medium.whenPressed(new ElevatorPreset(PresetHeight.kCargoMedium));
-        low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
-        stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
-        climbMode.whileHeld(new LevelRobot());
+        // elevatorTrigger = new ElevatorTrigger();
+        // elevatorTrigger.whenActive(new ElevatorJoystick());
+        // high.whenPressed(new ElevatorPreset(PresetHeight.kMaxHeight));
+        // medium.whenPressed(new ElevatorPreset(PresetHeight.kCargoMedium));
+        // low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
+        // stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
+        climbMode.whileHeld(new ApproachTarget());
     }
 
   private double getJoyY(Joystick stick) {

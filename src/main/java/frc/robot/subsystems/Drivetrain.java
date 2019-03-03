@@ -1,10 +1,13 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.util.WPILibVersion;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.TankDrive;
@@ -18,14 +21,10 @@ public class Drivetrain extends Subsystem {
         kLow;
     }
 
-    SparkMAX leftLeader    = Robot.speedControllerMap.getSparkByID(RobotMap.driveLeftLeaderSparkID);
-    SparkMAX leftFollower  = Robot.speedControllerMap.getSparkByID(RobotMap.driveLeftFollowerSparkID);
-    SparkMAX rightLeader   = Robot.speedControllerMap.getSparkByID(RobotMap.driveRightLeaderSparkID);
-    SparkMAX rightFollower = Robot.speedControllerMap.getSparkByID(RobotMap.driveRightFollowerSparkID);
-
-
-    DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.driveShiftLowChannelID
-        , RobotMap.driveShiftHighChannelID);
+	WPI_TalonSRX leftLeader    = Robot.speedControllerMap.getTalonByID(RobotMap.driveLeftLeaderSparkID);
+	WPI_TalonSRX leftFollower  = Robot.speedControllerMap.getTalonByID(RobotMap.driveLeftFollowerSparkID);
+	WPI_TalonSRX rightLeader   = Robot.speedControllerMap.getTalonByID(RobotMap.driveRightLeaderSparkID);
+	WPI_TalonSRX rightFollower = Robot.speedControllerMap.getTalonByID(RobotMap.driveRightFollowerSparkID);
 
     public Drivetrain(){
         leftLeader.setInverted(true);
@@ -62,14 +61,5 @@ public class Drivetrain extends Subsystem {
     }
 
     public void shift(Gear gear) {
-        if(gear == Gear.kHigh)
-            shifter.set(Value.kForward);
-        else if(gear == Gear.kLow)
-            shifter.set(Value.kReverse);
-        Robot.encoders.setGearing(gear);
-    }
-
-    public Gear getShifterState() {
-        return shifter.get() == Value.kForward ? Gear.kHigh : Gear.kLow;
     }
 }

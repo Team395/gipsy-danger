@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import frc.robot.Robot;
@@ -18,17 +20,14 @@ import frc.robot.utils.SparkMAX;
 * Add your docs here.
 */
 public class DrivetrainEncoders implements PIDSource{
-	Gear currentGearing = Robot.drivetrain.getShifterState();
-	
-	final double highGearRatio = 1.0/9.2;
-	final double lowGearRatio = 1.0/20.8;
-	
+		
 	final double wheelDiameterFeet = 0.5;
+	final double ticksToFeet = wheelDiameterFeet / 4096.0; 	
 	
-	SparkMAX leftLeader    = Robot.speedControllerMap.getSparkByID(RobotMap.driveLeftLeaderSparkID);
-	SparkMAX leftFollower  = Robot.speedControllerMap.getSparkByID(RobotMap.driveLeftFollowerSparkID);
-	SparkMAX rightLeader   = Robot.speedControllerMap.getSparkByID(RobotMap.driveRightLeaderSparkID);
-	SparkMAX rightFollower = Robot.speedControllerMap.getSparkByID(RobotMap.driveRightFollowerSparkID);
+	WPI_TalonSRX leftLeader    = Robot.speedControllerMap.getTalonByID(RobotMap.driveLeftLeaderSparkID);
+	WPI_TalonSRX leftFollower  = Robot.speedControllerMap.getTalonByID(RobotMap.driveLeftFollowerSparkID);
+	WPI_TalonSRX rightLeader   = Robot.speedControllerMap.getTalonByID(RobotMap.driveRightLeaderSparkID);
+	WPI_TalonSRX rightFollower = Robot.speedControllerMap.getTalonByID(RobotMap.driveRightFollowerSparkID);
 	
 	public DrivetrainEncoders() {
 		
@@ -36,32 +35,16 @@ public class DrivetrainEncoders implements PIDSource{
 	
 	//Left Side Is Negated
 	public double getLeftEncoderFeet() {
-		if(currentGearing == Gear.kLow) {
-			return (leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
-					lowGearRatio * Math.PI * wheelDiameterFeet;
-		}
-		else {
-			return (leftLeader.getPosition() + leftFollower.getPosition()) / 2 * 
-					highGearRatio * Math.PI * wheelDiameterFeet;
-		}
+		return leftLeader.getSelectedSensorPosition() * ticksToFeet;
 	}
 	
 	public double getRightEncoderFeet() {
-		if(currentGearing == Gear.kLow) {
-			return (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
-					lowGearRatio * Math.PI * wheelDiameterFeet;
-		}
-		else {
-			return (rightLeader.getPosition() + rightFollower.getPosition()) / 2 * 
-					highGearRatio * Math.PI * wheelDiameterFeet;
-		}
+		return rightLeader.getSelectedSensorPosition() * ticksToFeet;
 	}
 	
 	public void zeroEncoders() {
-		leftLeader.zeroPosition();
-		leftFollower.zeroPosition();
-		rightLeader.zeroPosition();
-		rightFollower.zeroPosition();
+		leftLeader.setSelectedSensorPosition(0);
+		rightLeader.setSelectedSensorPosition(0);
 	}
 	
 	public double getAveragedEncoderFeet() {
@@ -83,31 +66,12 @@ public class DrivetrainEncoders implements PIDSource{
 		return getAveragedEncoderFeet();
 	}
 	
-	public void setGearing(Gear gear) {
-		if(this.currentGearing != gear){
-			this.currentGearing = gear;
-			zeroEncoders();
-		}
-	}
-	
 	public double getLeftVelocity() {
-		double averagedRPM = (leftLeader.getVelocity() + 
-							  leftFollower.getVelocity()) / 2;
-		if(currentGearing == Gear.kHigh) {
-			return wheelDiameterFeet * Math.PI * averagedRPM * highGearRatio / 60;
-		} else {
-			return wheelDiameterFeet * Math.PI * averagedRPM * lowGearRatio / 60;
-		}
+		return 0;
 	}
 	
 	public double getRightVelocity() {
-		double averagedRPM = (rightLeader.getVelocity() + 
-							  rightFollower.getVelocity()) / 2;
-		if(currentGearing == Gear.kHigh) {
-			return wheelDiameterFeet * Math.PI * averagedRPM * highGearRatio / 60;
-		} else {
-			return wheelDiameterFeet * Math.PI * averagedRPM * lowGearRatio / 60;
-		}
+		return 0;
 	}
 	
 	public double getCurrentVelocity() {
