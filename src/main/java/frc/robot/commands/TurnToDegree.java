@@ -7,6 +7,10 @@ import frc.robot.Robot;
  */
 public class TurnToDegree extends TurnDegrees {
     public TurnToDegree(double angle) {
-        super(angle - Robot.gyro.getYaw());
+        super(
+              (angle - Robot.gyro.getYaw()) % 360 > 180 ?
+              (angle - Robot.gyro.getYaw()) % 360 - 360 :
+              (angle - Robot.gyro.getYaw()) % 360
+             );
     }
 }
