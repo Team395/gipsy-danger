@@ -80,10 +80,14 @@ public class OI {
   }
   
   public boolean getShiftHigh() {
-    return leftJoystick.getTrigger(); 
+    return false; //leftJoystick.getTrigger(); 
   }
 
-public boolean getShiftLow() {
-    return rightJoystick.getTrigger();
+  public boolean getShiftLow() {
+    return false; //rightJoystick.getTrigger();
+  }
+
+  public boolean getCancelAuton() {
+      return rightJoystick.getTrigger() && leftJoystick.getTrigger();
   }
 }

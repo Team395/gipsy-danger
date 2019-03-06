@@ -73,6 +73,9 @@ public class Robot extends TimedRobot {
   */
   @Override
   public void autonomousPeriodic() {
+    if(oi.getCancelAuton()) {
+      Scheduler.getInstance().removeAll();
+    }
     Scheduler.getInstance().run();
   }
   
