@@ -22,21 +22,21 @@ public class ScoreSingleFromSide extends CommandGroup {
     //Drive off the step
     addSequential(new DriveFeet(9));
     //Turn towards the cargo bay
-    addSequential(new TurnToDegree(turnInversion * 35));
+    addSequential(new TurnToDegree(turnInversion * -35));
     //Drive toward the cargo bay
     addSequential(new DriveFeet(4));
     //Roughly center
-    addSequential(new TurnToDegree(turnInversion * 5.823));
+    addSequential(new TurnToDegree(turnInversion * -5.823));
     //Score
     addSequential(new AutoScore(ScoringPosition.kHatchShip));
     //Back up from scoring position
     addSequential(new DriveFeet(-1));
     //Turn to loading station
-    addSequential(new TurnToDegree(turnInversion * -134.357));
+    addSequential(new TurnToDegree(turnInversion * 134.357));
     //Drive to loading station
     addSequential(new DriveFeet(14.5));
     //Turn to loading station
-    addSequential(new TurnToDegree(-180));
+    addSequential(new TurnToDegree(180));
     //Intake the hatch
     addSequential(new AutoIntakeHatch());
     //Drive back from loading station

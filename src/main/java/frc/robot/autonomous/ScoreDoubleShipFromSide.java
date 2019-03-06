@@ -22,41 +22,41 @@ public class ScoreDoubleShipFromSide extends CommandGroup {
     //Drive off the step
     addSequential(new DriveFeet(9));
     //Turn towards the cargo bay
-    addSequential(new TurnToDegree(turnInversion * 35));
+    addSequential(new TurnToDegree(turnInversion * -35));
     //Drive toward the cargo bay
     addSequential(new DriveFeet(4));
     //Roughly center
-    addSequential(new TurnToDegree(turnInversion * 5.823));
+    addSequential(new TurnToDegree(turnInversion * -5.823));
     //Score
     addSequential(new AutoScore(ScoringPosition.kHatchShip));
     //Back up from scoring position
     addSequential(new DriveFeet(-1));
     //Turn to loading station
-    addSequential(new TurnToDegree(turnInversion * -134.357));
+    addSequential(new TurnToDegree(turnInversion * 134.357));
     //Drive to loading station
     addSequential(new DriveFeet(14.5));
     //Turn to loading station
-    addSequential(new TurnToDegree(-180));
+    addSequential(new TurnToDegree(180));
     //Intake the hatch
     addSequential(new AutoIntakeHatch());
     //Drive back from loading station
     addSequential(new DriveFeet(-6.5));
     //Turn towards cargo bay
-    addSequential(new TurnToDegree(turnInversion * 115.236));
+    addSequential(new TurnToDegree(turnInversion * -115.236));
     //Drive to cargo bay
     addSequential(new DriveFeet(13));
     //Turn to cargo bay
-    addSequential(new TurnToDegree(turnInversion * 5.035));
+    addSequential(new TurnToDegree(turnInversion * -5.035));
     //Score
     addSequential(new AutoScore(ScoringPosition.kHatchShip));
     //Back up from scoring position
     addSequential(new DriveFeet(-1));
     //Turn to loading station
-    addSequential(new TurnToDegree(turnInversion * -129.771));
+    addSequential(new TurnToDegree(turnInversion * 129.771));
     //Drive to loading station
     addSequential(new DriveFeet(15.847));
     //Turn to loading station
-    addSequential(new TurnToDegree(turnInversion * -180));
+    addSequential(new TurnToDegree(turnInversion * 180));
     //Intake the hatch
     addSequential(new AutoIntakeHatch());
     //Drive back from loading station
