@@ -42,5 +42,6 @@ public class ScoreSingleFromSide extends CommandGroup {
     //Drive back from loading station
     addSequential(new DriveFeet(-6.5));
     //Turn towards field
-    addSequential(new TurnToDegree(turnInversion * 0));  }
+    addSequential(new TurnToDegree(turnInversion * 0));  
+  }
 }

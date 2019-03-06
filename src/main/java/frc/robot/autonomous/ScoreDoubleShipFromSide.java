@@ -57,10 +57,5 @@ public class ScoreDoubleShipFromSide extends CommandGroup {
     addSequential(new DriveFeet(15.847));
     //Turn to loading station
     addSequential(new TurnToDegree(turnInversion * 180));
-    //Intake the hatch
-    addSequential(new AutoIntakeHatch());
-    //Drive back from loading station
-    addSequential(new DriveFeet(-6.5));
-    //Turn towards field
-    addSequential(new TurnToDegree(0));  }
+  }
 }
