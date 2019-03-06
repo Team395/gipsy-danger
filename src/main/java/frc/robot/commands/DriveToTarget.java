@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain.Gear;
 import frc.robot.utils.LinearOutput;
@@ -11,6 +10,10 @@ import frc.robot.utils.limelight.Contour;
 import frc.robot.utils.limelight.Corners;
 import frc.robot.utils.limelight.Limelight;
 
+/**
+ * A command designed to approach a target perpendicularly which the robot is already pointed at.
+ * All units are in feet and degrees unless otherwise notated.
+ */
 public class DriveToTarget extends Command {
     
     public enum TargetType {
@@ -26,7 +29,7 @@ public class DriveToTarget extends Command {
  
 
     //Camera Parameters
-    static final double cameraHeight = 16.125;
+    static final double cameraHeightInches = 16.125;
     static final double cameraAngle = 30;
 
     /**
@@ -62,7 +65,7 @@ public class DriveToTarget extends Command {
     
     Contour contour;
     Side side;
-    final double targetHeight;
+    final double targetHeightInches;
     double initialSkewAbs;
     double xOffset;
     double distance;
@@ -73,7 +76,7 @@ public class DriveToTarget extends Command {
     public DriveToTarget(TargetType targetType) {
         requires(Robot.drivetrain);
         setInterruptible(false);
-        targetHeight = (targetType == TargetType.kHighTarget) ? highTargetHeight : lowTargetHeight;
+        targetHeightInches = (targetType == TargetType.kHighTarget) ? highTargetHeight : lowTargetHeight;
     }
     
 
@@ -121,7 +124,7 @@ public class DriveToTarget extends Command {
             xOffset = contour.tx;
             double yOffset = contour.ty;
             
-            double distanceFeet = (targetHeight - cameraHeight) / 
+            double distanceFeet = (targetHeightInches - cameraHeightInches) / 
                         Math.tan(Math.toRadians(cameraAngle + yOffset)) / 12;
 
             //Set the setpoint for distance relative to current position
