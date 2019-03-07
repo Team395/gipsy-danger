@@ -9,14 +9,15 @@ import frc.robot.utils.limelight.Limelight;
 public class AimAtTarget extends Command {
 	
 	 //Full power at 15 degrees
-	double p = 1.0/15.0;
+	double p = 1.0/50;
 	//We want to overshoot/not settle this turn
-	double d = 0; 
-	double maxOutput = 0.5;
+	double d = p * 10; 
+	double maxOutput = 0.3;
 	//We only need this to roughly align, this gives time to either stop early or accelerate past
 	double acceptableErrorDegrees = 5;
 
-	PIDController pidController = new PIDController(p, 0, d, Robot.gyro.getYawSource(), Robot.drivetrain.getTurnOutput());
+	//Initalize a PIDController with a 10 ms period
+	PIDController pidController = new PIDController(p, 0, d, Robot.gyro.getYawSource(), Robot.drivetrain.getTurnOutput(), 0.01);
 	
 	Contour contour;
 
@@ -28,12 +29,13 @@ public class AimAtTarget extends Command {
 	@Override
 	protected void initialize() {
 		pidController.setOutputRange(-maxOutput, maxOutput);
-		
 		contour = Limelight.getBestContour();
-		double xOffset = contour.tx;
+		double xOffset = 0;
 		if(contour != null) {
-			pidController.setSetpoint(xOffset + Robot.gyro.getYaw());		
+			xOffset = contour.tx;
 		} 
+
+		pidController.setSetpoint(Robot.gyro.getYaw() - xOffset);		
 		pidController.enable();
 
 	}
@@ -48,17 +50,20 @@ public class AimAtTarget extends Command {
 	protected boolean isFinished() {
 		//Not using onTarget as that may do stability checking, this should end as soon as we hit the range at all
 		return Math.abs(pidController.getError()) < acceptableErrorDegrees ||
-			   contour == null;
+			contour == null;
 	}
 	
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
+		pidController.disable();
+		Robot.drivetrain.tankDrive(0,0);
 	}
 	
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	@Override
 	protected void interrupted() {
+		end();
 	}
 }
