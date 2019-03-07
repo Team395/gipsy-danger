@@ -11,6 +11,8 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import frc.robot.Robot;
+import frc.robot.RobotMap;
 
 public class DrivetrainGyro {
 	
@@ -19,7 +21,7 @@ public class DrivetrainGyro {
 	private static final int PITCH_INDEX = 1;
 	private static final int ROLL_INDEX = 2;
 	
-	private final PigeonIMU pigeon = new PigeonIMU(0);
+	private final PigeonIMU pigeon = new PigeonIMU(Robot.speedControllerMap.getTalonByID(RobotMap.driveLeftFollowerSparkID));
 	
 	public double getYaw(){
 		double[] returnArray = new double[3];

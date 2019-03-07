@@ -27,10 +27,10 @@ public class Drivetrain extends Subsystem {
 	WPI_TalonSRX rightFollower = Robot.speedControllerMap.getTalonByID(RobotMap.driveRightFollowerSparkID);
 
     public Drivetrain(){
-        leftLeader.setInverted(true);
-        leftFollower.setInverted(true);
-        rightLeader.setInverted(false);
-        rightFollower.setInverted(false);
+        leftLeader.setInverted(false);
+        leftFollower.setInverted(false);
+        rightLeader.setInverted(true);
+        rightFollower.setInverted(true);
 
         leftFollower.follow(leftLeader);
         rightFollower.follow(rightLeader);
