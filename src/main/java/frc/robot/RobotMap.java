@@ -17,6 +17,11 @@ public class RobotMap {
 
     //Intake
     public static final int intakeRollerTalonID = 11;
+    public static final int suctionCupChannel = -1;
+    public static final int deployPopoutChannel = -1;
+    public static final int retractPopoutChannel = -1;
+    public static final int deployFloorChannel = -1;
+    public static final int retractFloorChannel = -1;
 
     //Climber
     public static final int climberLeadScrewTalonID = 7;
