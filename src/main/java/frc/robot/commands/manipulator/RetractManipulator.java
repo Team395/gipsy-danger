@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
+/**
+ * Retracts the manipulator while on defense.
+ */
 public class RetractManipulator extends InstantCommand {
   public RetractManipulator() {
     super(Robot.manipulator);

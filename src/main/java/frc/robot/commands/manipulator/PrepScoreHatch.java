@@ -11,9 +11,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
+/**
+ * Ensures the manipulator is in the position to score a cargo.
+ */
+
 public class PrepScoreHatch extends InstantCommand {
 
-  //This command ensures the manipulator is in the proper position to score a hatch panel
   public PrepScoreHatch() {
     super();
     requires(Robot.manipulator);

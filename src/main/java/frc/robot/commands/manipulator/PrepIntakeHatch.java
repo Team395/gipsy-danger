@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 import frc.robot.Robot;
 
+/**
+ * Prepares the intake to take in a hatch.
+ */
 public class PrepIntakeHatch extends InstantCommand {
 
   public PrepIntakeHatch() {

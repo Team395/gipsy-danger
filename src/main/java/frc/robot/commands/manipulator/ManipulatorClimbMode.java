@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
+/**
+ * Places the intake in a mode where it can climb.
+ */
 public class ManipulatorClimbMode extends InstantCommand {
 
   public ManipulatorClimbMode() {

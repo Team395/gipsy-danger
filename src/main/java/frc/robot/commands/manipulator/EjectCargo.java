@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.Robot;
 
+/**
+ * Ejects the cargo at the end of a scoring sequence.
+ */
 public class EjectCargo extends TimedCommand {
 
   private static final double cargoEjectTime = 1;
