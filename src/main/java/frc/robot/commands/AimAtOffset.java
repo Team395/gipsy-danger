@@ -58,8 +58,8 @@ public class AimAtOffset extends Command {
           side = corners.topRight.y > corners.topLeft.y ? Side.kRight : Side.kLeft;            
       }
 
-      double yOffset = contour.ty;
-      xOffset = contour.tx;
+      double yOffset = contour.yOffset;
+      xOffset = contour.xOffset;
 
       distance = (targetHeight - cameraHeight) / 
       Math.tan(Math.toRadians(cameraAngle + yOffset)) / 12;

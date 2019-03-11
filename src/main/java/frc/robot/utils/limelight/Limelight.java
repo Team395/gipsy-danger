@@ -11,8 +11,8 @@ public class Limelight {
   // here. Call these from Commands.
 
   public static enum Pipeline{
-    leftTarget(0),
-    rightTarget(1);
+    kLeftTarget(0),
+    kRightTarget(1);
 
     public final int id;
 
@@ -23,8 +23,8 @@ public class Limelight {
   }
 
   public static enum CamMode{
-    vision(0),
-    driver(1);
+    kVision(0),
+    kDriver(1);
 
     public final int id;
 
@@ -47,10 +47,10 @@ public class Limelight {
     //Check if a valid contour is found 
     if(limelightTable.getEntry("tv").getNumber(0).equals(1.0)) {
       return new Contour(limelightTable.getEntry("tx").getDouble(0),
-                        limelightTable.getEntry("ty").getDouble(0),
-                        limelightTable.getEntry("ta").getDouble(0),
-                        limelightTable.getEntry("ts").getDouble(0),
-                        limelightTable.getEntry("tl").getDouble(0));
+                         limelightTable.getEntry("ty").getDouble(0),
+                         limelightTable.getEntry("ta").getDouble(0),
+                         limelightTable.getEntry("ts").getDouble(0),
+                         limelightTable.getEntry("tl").getDouble(0));
     } else {
       return null;
     }

@@ -92,8 +92,8 @@ public class DriveToTarget extends Command {
         contour = Limelight.getBestContour();
         if(contour != null) {
             initialSkewAbs = Math.min(
-                                      Math.abs(contour.ts + 90), 
-                                      Math.abs(contour.ts)
+                                      Math.abs(contour.skewAngle + 90), 
+                                      Math.abs(contour.skewAngle)
                                       );        
             //Determine the side by picking which upper corner is higher
             Corners corners = Limelight.getContourCorners();
@@ -115,8 +115,8 @@ public class DriveToTarget extends Command {
         }
 
         contourLastSeenTime = Timer.getFPGATimestamp();            
-        xOffset = contour.tx;
-        double yOffset = contour.ty;
+        xOffset = contour.xOffset;
+        double yOffset = contour.yOffset;
         
         distance = (targetHeight - cameraHeight) / 
                     Math.tan(Math.toRadians(cameraAngle + yOffset)) / 12;

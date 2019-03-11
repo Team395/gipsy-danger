@@ -32,7 +32,7 @@ public class AimAtTarget extends Command {
 		contour = Limelight.getBestContour();
 		double xOffset = 0;
 		if(contour != null) {
-			xOffset = contour.tx;
+			xOffset = contour.xOffset;
 		} 
 
 		pidController.setSetpoint(Robot.gyro.getYaw() - xOffset);		

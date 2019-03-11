@@ -50,7 +50,6 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     testCompile 'junit:junit:4.12'
-    compile 'com.2train395.limelight.api:limelight-api:1.0.0'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
