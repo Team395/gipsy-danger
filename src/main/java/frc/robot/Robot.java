@@ -8,7 +8,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DrivetrainEncoders;
 import frc.robot.subsystems.DrivetrainGyro;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.RollerIntake;
+import frc.robot.subsystems.manipulator.RollerIntake;
 import frc.robot.utils.limelight.Corners;
 import frc.robot.utils.limelight.Limelight;
 
@@ -23,7 +23,7 @@ public class Robot extends TimedRobot {
   public static OI oi;
   public static SpeedControllerMap speedControllerMap = new SpeedControllerMap();
   public static Elevator elevator;// = new Elevator();
-  public static RollerIntake rollerIntake;// = new RollerIntake();
+  public static RollerIntake rollerIntake = new RollerIntake();
   public static Drivetrain drivetrain = new Drivetrain();
   public static DrivetrainEncoders encoders = new DrivetrainEncoders();
   public static DrivetrainGyro gyro = new DrivetrainGyro();

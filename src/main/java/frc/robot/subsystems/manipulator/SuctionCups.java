@@ -7,24 +7,41 @@
 
 package frc.robot.subsystems.manipulator;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
-/**
- * Add your docs here.
- */
 public class SuctionCups extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-  Solenoid suctionCupSolenoid = new Solenoid(RobotMap.suctionCupChannel);
+  Relay suctionValveRelay = new Relay(RobotMap.suctionValveRelayChannel);
+  WPI_TalonSRX vacuumPumpTalon = Robot.speedControllerMap.getTalonByID(RobotMap.vacuumPumpTalonID);
 
-  public void actuateSuction(boolean on) {
-    suctionCupSolenoid.set(on);
+  public void openSuctionValve() {
+    suctionValveRelay.set(Value.kOn);
   }
 
-  public boolean getSuctionState() {
-    return suctionCupSolenoid.get();
+  public void closeSuctionValve() {
+    suctionValveRelay.set(Value.kOff);
+  }
+
+  public void setVacuum(double dutyCycle) {
+    vacuumPumpTalon.set(dutyCycle);
+  }
+
+  public boolean getSuctionValveClosed() {
+    return suctionValveRelay.get() == Value.kOff ? true : false;
+  }
+  
+  public double getVacuumCurrent() {
+    return vacuumPumpTalon.getOutputCurrent();
+  }
+
+  public double getVacuumDutyCycle() {
+    return vacuumPumpTalon.get();
   }
 
   @Override
