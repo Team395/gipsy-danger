@@ -14,7 +14,7 @@ import frc.robot.enums.TargetType;
 
 public class AutoIntakeCargo extends CommandGroup {
   public AutoIntakeCargo() {
-    addSequential(new ElevatorPreset(ElevatorPreset.PresetHeight.kHatchLoading));
+    addSequential(new ElevatorPreset(ElevatorPreset.Height.kHatchLoading));
     addParallel(new PrepIntakeCargo());
     addSequential(new ApproachTarget(TargetType.kLowTarget));
     addSequential(new IntakeCargo());
