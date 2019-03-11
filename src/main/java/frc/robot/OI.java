@@ -51,6 +51,10 @@ public class OI {
       return getJoyY(rightJoystick);
   }
 
+  public double getIntakeThrottle() {
+      return 0;
+  }
+  
   public double getElevatorThrottle() {
     return -1 * xboxController.getY(Hand.kLeft);
   }
