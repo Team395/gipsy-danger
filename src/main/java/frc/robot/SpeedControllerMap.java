@@ -6,8 +6,6 @@ import java.util.Map;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import frc.robot.utils.SparkMAX;
 
 public class SpeedControllerMap {

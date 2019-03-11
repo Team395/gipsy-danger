@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import frc.robot.commands.AimAtTarget;
-import frc.robot.commands.ApproachTarget;;
+import frc.robot.commands.ApproachTarget;
+import frc.robot.enums.TargetType;;
 
 public class OI {
   Joystick leftJoystick = new Joystick(0);
@@ -32,7 +32,7 @@ public class OI {
         // medium.whenPressed(new ElevatorPreset(PresetHeight.kCargoMedium));
         // low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
         // stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
-        climbMode.whenPressed(new ApproachTarget());
+        climbMode.whenPressed(new ApproachTarget(TargetType.kLowTarget));
     }
 
   private double getJoyY(Joystick stick) {

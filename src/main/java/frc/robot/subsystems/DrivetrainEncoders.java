@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.subsystems.Drivetrain.Gear;
-import frc.robot.utils.SparkMAX;
 
 /**
 * Add your docs here.

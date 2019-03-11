@@ -27,5 +27,4 @@ public class PrepIntakeCargo extends InstantCommand {
     Robot.manipulator.actuatePopout(Value.kForward);
     Robot.manipulator.actuateFloor(Value.kForward);
   }
-
 }

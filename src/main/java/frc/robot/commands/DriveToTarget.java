@@ -3,21 +3,16 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain.Gear;
 import frc.robot.utils.LinearOutput;
 import frc.robot.utils.limelight.Contour;
 import frc.robot.utils.limelight.Corners;
 import frc.robot.utils.limelight.Limelight;
+import frc.robot.enums.TargetType;
 
 public class DriveToTarget extends Command {
     
-    public enum TargetType {
-        kHighTarget,
-        kLowTarget;
-    }
-
     enum Side {
         kLeft,
         kRight
@@ -38,9 +33,6 @@ public class DriveToTarget extends Command {
     static final double maxOffsetAggressive = 20; //TODO: Tune
     static final double maxOffsetNormal = 12.5;
     static final double maxOffsetDistance = 6.0;
-
-    static final double lowTargetHeight = 28.337;
-    static final double highTargetHeight = 35.962;
 
     //The amount of time the command will continue to run without seeing a contour in seconds.
     static final double maxTimeWithoutContour = 0.30;
@@ -71,7 +63,7 @@ public class DriveToTarget extends Command {
     public DriveToTarget(TargetType targetType) {
         requires(Robot.drivetrain);
         setInterruptible(false);
-        targetHeight = (targetType == TargetType.kHighTarget) ? highTargetHeight : lowTargetHeight;
+        targetHeight = targetType.getHeight();
     }
     
 
@@ -87,9 +79,6 @@ public class DriveToTarget extends Command {
             
             additionalOffset = maxOffset * distanceScaling * additionalOffsetSign;
         }
-        SmartDashboard.putNumber("Addtl Offset", additionalOffset);
-        SmartDashboard.putNumber("Dist", distance);
-
         return -rotationP * (xOffset + additionalOffset);
 
     }
@@ -136,7 +125,6 @@ public class DriveToTarget extends Command {
         pidController.setSetpoint(Robot.encoders.getAveragedEncoderFeet() + distance);
 
         linearOutput.setHeadingCorrection(calculateHeadingCorrection());
-        SmartDashboard.putNumber("HeadingCorrection", calculateHeadingCorrection());
         if(!pidController.isEnabled()){
             pidController.enable();
         }
