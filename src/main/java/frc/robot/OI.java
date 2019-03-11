@@ -48,18 +48,38 @@ public class OI {
 		autoIntake.whenPressed(new ConditionalAutoIntake());
 		//autoScore.whenPressed(new //TODO: Figure this mess out...
 		
-		disableVacuum.whenPressed(new InstantCommand(Robot.manipulator, () -> {
-				Robot.manipulator.openSuctionValve(); 
-				Robot.manipulator.setVacuum(0);
-			}));
+		disableVacuum.whenPressed(
+			new InstantCommand(
+				Robot.manipulator, 
+				() -> {
+					Robot.manipulator.openSuctionValve(); 
+					Robot.manipulator.setVacuum(0);
+				}
+			)
+		);
 
-		enableVacuum.whenPressed(new InstantCommand(Robot.manipulator, () -> {
-			Robot.manipulator.closeSuctionValve(); 
-			Robot.manipulator.setVacuum(1);
-		}));
+		enableVacuum.whenPressed(
+			new InstantCommand(Robot.manipulator,
+				() -> {
+					Robot.manipulator.closeSuctionValve(); 
+					Robot.manipulator.setVacuum(1);
+				}
+			)
+		);
 
-		retractFourBar.whenPressed(new InstantCommand(Robot.manipulator, () -> Robot.manipulator.actuateFloor(Value.kReverse)));
-		extendFourBar.whenPressed(new InstantCommand(Robot.manipulator, () -> Robot.manipulator.actuateFloor(Value.kForward)));
+		retractFourBar.whenPressed(
+			new InstantCommand(
+				Robot.manipulator,
+				() -> Robot.manipulator.actuateFloor(Value.kReverse)
+			)
+		);
+
+		extendFourBar.whenPressed(
+			new InstantCommand(
+				Robot.manipulator, 
+				() -> Robot.manipulator.actuateFloor(Value.kForward)
+			)
+		);
 		
 		leftTarget.whenPressed(new InstantCommand(() -> Limelight.switchPipeline(Pipeline.kLeftTarget)));
 		leftTarget.whenReleased(new InstantCommand(() -> Limelight.switchPipeline(Pipeline.kRightTarget)));
