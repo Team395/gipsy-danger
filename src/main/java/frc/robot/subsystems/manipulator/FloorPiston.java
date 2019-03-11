@@ -12,12 +12,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
-/**
- * Add your docs here.
- */
 public class FloorPiston extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
   DoubleSolenoid floorSolenoid = new DoubleSolenoid(RobotMap.deployFloorChannel,
                                                     RobotMap.retractFloorChannel);
   
@@ -31,7 +26,5 @@ public class FloorPiston extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
   }
 }

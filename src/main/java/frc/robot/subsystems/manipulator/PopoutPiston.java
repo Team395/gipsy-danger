@@ -12,12 +12,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
-/**
- * Add your docs here.
- */
 public class PopoutPiston extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+
   DoubleSolenoid popoutSolenoid = new DoubleSolenoid(RobotMap.deployPopoutChannel,
                                                      RobotMap.retractPopoutChannel);
   public void actuatePopout(Value value) {
@@ -30,7 +26,6 @@ public class PopoutPiston extends Subsystem {
   
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+
   }
 }
