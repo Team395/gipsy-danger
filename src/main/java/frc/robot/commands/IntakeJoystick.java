@@ -14,7 +14,7 @@ public class IntakeJoystick extends Command {
   public IntakeJoystick() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.rollerIntake);
+    requires(Robot.manipulator);
   }
 
   // Called just before this Command runs the first time
@@ -37,7 +37,7 @@ public class IntakeJoystick extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.rollerIntake.setRollerSpeed(0);
+    Robot.manipulator.setRollerSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
