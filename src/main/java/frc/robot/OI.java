@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.AutoScoreChooser;
 import frc.robot.commands.ConditionalAutoIntake;
 import frc.robot.commands.ElevatorPreset;
+import frc.robot.commands.OneShotClimb;
 import frc.robot.commands.ElevatorPreset.PresetHeight;
 import frc.robot.utils.limelight.Limelight;
 import frc.robot.utils.limelight.Limelight.Pipeline;
@@ -35,7 +36,7 @@ public class OI {
 	Button spinIntakeOut  = new JoystickButton(controlBoard, 14);
 	Button spinIntakeIn   = new JoystickButton(controlBoard, 15);
 	Button leftTarget     = new JoystickButton(controlBoard, 16); //If pressed, left target, otherwise right target
-	Button enableClimber  = new JoystickButton(controlBoard, 17);
+	Button enableClimber  = new JoystickButton(controlBoard, 17);g
 	Button hatchMode      = new JoystickButton(controlBoard, 18);
 	Button cargoMode      = new JoystickButton(controlBoard, 19);
 	
@@ -84,7 +85,7 @@ public class OI {
 		
 		leftTarget.whenPressed(new InstantCommand(() -> Limelight.switchPipeline(Pipeline.kLeftTarget)));
 		leftTarget.whenReleased(new InstantCommand(() -> Limelight.switchPipeline(Pipeline.kRightTarget)));
-		//enableClimber .whenPressed(new
+		enableClimber.whenPressed(new OneShotClimb());
 	}
 	
 	private double getJoyY(Joystick stick) {
