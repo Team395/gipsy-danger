@@ -116,4 +116,12 @@ public class OI {
 	public boolean getCargoMode() {
 		return controlBoard.getCargoMode();
 	}
+
+	public void setHatchLED(boolean lit) {
+		controlBoard.setHatchAquired(lit);
+	}
+
+	public void setAutoscoreModeLED(boolean lit) {
+		controlBoard.setAutoscoreMode(lit);
+	}
 }

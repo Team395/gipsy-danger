@@ -294,4 +294,12 @@ public class ControlBoard extends GenericHID {
 	public double getRawAxis(int channel) {
 		throw new UnsupportedOperationException();
 	}
+
+	public void setHatchAquired(boolean lit) {
+		setOutput(1, lit);
+	}
+
+	public void setAutoscoreMode(boolean lit) {
+		setOutput(2, lit);
+	}
 }
