@@ -64,6 +64,15 @@ public class Manipulator extends Subsystem {
     return vacuumPumpTalon.get();
   }
 
+  public boolean getHatchAquired() {
+    return false; //TODO Implement
+  }
+
+  @Override
+  public void periodic() {
+    Robot.oi.setHatchLED(getHatchAquired());
+  }
+
   //Controls the popout piston
   public void actuatePopout(Value value) {
     popoutSolenoid.set(value);
