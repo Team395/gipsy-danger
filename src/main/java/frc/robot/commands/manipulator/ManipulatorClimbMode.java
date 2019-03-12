@@ -8,17 +8,19 @@
 package frc.robot.commands.manipulator;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.Robot;
 
 /**
  * Places the intake in a mode where it can climb.
  */
-public class ManipulatorClimbMode extends InstantCommand {
+public class ManipulatorClimbMode extends TimedCommand {
 
+  static double actuationTime = 1.5;
   public ManipulatorClimbMode() {
-    super();
+    super(actuationTime);
     requires(Robot.manipulator);
+    setInterruptible(false);
   }
 
   // Called once when the command executes
@@ -28,4 +30,19 @@ public class ManipulatorClimbMode extends InstantCommand {
     Robot.manipulator.actuatePopout(Value.kReverse);
   }
 
+  @Override
+  protected void execute() {
+
+  }
+
+
+  @Override
+  protected void end() {
+    Robot.manipulator.lockManipulator();
+  }
+
+  @Override
+  protected void interrupted() {
+
+  }
 }

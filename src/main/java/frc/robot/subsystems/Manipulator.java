@@ -28,7 +28,17 @@ public class Manipulator extends Subsystem {
                                                     RobotMap.retractFloorChannel);
   DoubleSolenoid popoutSolenoid = new DoubleSolenoid(RobotMap.deployPopoutChannel,
                                                      RobotMap.retractPopoutChannel);
-  
+  DoubleSolenoid lockingSolenoid = new DoubleSolenoid(RobotMap.lockManipulatorChannel, 
+                                                      RobotMap.unlockManipulatorChannel);
+
+  public void lockManipulator() {
+    lockingSolenoid.set(Value.kForward);
+  }
+
+  public void unlockManipulator() {
+    lockingSolenoid.set(Value.kReverse);
+  }
+
   //Controls the four-bar linkage
   public void actuateFloor(Value value) {
     floorSolenoid.set(value);
