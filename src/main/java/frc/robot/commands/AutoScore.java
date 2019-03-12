@@ -18,7 +18,7 @@ import frc.robot.enums.TargetType;
 
 public class AutoScore extends CommandGroup {
 	/**
-	* Add your docs here.
+	* Initiates a scoring sequence for both game pieces.
 	*/
 	public AutoScore(ScoringPosition scoringPosition) {
 		switch(scoringPosition) {

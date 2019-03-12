@@ -14,15 +14,15 @@ import frc.robot.utils.limelight.Limelight.Pipeline;
 public class OI {
 	Joystick leftJoystick = new Joystick(0);
 	Joystick rightJoystick = new Joystick(1);
-	ControlBoard controlBoard = new ControlBoard(2);
+	public ControlBoard controlBoard = new ControlBoard(2);
 	
 	static final double joystickDeadzone = 0.1;
 
 	Button elevatorHigh   = new JoystickButton(controlBoard, 1);
 	Button elevatorMedium = new JoystickButton(controlBoard, 2);
 	Button elevatorLow    = new JoystickButton(controlBoard, 3);
-	Button elevatorIntake = new JoystickButton(controlBoard, 4);
-	Button elevatorGround = new JoystickButton(controlBoard, 5);
+	Button elevatorShip   = new JoystickButton(controlBoard, 4);
+	Button elevatorIntake = new JoystickButton(controlBoard, 5);
 	Button autoIntake     = new JoystickButton(controlBoard, 6);
 	Button autoScore      = new JoystickButton(controlBoard, 7);
 	Button disableVacuum  = new JoystickButton(controlBoard, 8);
@@ -42,8 +42,8 @@ public class OI {
 		elevatorHigh.whenPressed(new ElevatorPreset(PresetHeight.kHigh));
 		elevatorMedium.whenPressed(new ElevatorPreset(PresetHeight.kMedium));
 		elevatorLow.whenPressed(new ElevatorPreset(PresetHeight.kLow));
+		elevatorShip.whenPressed(new ElevatorPreset(PresetHeight.kShip));
 		elevatorIntake.whenPressed(new ElevatorPreset(PresetHeight.kLoading));
-		elevatorGround.whenPressed(new ElevatorPreset(PresetHeight.kZero));
 		
 		autoIntake.whenPressed(new ConditionalAutoIntake());
 		//autoScore.whenPressed(new //TODO: Figure this mess out...
@@ -129,18 +129,22 @@ public class OI {
 		return 0;
 	}
 	
+	//TODO: Remove and refactor
 	public boolean getHatchMode() {
 		return controlBoard.getHatchMode();
 	}
-
+	
+	//TODO: Remove and refactor
 	public boolean getCargoMode() {
 		return controlBoard.getCargoMode();
 	}
 
+	//TODO: Remove and refactor
 	public void setHatchLED(boolean lit) {
 		controlBoard.setHatchAquired(lit);
 	}
 
+	//TODO: Remove and refactor
 	public void setAutoscoreModeLED(boolean lit) {
 		controlBoard.setAutoscoreMode(lit);
 	}

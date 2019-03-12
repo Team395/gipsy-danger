@@ -8,8 +8,8 @@ public class ControlBoard extends GenericHID {
 		kElevatorHigh(1),
 		kElevatorMedium(2),
 		kElevatorLow(3),
-		kElevatorIntake(4),
-		kElevatorGround(5),
+		kElevatorShip(4),
+		kElevatorIntake(5),
 		kAutoIntake(6),
 		kAutoScore(7),
 		kDisableVacuum(8),
@@ -86,6 +86,18 @@ public class ControlBoard extends GenericHID {
 		return getRawButtonReleased(Button.kElevatorLow.getChannel());
 	}
 
+	public boolean getElevatorShip(){
+		return getRawButton(Button.kElevatorShip.getChannel());
+	}
+	
+	public boolean getElevatorShipPressed(){
+		return getRawButtonPressed(Button.kElevatorShip.getChannel());
+	}
+	
+	public boolean getElevatorShipReleased(){
+		return getRawButtonReleased(Button.kElevatorShip.getChannel());
+	}
+
 	public boolean getElevatorIntake(){
 		return getRawButton(Button.kElevatorIntake.getChannel());
 	}
@@ -96,18 +108,6 @@ public class ControlBoard extends GenericHID {
 	
 	public boolean getElevatorIntakeReleased(){
 		return getRawButtonReleased(Button.kElevatorIntake.getChannel());
-	}
-
-	public boolean getElevatorGround(){
-		return getRawButton(Button.kElevatorGround.getChannel());
-	}
-	
-	public boolean getElevatorGroundPressed(){
-		return getRawButtonPressed(Button.kElevatorGround.getChannel());
-	}
-	
-	public boolean getElevatorGroundReleased(){
-		return getRawButtonReleased(Button.kElevatorGround.getChannel());
 	}
 
 	public boolean getAutoIntake(){
