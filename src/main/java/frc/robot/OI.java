@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.commands.ApproachTarget;
-import frc.robot.enums.TargetType;;
+import frc.robot.enums.TargetType;
 
 public class OI {
   Joystick leftJoystick = new Joystick(0);

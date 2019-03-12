@@ -24,7 +24,7 @@ public class DriveToTarget extends Command {
     double contourLastSeenTime;
 
     //The PID coefficients of the linear drive.
-    static final double p = 0.5;
+    static final double p = 0.075;
     static final double i = 0;
     static final double d = 0;
     static final double maxOutput = 0.3;
