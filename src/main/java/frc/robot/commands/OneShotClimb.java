@@ -8,13 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.manipulator.ManipulatorClimbMode;
 
 public class OneShotClimb extends CommandGroup {
 
   public OneShotClimb() {
     setInterruptible(false);
-    //TODO
-    //addSequential() intake climber mode
+    addSequential(new ManipulatorClimbMode());
     addSequential(new LevelRobot());
     addParallel(new CommandGroup() {
       {
@@ -22,7 +22,7 @@ public class OneShotClimb extends CommandGroup {
         addSequential(new DriveForwardClimber());
       }
     });
-
+    
     addSequential(new RetractToSafeDistance());
   }
 }
