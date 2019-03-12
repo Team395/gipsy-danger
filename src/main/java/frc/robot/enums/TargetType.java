@@ -1,16 +1,16 @@
 package frc.robot.enums;
 
 public enum TargetType {
-    kHighTarget(41.787),
-    kLowTarget(33.893);
-
-    double height;
-
-    public double getHeight() {
-        return height;
+    kHighTarget(35.962),
+    kLowTarget(28.337);
+    
+    double heightInches;
+    
+    public double getHeightInches() {
+        return heightInches;
     }
 
-    private TargetType(double height) {
-        this.height = height;
+    private TargetType(double heightInches) {
+        this.heightInches = heightInches;
     }
 }

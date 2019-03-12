@@ -6,7 +6,7 @@ import frc.robot.enums.TargetType;
 public class ApproachTarget extends CommandGroup {
 
   public ApproachTarget(TargetType targetType) {
-    addSequential(new AimAtTarget());
+    addSequential(new AimAtOffset(targetType));
     addSequential(new DriveToTarget(targetType));
   }
   
