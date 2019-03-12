@@ -1,10 +1,11 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.commands.AutoScoreChooser;
 import frc.robot.commands.ConditionalAutoIntake;
 import frc.robot.commands.ElevatorPreset;
 import frc.robot.commands.ElevatorPreset.PresetHeight;
@@ -46,7 +47,7 @@ public class OI {
 		elevatorIntake.whenPressed(new ElevatorPreset(PresetHeight.kLoading));
 		
 		autoIntake.whenPressed(new ConditionalAutoIntake());
-		//autoScore.whenPressed(new //TODO: Figure this mess out...
+		autoScore.whenPressed(new AutoScoreChooser());
 		
 		disableVacuum.whenPressed(
 			new InstantCommand(
