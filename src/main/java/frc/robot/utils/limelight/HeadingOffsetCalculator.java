@@ -10,7 +10,7 @@ package frc.robot.utils.limelight;
 import com._2train395.limelight.api.Target;
 
 /**
- * Add your docs here.
+ * This class is responsible for calculating the heading offset used by AimAtOffset and DriveToTarget
  */
 public class HeadingOffsetCalculator {
 
@@ -43,7 +43,7 @@ public class HeadingOffsetCalculator {
         }    
 
         return (targetType.getHeightInches() - cameraHeightInches) / 
-            Math.tan(Math.toRadians(cameraAngle + contour.ty)) / 12;
+            Math.tan(Math.toRadians(cameraAngle + contour.yOffset)) / 12;
     }
 
     private static Side getSide(Corners corners) {
@@ -78,7 +78,7 @@ public class HeadingOffsetCalculator {
      * A positive angle denotes turning in a positive direction.
      */
     public static double calculateTotalOffset(Contour contour, Corners corners, TargetType targetType) {
-        return -contour.tx + calculateAdditionalOffset(contour, corners, targetType);
+        return -contour.xOffset + calculateAdditionalOffset(contour, corners, targetType);
     }
 
     private HeadingOffsetCalculator() {
