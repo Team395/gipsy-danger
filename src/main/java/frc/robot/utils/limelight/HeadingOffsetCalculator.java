@@ -1,52 +1,23 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.utils.limelight;
 
-import com._2train395.limelight.api.Target;
-
+import frc.robot.enums.TargetType;
 /**
- * This class is responsible for calculating the heading offset used by AimAtOffset and DriveToTarget
+ * This class is responsible for calculating the heading offset used by
+ * AimAtOffset and DriveToTarget
  */
 public class HeadingOffsetCalculator {
-
-    //TODO: Make unified target type with heights baked in
-
-    public enum TargetType {
-        kHighTarget(35.962),
-        kLowTarget(28.337);
-        
-        double heightInches;
-        
-        public double getHeightInches() {
-            return heightInches;
-        }
-
-        private TargetType(double heightInches) {
-            this.heightInches = heightInches;
-        }
-    }
-
     static final double cameraHeightInches = 8.375;
 	static final double cameraAngle = 30;
 
+
+    /**
+     * maxOffset: The maximum angle offset an approach will target.
+     * maxOffsetDistance: The distance at which we will use the maximum offset. Below this distance we scale offset down linearly
+     */
     static final double maxOffset = 12.5;
     static final double maxOffsetDistance = 6.0;
 
-    private static double calculateDistance(Contour contour, TargetType targetType) {
-        if(contour == null) {
-            throw new IllegalArgumentException("Contour passed in was null");
-        }    
-
-        return (targetType.getHeightInches() - cameraHeightInches) / 
-            Math.tan(Math.toRadians(cameraAngle + contour.yOffset)) / 12;
-    }
-
-    private static Side getSide(Corners corners) {
+    public static Side getSide(Corners corners) {
         corners = Limelight.getContourCorners();
         
         if(!corners.validCorners) {
@@ -56,8 +27,17 @@ public class HeadingOffsetCalculator {
         return corners.topRight.y > corners.topLeft.y ? Side.kRight : Side.kLeft;
     }
     
+    public static double calculateDistance(Contour contour, TargetType targetType) {
+        if(contour == null) {
+            throw new IllegalArgumentException("Contour passed in was null");
+        }    
+
+        return (targetType.getHeightInches() - cameraHeightInches) / 
+            Math.tan(Math.toRadians(cameraAngle + contour.yOffset)) / 12;
+    }
+
     /**
-     * Calculates the distance to turn past cenete to hit the offset point.
+     * Calculates the distance to turn past center to hit the offset point.
      * A positive angle denotes turning in a positive direction.
      */
     public static double calculateAdditionalOffset(Contour contour, Corners corners, TargetType targetType) {
