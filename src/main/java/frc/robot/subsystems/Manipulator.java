@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -20,7 +21,7 @@ import frc.robot.commands.manipulator.IntakeJoystick;
 
 public class Manipulator extends Subsystem {
 
-  WPI_TalonSRX vacuumPumpTalon = Robot.speedControllerMap.getTalonByID(RobotMap.vacuumPumpTalonID);
+  WPI_VictorSPX vacuumPumpTalon = Robot.speedControllerMap.getVictorByID(RobotMap.vacuumPumpVictorID);
   WPI_TalonSRX intakeController = Robot.speedControllerMap.getTalonByID(RobotMap.intakeRollerTalonID);
 
   Relay suctionValveRelay = new Relay(RobotMap.suctionValveRelayChannel);
@@ -67,7 +68,7 @@ public class Manipulator extends Subsystem {
   }
   
   public double getVacuumCurrent() {
-    return vacuumPumpTalon.getOutputCurrent();
+    return 0;
   }
 
   public double getVacuumDutyCycle() {
@@ -94,7 +95,7 @@ public class Manipulator extends Subsystem {
 
   //Controls the roller
   public void setRollerSpeed(double speed) {
-    intakeController.set(ControlMode.PercentOutput,speed);
+    intakeController.set(ControlMode.PercentOutput, speed);
   }
 
   @Override

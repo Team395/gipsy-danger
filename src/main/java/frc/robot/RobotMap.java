@@ -15,15 +15,15 @@ public class RobotMap {
     public static final int driveShiftHighChannelID = 3;
 
     //Intake
-    public static final int intakeRollerTalonID = 11;
-    public static final int vacuumPumpTalonID = -1;
-    public static final int suctionValveRelayChannel = -1;
-    public static final int deployPopoutChannel = -1;
-    public static final int retractPopoutChannel = -1;
-    public static final int deployFloorChannel = -1;
-    public static final int retractFloorChannel = -1;
-    public static final int lockManipulatorChannel = -1;
-    public static final int unlockManipulatorChannel = -1;
+    public static final int intakeRollerTalonID = 5;
+    public static final int vacuumPumpVictorID = 0;
+    public static final int suctionValveRelayChannel = 0;
+    public static final int deployPopoutChannel = 2;
+    public static final int retractPopoutChannel = 3;
+    public static final int deployFloorChannel = 1;
+    public static final int retractFloorChannel = 0;
+    public static final int lockManipulatorChannel = 6;
+    public static final int unlockManipulatorChannel = 7;
     
     //Climber
     public static final int climberLeadScrewTalonID = 7;

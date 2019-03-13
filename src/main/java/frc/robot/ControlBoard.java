@@ -1,31 +1,49 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ControlBoard extends GenericHID {
 	
-	private enum Button {
-		kElevatorHigh(1),
+	private DriverStation m_ds = DriverStation.getInstance();
+
+	private enum Axis {
+		kFineAdjustUp(7),
+		kFineAdjustDown(8);
+
+		private int channel;
+		
+		private Axis(int channel) {
+			this.channel = channel;
+		}
+
+		public int getChannel() {
+			return channel;
+		}
+	}
+
+	public enum Button {
+		kElevatorHigh(13),
 		kElevatorMedium(2),
 		kElevatorLow(3),
 		kElevatorShip(4),
 		kElevatorIntake(5),
-		kAutoIntake(6),
-		kAutoScore(7),
-		kDisableVacuum(8),
-		kEnableVacuum(9),
+		kAutoIntake(8),
+		kAutoScore(9),
+		kDisableVacuum(6),
+		kEnableVacuum(7),
 		kRetractIntake(10),
 		kRetractFourBar(11),
 		kDeployFourBar(12),
-		kFineAdjustUp(13),
-		kFineAdjustDown(14),
-		kIntakeOut(15),
-		kIntakeIn(16),
+		kIntakeOut(16),
+		kIntakeIn(15),
 		kLeftTarget(17),
 		kClimber(18),
 		kHatchMode(19),
 		kCargoMode(20);
-		
+		//dead pins 1, 13, 14
 		private int channel;
 		
 		public int getChannel() {
@@ -194,30 +212,14 @@ public class ControlBoard extends GenericHID {
 		return getRawButtonReleased(Button.kDeployFourBar.getChannel());
 	}
 
-	public boolean getFineAdjustUp(){
-		return getRawButton(Button.kFineAdjustUp.getChannel());
-	}
-	
-	public boolean getFineAdjustUpPressed(){
-		return getRawButtonPressed(Button.kFineAdjustUp.getChannel());
-	}
-	
-	public boolean getFineAdjustUpReleased(){
-		return getRawButtonReleased(Button.kFineAdjustUp.getChannel());
+	public double getFineAdjustUp(){
+		return getRawAxis(Axis.kFineAdjustUp.getChannel());
 	}
 
-	public boolean getFineAdjustDown(){
-		return getRawButton(Button.kFineAdjustDown.getChannel());
+	public double getFineAdjustDown(){
+		return getRawAxis(Axis.kFineAdjustDown.getChannel());
 	}
 	
-	public boolean getFineAdjustDownPressed(){
-		return getRawButtonPressed(Button.kFineAdjustDown.getChannel());
-	}
-	
-	public boolean getFineAdjustDownReleased(){
-		return getRawButtonReleased(Button.kFineAdjustDown.getChannel());
-	}
-
 	public boolean getIntakeOut(){
 		return getRawButton(Button.kIntakeOut.getChannel());
 	}
@@ -288,11 +290,6 @@ public class ControlBoard extends GenericHID {
 	
 	public boolean getCargoModeReleased(){
 		return getRawButtonReleased(Button.kCargoMode.getChannel());
-	}
-	
-	@Override
-	public double getRawAxis(int channel) {
-		throw new UnsupportedOperationException();
 	}
 
 	public void setHatchAquired(boolean lit) {
