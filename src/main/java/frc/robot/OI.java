@@ -6,9 +6,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import frc.robot.commands.*;
-import frc.robot.triggers.*;
-import frc.robot.commands.ElevatorPreset.PresetHeight;;
+import frc.robot.commands.ApproachTarget;
+import frc.robot.enums.TargetType;
 
 public class OI {
   Joystick leftJoystick = new Joystick(0);
@@ -27,13 +26,13 @@ public class OI {
   static final double xboxDeadzone = 0.25;
 
   public void setUpTriggers() {
-        elevatorTrigger = new ElevatorTrigger();
-        elevatorTrigger.whenActive(new ElevatorJoystick());
-        high.whenPressed(new ElevatorPreset(PresetHeight.kMaxHeight));
-        medium.whenPressed(new ElevatorPreset(PresetHeight.kCargoMedium));
-        low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
-        stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
-        climbMode.whileHeld(new LevelRobot());
+        // elevatorTrigger = new ElevatorTrigger();
+        // elevatorTrigger.whenActive(new ElevatorJoystick());
+        // high.whenPressed(new ElevatorPreset(PresetHeight.kMaxHeight));
+        // medium.whenPressed(new ElevatorPreset(PresetHeight.kCargoMedium));
+        // low.whenPressed(new ElevatorPreset(PresetHeight.kCargoLow));
+        // stick.whenPressed(new ElevatorPreset(PresetHeight.kZero));
+        climbMode.whenPressed(new ApproachTarget(TargetType.kLowTarget));
     }
 
   private double getJoyY(Joystick stick) {

@@ -9,6 +9,8 @@ import frc.robot.subsystems.DrivetrainEncoders;
 import frc.robot.subsystems.DrivetrainGyro;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.RollerIntake;
+import frc.robot.utils.limelight.Corners;
+import frc.robot.utils.limelight.Limelight;
 
 /**
 * The VM is configured to automatically run this class, and to call the
@@ -87,12 +89,15 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    Corners corners = Limelight.getContourCorners();
+    if(corners.validCorners)
+      SmartDashboard.putBoolean("Left", corners.topRight.y > corners.topLeft.y);
   }
-  
-  /**
-  * This function is called periodically during test mode.
-  */
-  @Override
-  public void testPeriodic() {
-  }
+	
+	/**
+	* This function is called periodically during test mode.
+	*/
+	@Override
+	public void testPeriodic() {
+	}
 }
