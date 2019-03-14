@@ -4,13 +4,13 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.enums.TargetType;
 import frc.robot.subsystems.Drivetrain.Gear;
 import frc.robot.utils.LinearOutput;
 import frc.robot.utils.limelight.Contour;
 import frc.robot.utils.limelight.Corners;
-import frc.robot.utils.limelight.HeadingOffsetCalculator;
 import frc.robot.utils.limelight.Limelight;
-import frc.robot.enums.TargetType;
+import frc.robot.utils.limelight.HeadingOffsetCalculator;
 
 /**
  * A command designed to approach a target perpendicularly which the robot is already pointed at.
