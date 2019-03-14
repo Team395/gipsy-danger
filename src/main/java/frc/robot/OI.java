@@ -93,7 +93,22 @@ public class OI {
                 () -> Limelight.switchPipeline(Pipeline.kRightTarget)
             )
         );
-		enableClimber.whenPressed(new OneShotClimb());
+
+        enableClimber.whenPressed(new OneShotClimb());
+        
+        hatchMode.whenPressed(
+            new InstantCommand(
+                Robot.manipulator, 
+                () -> Robot.manipulator.actuatePopout(Value.kReverse)
+            ) 
+        );
+
+        cargoMode.whenPressed(
+            new InstantCommand(
+                Robot.manipulator, 
+                () -> Robot.manipulator.actuatePopout(Value.kForward)
+            ) 
+        );
 	}
 	
 	private double getJoyY(Joystick stick) {
