@@ -8,13 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.manipulator.IntakeHatch;
+import frc.robot.commands.manipulator.PrepIntakeHatch;
 import frc.robot.enums.TargetType;
 
 public class AutoIntakeHatch extends CommandGroup {
   public AutoIntakeHatch() {
-    addSequential(new ElevatorPreset(ElevatorPreset.PresetHeight.kHatchLoading));
-    //addSeqeuntial(new PrepHatchIntake());
+    addSequential(new ElevatorPreset(ElevatorPreset.Height.kHatchLoading));
+    addParallel(new PrepIntakeHatch());
     addSequential(new ApproachTarget(TargetType.kLowTarget));
-    //addSequential(new IntakePanel());
+    addSequential(new IntakeHatch());
   }
 }

@@ -12,7 +12,7 @@ import frc.robot.commands.AutoIntakeHatch;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.DriveFeet;
 import frc.robot.commands.ElevatorPreset;
-import frc.robot.commands.ElevatorPreset.PresetHeight;
+import frc.robot.commands.ElevatorPreset.Height;
 import frc.robot.commands.TurnToDegree;
 import frc.robot.enums.ScoringPosition;
 import frc.robot.enums.Side;
@@ -36,7 +36,7 @@ public class ScoreDoubleFrontRocketFromSide extends CommandGroup {
     //Drive back from scoring
     addSequential(new DriveFeet(-1));
     //Reset elevator
-    addParallel(new ElevatorPreset(PresetHeight.kHatchLoading));
+    addParallel(new ElevatorPreset(Height.kHatchLoading));
     //TUrn to loading station
     addSequential(new TurnToDegree(turnInversion * 177.278));
     //Drive to loading station
@@ -58,7 +58,7 @@ public class ScoreDoubleFrontRocketFromSide extends CommandGroup {
     //Drive back from scoring
     addSequential(new DriveFeet(-1));
     //Reset elevator
-    addParallel(new ElevatorPreset(PresetHeight.kHatchLoading));
+    addParallel(new ElevatorPreset(Height.kHatchLoading));
     //TUrn to loading station
     addSequential(new TurnToDegree(turnInversion * 177.278));
     //Drive to loading station

@@ -5,16 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.manipulator;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class IntakeJoystick extends Command {
+
   public IntakeJoystick() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.rollerIntake);
+    requires(Robot.manipulator);
   }
 
   // Called just before this Command runs the first time
@@ -25,7 +24,7 @@ public class IntakeJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // Robot.rollerIntake.setRollerSpeed(Robot.oi.getIntakeThrottle());
+    Robot.manipulator.setRollerSpeed(Robot.oi.getIntakeThrottle());
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -37,12 +36,12 @@ public class IntakeJoystick extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.rollerIntake.setRollerSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    //Don't reset when interupted so the intake doesn't hiccup on InstantCommands controlling the Manipulator
   }
 }

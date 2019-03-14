@@ -8,43 +8,47 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.ElevatorPreset.PresetHeight;
+import frc.robot.commands.ElevatorPreset.Height;
+import frc.robot.commands.manipulator.EjectCargo;
+import frc.robot.commands.manipulator.EjectHatch;
+import frc.robot.commands.manipulator.PrepScoreCargo;
+import frc.robot.commands.manipulator.PrepScoreHatch;
 import frc.robot.enums.ScoringPosition;
 import frc.robot.enums.TargetType;
 
 public class AutoScore extends CommandGroup {
 	/**
-	* Add your docs here.
+	* Initiates a scoring sequence for both game pieces.
 	*/
 	public AutoScore(ScoringPosition scoringPosition) {
 		switch(scoringPosition) {
 			case kHatchShip:
 			case kHatchLow:
-				addSequential(new ElevatorPreset(PresetHeight.kHatchLow));
+				addSequential(new ElevatorPreset(Height.kHatchLow));
 				break;
 
 			case kHatchMedium:
-				addSequential(new ElevatorPreset(PresetHeight.kHatchMedium));
+				addSequential(new ElevatorPreset(Height.kHatchMedium));
 				break;
 
 			case kHatchHigh:
-				addSequential(new ElevatorPreset(PresetHeight.kHatchHigh));
+				addSequential(new ElevatorPreset(Height.kHatchHigh));
 				break;
 
 			case kCargoShip:
-				addSequential(new ElevatorPreset(PresetHeight.kCargoShip));
+				addSequential(new ElevatorPreset(Height.kCargoShip));
 				break;
 
 			case kCargoLow:
-				addSequential(new ElevatorPreset(PresetHeight.kCargoLow));
+				addSequential(new ElevatorPreset(Height.kCargoLow));
 				break;
 
 			case kCargoMedium:
-				addSequential(new ElevatorPreset(PresetHeight.kCargoMedium));
+				addSequential(new ElevatorPreset(Height.kCargoMedium));
 				break;
 
 			case kCargoHigh:
-				addSequential(new ElevatorPreset(PresetHeight.kCargoHigh));
+				addSequential(new ElevatorPreset(Height.kCargoHigh));
 				break;
 		}
 		
@@ -54,21 +58,21 @@ public class AutoScore extends CommandGroup {
 			case kHatchMedium:
 			case kHatchHigh:
 				addSequential(new ApproachTarget(TargetType.kLowTarget));
-				//addParallel(prepScoreHatch());
-				//addSequential(scoreHatch());
+				addParallel(new PrepScoreHatch());
+				addSequential(new EjectHatch());
 				break;
 			
 			case kCargoShip:
 				addSequential(new ApproachTarget(TargetType.kLowTarget));
-				//addParallel(prepScoreCargo());
-				//addSequential(scoreCargo());
+				addParallel(new PrepScoreCargo());
+				addSequential(new EjectCargo());
 				break;
 
 			case kCargoLow:
 			case kCargoMedium:
 			case kCargoHigh:
-				//addParallel(prepScoreCargo());
-				//addSequential(scoreCargo());
+				addParallel(new PrepScoreCargo());
+				addSequential(new EjectCargo());
 				addSequential(new ApproachTarget(TargetType.kHighTarget));
 				break;
 		}
