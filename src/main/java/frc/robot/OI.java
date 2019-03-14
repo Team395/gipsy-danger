@@ -53,7 +53,7 @@ public class OI {
                 Robot.manipulator, 
                 () -> {
                     Robot.manipulator.openSuctionValve(); 
-                    Robot.manipulator.setVacuum(0);
+                    Robot.manipulator.setVacuum(false);
                 }
             )
         );
@@ -63,7 +63,7 @@ public class OI {
                 Robot.manipulator,
             () -> {
                     Robot.manipulator.closeSuctionValve(); 
-                    Robot.manipulator.setVacuum(1);
+                    Robot.manipulator.setVacuum(true);
                 }
             )
 		);

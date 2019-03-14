@@ -26,7 +26,7 @@ public class IntakeHatch extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-      Robot.manipulator.setVacuum(1);
+      Robot.manipulator.setVacuum(true);
       Robot.drivetrain.tankDrive(crawlSpeed, crawlSpeed);
   }
 

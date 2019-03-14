@@ -21,7 +21,7 @@ public class EjectHatch extends TimedCommand {
   @Override
   protected void initialize() {
     Robot.manipulator.actuatePopout(Value.kForward);
-    Robot.manipulator.setVacuum(0);
+    Robot.manipulator.setVacuum(false);
     Robot.manipulator.openSuctionValve();
   }
 

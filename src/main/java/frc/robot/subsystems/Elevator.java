@@ -18,6 +18,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
@@ -56,7 +57,6 @@ public class Elevator extends Subsystem {
   final double inchesPerTick = 0.00115342;
   final double ticksPerInch = 866.986;
   final double cascadeCorrection = 2;
-  final double heightOffset = 0;
   
   final double allowableErrorInches = 0.25;
   final double climbingFeedforward = -0.17; //TODO
@@ -99,13 +99,11 @@ public class Elevator extends Subsystem {
   }
 
   public double getEndEffectorHeight() {
-    return (elevatorLeader.getSelectedSensorPosition() * inchesPerTick * cascadeCorrection) + 
-           heightOffset;
+    return (elevatorLeader.getSelectedSensorPosition() * inchesPerTick * cascadeCorrection);
   }
 
   public void setEndEffectorHeight(double inches) {
-    int setpointTicks = (int) ((inches - heightOffset) * ticksPerInch / 
-                        (cascadeCorrection));
+    int setpointTicks = (int) (inches * ticksPerInch / cascadeCorrection);
     elevatorLeader.set(ControlMode.MotionMagic, setpointTicks, DemandType.ArbitraryFeedForward, 0.05);
   }
 
@@ -126,6 +124,11 @@ public class Elevator extends Subsystem {
 
   public void test(double speed) {
     elevatorLeader.set(ControlMode.PercentOutput, speed);
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("ElevatorHeight", getEndEffectorHeight());
   }
 
   @Override
