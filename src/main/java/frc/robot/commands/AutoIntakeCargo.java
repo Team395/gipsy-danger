@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.manipulator.IntakeCargo;
 import frc.robot.commands.manipulator.PrepIntakeCargo;
 import frc.robot.enums.TargetType;
+import frc.robot.Robot;
 
 public class AutoIntakeCargo extends CommandGroup {
   public AutoIntakeCargo() {
@@ -19,4 +20,9 @@ public class AutoIntakeCargo extends CommandGroup {
     addSequential(new ApproachTarget(TargetType.kLowTarget));
     addSequential(new IntakeCargo());
   }
+
+  @Override
+	protected boolean isFinished() {
+		return Robot.oi.getCancelAuton() || super.isFinished();
+	}
 }

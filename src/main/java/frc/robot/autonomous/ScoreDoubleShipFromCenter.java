@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.*;
 import frc.robot.enums.ScoringPosition;
 import frc.robot.enums.Side;
+import frc.robot.Robot;
 
 public class ScoreDoubleShipFromCenter extends CommandGroup {
   /**
@@ -52,5 +53,10 @@ public class ScoreDoubleShipFromCenter extends CommandGroup {
     addSequential(new DriveFeet(15.847));
     //Turn to loading station
     addSequential(new TurnToDegree(turnInversion * 180));
+  }
+
+  @Override
+  protected boolean isFinished() {
+    return Robot.oi.getCancelAuton() || super.isFinished();
   }
 }

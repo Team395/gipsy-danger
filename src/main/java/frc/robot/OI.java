@@ -153,8 +153,10 @@ public class OI {
     public void setAutoscoreModeLED(boolean lit) {
         controlBoard.setAutoscoreMode(lit);
     }
+
     public boolean getCancelAuton() {
-        return false; 
+        return rightJoystick.getTop() && leftJoystick.getTop() ||
+               controlBoard.getAutoIntake() && controlBoard.getAutoScore();
     }
 
     public boolean getShiftHigh() {

@@ -16,6 +16,7 @@ import frc.robot.commands.ElevatorPreset.Height;
 import frc.robot.commands.TurnToDegree;
 import frc.robot.enums.ScoringPosition;
 import frc.robot.enums.Side;
+import frc.robot.Robot;
 
 public class ScoreSingleBackRocketFromSide extends CommandGroup {
   public ScoreSingleBackRocketFromSide(Side startingPosition) {
@@ -50,5 +51,10 @@ public class ScoreSingleBackRocketFromSide extends CommandGroup {
     addSequential(new DriveFeet(-1));
     //Turn towards field
     addSequential(new TurnToDegree(turningInversion * 0));
+  }
+
+  @Override
+  protected boolean isFinished() {
+    return Robot.oi.getCancelAuton() || super.isFinished();
   }
 }

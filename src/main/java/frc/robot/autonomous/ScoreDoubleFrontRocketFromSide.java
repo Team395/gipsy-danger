@@ -16,6 +16,7 @@ import frc.robot.commands.ElevatorPreset.Height;
 import frc.robot.commands.TurnToDegree;
 import frc.robot.enums.ScoringPosition;
 import frc.robot.enums.Side;
+import frc.robot.Robot;
 
 public class ScoreDoubleFrontRocketFromSide extends CommandGroup {
   /**
@@ -65,5 +66,10 @@ public class ScoreDoubleFrontRocketFromSide extends CommandGroup {
     addSequential(new DriveFeet(12));
     //Turn towards loading station
     addSequential(new TurnToDegree(turnInversion * 180));
+  }
+
+  @Override
+  protected boolean isFinished() {
+    return Robot.oi.getCancelAuton() || super.isFinished();
   }
 }

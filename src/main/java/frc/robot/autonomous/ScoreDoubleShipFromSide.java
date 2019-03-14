@@ -14,6 +14,7 @@ import frc.robot.commands.DriveFeet;
 import frc.robot.commands.TurnToDegree;
 import frc.robot.enums.ScoringPosition;
 import frc.robot.enums.Side;
+import frc.robot.Robot;
 
 public class ScoreDoubleShipFromSide extends CommandGroup {
 
@@ -57,5 +58,10 @@ public class ScoreDoubleShipFromSide extends CommandGroup {
     addSequential(new DriveFeet(15.847));
     //Turn to loading station
     addSequential(new TurnToDegree(turnInversion * 180));
+  }
+  
+  @Override
+  protected boolean isFinished() {
+    return Robot.oi.getCancelAuton() || super.isFinished();
   }
 }

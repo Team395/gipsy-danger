@@ -14,6 +14,7 @@ import frc.robot.commands.DriveFeet;
 import frc.robot.commands.TurnToDegree;
 import frc.robot.enums.ScoringPosition;
 import frc.robot.enums.Side;
+import frc.robot.Robot;
 
 public class ScoreSingleFromSide extends CommandGroup {
 
@@ -43,5 +44,10 @@ public class ScoreSingleFromSide extends CommandGroup {
     addSequential(new DriveFeet(-6.5));
     //Turn towards field
     addSequential(new TurnToDegree(turnInversion * 0));  
+  }
+
+  @Override
+  protected boolean isFinished() {
+    return Robot.oi.getCancelAuton() || super.isFinished();
   }
 }

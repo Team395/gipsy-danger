@@ -15,6 +15,7 @@ import frc.robot.commands.manipulator.PrepScoreCargo;
 import frc.robot.commands.manipulator.PrepScoreHatch;
 import frc.robot.enums.ScoringPosition;
 import frc.robot.enums.TargetType;
+import frc.robot.Robot;
 
 public class AutoScore extends CommandGroup {
 	/**
@@ -92,5 +93,10 @@ public class AutoScore extends CommandGroup {
 				break;
 		}
 
+	}
+
+	@Override
+	protected boolean isFinished() {
+		return Robot.oi.getCancelAuton() || super.isFinished();
 	}
 }

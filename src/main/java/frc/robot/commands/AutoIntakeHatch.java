@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.manipulator.IntakeHatch;
 import frc.robot.commands.manipulator.PrepIntakeHatch;
 import frc.robot.enums.TargetType;
+import frc.robot.Robot;
 
 public class AutoIntakeHatch extends CommandGroup {
   public AutoIntakeHatch() {
@@ -18,5 +19,10 @@ public class AutoIntakeHatch extends CommandGroup {
     addParallel(new PrepIntakeHatch());
     addSequential(new ApproachTarget(TargetType.kLowTarget));
     addSequential(new IntakeHatch());
+  }
+
+  @Override
+	protected boolean isFinished() {
+		return Robot.oi.getCancelAuton() || super.isFinished();
   }
 }
