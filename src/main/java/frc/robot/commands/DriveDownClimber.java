@@ -7,30 +7,20 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.command.WaitForChildren;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/**
- * Waits for all paralleled commands to end
- */
-public class LevelRobot extends WaitForChildren {
+public class DriveDownClimber extends Command {
+  public static double endEffectorHeightThreshold = 2;
 
-  final static double p = 1.0/20.0;
-  final static double d = 1.0/200.0;
-
-  //The forward/backward tilt axis is roll rather than pitch
-  PIDController pidController = new PIDController(p, 0, d, Robot.gyro.getRollSource(), Robot.elevator.levelElevator());
-
-  public LevelRobot() {
-    requires(Robot.elevator);
-    setInterruptible(false);
+  public DriveDownClimber() {
+    requires(Robot.climber);
   }
 
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    pidController.enable();
-    pidController.setSetpoint(Robot.gyro.getRoll());
+    Robot.climber.leadScrewDrive(1);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -38,10 +28,16 @@ public class LevelRobot extends WaitForChildren {
   protected void execute() {
   }
 
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return Robot.elevator.getEndEffectorHeight() < endEffectorHeightThreshold;
+  }
+
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    pidController.disable();
+    Robot.climber.leadScrewDrive(0);    
   }
 
   // Called when another command which requires one or more of the same
@@ -50,5 +46,4 @@ public class LevelRobot extends WaitForChildren {
   protected void interrupted() {
     end();
   }
-
 }

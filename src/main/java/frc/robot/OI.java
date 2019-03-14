@@ -4,14 +4,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Trigger;
-import frc.robot.commands.ApproachTarget;
-import frc.robot.enums.TargetType;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.AutoScoreChooser;
 import frc.robot.commands.ConditionalAutoIntake;
 import frc.robot.commands.ElevatorPreset;
 import frc.robot.commands.ElevatorPreset.PresetHeight;
+import frc.robot.commands.OneShotClimb;
 import frc.robot.utils.limelight.Limelight;
 import frc.robot.utils.limelight.Limelight.Pipeline;
 
@@ -97,6 +95,7 @@ public class OI {
                 () -> Limelight.switchPipeline(Pipeline.kRightTarget)
             )
         );
+		enableClimber.whenPressed(new OneShotClimb());
 	}
 	
 	private double getJoyY(Joystick stick) {
