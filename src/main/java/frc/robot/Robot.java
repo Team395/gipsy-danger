@@ -1,16 +1,24 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.autonomous.ScoreDoubleFrontRocketFromSide;
+import frc.robot.autonomous.ScoreDoubleShipFromCenter;
+import frc.robot.autonomous.ScoreDoubleShipFromSide;
+import frc.robot.autonomous.ScoreSingleBackRocketFromSide;
+import frc.robot.autonomous.ScoreSingleFromSide;
+import frc.robot.autonomous.ScoreSingleFrontRocketFromSide;
+import frc.robot.autonomous.ScoreSingleShipFromCenter;
+import frc.robot.enums.AutoMode;
+import frc.robot.enums.Side;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DrivetrainEncoders;
 import frc.robot.subsystems.DrivetrainGyro;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Manipulator;
-import frc.robot.utils.limelight.Corners;
-import frc.robot.utils.limelight.Limelight;
 
 /**
 * The VM is configured to automatically run this class, and to call the
@@ -29,6 +37,9 @@ public class Robot extends TimedRobot {
 	public static DrivetrainGyro gyro = new DrivetrainGyro();
 	public static Climber climber = new Climber();
 	
+	static SendableChooser<Side> sideChooser = new SendableChooser<>();
+	static SendableChooser<AutoMode> autoChooser = new SendableChooser<>();
+
 	/**
 	* This function is run when the robot is first started up and should be
 	* used for any initialization code.
@@ -58,6 +69,17 @@ public class Robot extends TimedRobot {
 	*/
 	@Override
 	public void disabledInit() {
+		sideChooser.addOption("Start left or prefer left loading station.", Side.kLeft);
+		sideChooser.addOption("Start right or prefer right loading station.", Side.kRight);
+		
+		autoChooser.addOption("Score two on center from center", AutoMode.kDoubleCenterScoreFromCenter);
+		autoChooser.addOption("Score one on center from center", AutoMode.kSingleCenterScoreFromCenter);
+		autoChooser.addOption("Score two on center from side", AutoMode.kDoubleCenterScoreFromSide);
+		autoChooser.addOption("Score one on center from side", AutoMode.kSingleCenterScoreFromSide);
+		autoChooser.addOption("Score two on front rocket from side ", AutoMode.kDoubleFrontRocketScore);
+		autoChooser.addOption("Score one on front rocket from side", AutoMode.kSingleFrontRocketScore);
+		autoChooser.addOption("Score one on back rocket from side", AutoMode.kSingleBackRocketScore);
+		autoChooser.addOption("Joystick control", AutoMode.kJoystickControl);
 	}
 	
 	@Override
@@ -67,7 +89,35 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void autonomousInit() {
-		
+		Side side = sideChooser.getSelected();
+		Command command;
+
+		switch(autoChooser.getSelected()) {
+			case kDoubleCenterScoreFromCenter:
+				command = new ScoreDoubleShipFromCenter(side);
+				break;
+			case kSingleCenterScoreFromCenter:
+				command = new ScoreSingleShipFromCenter(side);
+				break;
+			case kDoubleCenterScoreFromSide:
+				command = new ScoreDoubleShipFromSide(side);
+				break;			
+			case kSingleCenterScoreFromSide:
+				command = new ScoreSingleFromSide(side);
+				break;
+			case kDoubleFrontRocketScore:
+				command = new ScoreDoubleFrontRocketFromSide(side);
+				break;
+			case kSingleFrontRocketScore:
+				command = new ScoreSingleFrontRocketFromSide(side);
+			case kSingleBackRocketScore:
+				command = new ScoreSingleBackRocketFromSide(side);
+			case kJoystickControl:
+			default:
+				command = null;
+		}
+
+		Scheduler.getInstance().add(command);
 	}
 	
 	/**
