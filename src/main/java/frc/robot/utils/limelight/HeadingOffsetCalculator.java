@@ -3,12 +3,11 @@ package frc.robot.utils.limelight;
 import frc.robot.enums.TargetType;
 /**
  * This class is responsible for calculating the heading offset used by
- * AimAtOffset and DriveToTarget
+ * AimAtOffset and DriveToTarget. The top of the camera is rotated to the left side of the robot.dnsURLContext
  */
 public class HeadingOffsetCalculator {
-    static final double cameraHeightInches = 8.375;
-	static final double cameraAngle = 30;
-
+    static final double cameraHeightInches = 8.375; //TODO: Remeasure
+	static final double cameraAngle = 45;
 
     /**
      * maxOffset: The maximum angle offset an approach will target.
@@ -24,7 +23,7 @@ public class HeadingOffsetCalculator {
             return null;
         }
 
-        return corners.topRight.y > corners.topLeft.y ? Side.kRight : Side.kLeft;
+        return corners.bottomLeft.x > corners.topLeft.x ? Side.kRight : Side.kLeft;
     }
     
     public static double calculateDistance(Contour contour, TargetType targetType) {
@@ -58,7 +57,7 @@ public class HeadingOffsetCalculator {
      * A positive angle denotes turning in a positive direction.
      */
     public static double calculateTotalOffset(Contour contour, Corners corners, TargetType targetType) {
-        return -contour.xOffset + calculateAdditionalOffset(contour, corners, targetType);
+        return -contour.yOffset + calculateAdditionalOffset(contour, corners, targetType);
     }
 
     private HeadingOffsetCalculator() {
