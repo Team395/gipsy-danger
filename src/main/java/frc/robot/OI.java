@@ -154,7 +154,14 @@ public class OI {
         controlBoard.setAutoscoreMode(lit);
     }
     public boolean getCancelAuton() {
-        return rightJoystick.getTrigger() && leftJoystick.getTrigger();
+        return false; 
     }
-    
+
+    public boolean getShiftHigh() {
+        return rightJoystick.getTrigger();
+    }
+
+    public boolean getHalfSpeed() {
+        return leftJoystick.getTrigger();
+    }
 }
