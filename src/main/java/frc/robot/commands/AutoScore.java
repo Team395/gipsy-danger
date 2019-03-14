@@ -21,6 +21,30 @@ public class AutoScore extends CommandGroup {
 	* Initiates a scoring sequence for both game pieces.
 	*/
 	public AutoScore(ScoringPosition scoringPosition) {
+		addSequential(new ElevatorPreset(Height.kCargoLow));
+		
+		switch(scoringPosition) {
+			case kHatchShip:
+			case kHatchLow:
+			case kHatchMedium:
+			case kHatchHigh:
+				addSequential(new ApproachTarget(TargetType.kLowTarget));
+				addParallel(new PrepScoreHatch());
+				break;
+			
+			case kCargoShip:
+				addSequential(new ApproachTarget(TargetType.kLowTarget));
+				addParallel(new PrepScoreCargo());
+				break;
+
+			case kCargoLow:
+			case kCargoMedium:
+			case kCargoHigh:
+				addSequential(new ApproachTarget(TargetType.kHighTarget));
+				addParallel(new PrepScoreCargo());
+				break;
+		}
+
 		switch(scoringPosition) {
 			case kHatchShip:
 			case kHatchLow:
@@ -51,30 +75,22 @@ public class AutoScore extends CommandGroup {
 				addSequential(new ElevatorPreset(Height.kCargoHigh));
 				break;
 		}
-		
+
 		switch(scoringPosition) {
 			case kHatchShip:
 			case kHatchLow:
 			case kHatchMedium:
 			case kHatchHigh:
-				addSequential(new ApproachTarget(TargetType.kLowTarget));
-				addParallel(new PrepScoreHatch());
 				addSequential(new EjectHatch());
 				break;
 			
 			case kCargoShip:
-				addSequential(new ApproachTarget(TargetType.kLowTarget));
-				addParallel(new PrepScoreCargo());
-				addSequential(new EjectCargo());
-				break;
-
 			case kCargoLow:
 			case kCargoMedium:
 			case kCargoHigh:
-				addParallel(new PrepScoreCargo());
 				addSequential(new EjectCargo());
-				addSequential(new ApproachTarget(TargetType.kHighTarget));
 				break;
 		}
+
 	}
 }
