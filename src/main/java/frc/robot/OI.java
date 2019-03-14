@@ -20,25 +20,23 @@ public class OI {
 	
 	static final double joystickDeadzone = 0.1;
     
-	Button elevatorHigh   = new JoystickButton(controlBoard, 1);
-	Button elevatorMedium = new JoystickButton(controlBoard, 2);
-	Button elevatorLow    = new JoystickButton(controlBoard, 3);
-	Button elevatorShip   = new JoystickButton(controlBoard, 4);
-	Button elevatorIntake = new JoystickButton(controlBoard, 5);
-	Button autoIntake     = new JoystickButton(controlBoard, 6);
-	Button autoScore      = new JoystickButton(controlBoard, 7);
-	Button disableVacuum  = new JoystickButton(controlBoard, 8);
-	Button enableVacuum   = new JoystickButton(controlBoard, 9);
-	Button retractFourBar = new JoystickButton(controlBoard, 10);
-	Button extendFourBar  = new JoystickButton(controlBoard, 11);
-	Button fineAdjustUp   = new JoystickButton(controlBoard, 12);
-	Button fineAdjustDown = new JoystickButton(controlBoard, 13);
-	Button spinIntakeOut  = new JoystickButton(controlBoard, 14);
-	Button spinIntakeIn   = new JoystickButton(controlBoard, 15);
-	Button leftTarget     = new JoystickButton(controlBoard, 16); //If pressed, left target, otherwise right target
-	Button enableClimber  = new JoystickButton(controlBoard, 17);
-	Button hatchMode      = new JoystickButton(controlBoard, 18);
-	Button cargoMode      = new JoystickButton(controlBoard, 19);
+	Button elevatorHigh   = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorHigh.getChannel());
+	Button elevatorMedium = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorMedium.getChannel());
+	Button elevatorLow    = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorLow.getChannel());
+	Button elevatorShip   = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorShip.getChannel());
+	Button elevatorIntake = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorIntake.getChannel());
+	Button autoIntake     = new JoystickButton(controlBoard, ControlBoard.Button.kAutoIntake.getChannel());
+	Button autoScore      = new JoystickButton(controlBoard, ControlBoard.Button.kAutoScore.getChannel());
+	Button disableVacuum  = new JoystickButton(controlBoard, ControlBoard.Button.kDisableVacuum.getChannel());
+	Button enableVacuum   = new JoystickButton(controlBoard, ControlBoard.Button.kEnableVacuum.getChannel());
+	Button retractFourBar = new JoystickButton(controlBoard, ControlBoard.Button.kRetractFourBar.getChannel());
+	Button extendFourBar  = new JoystickButton(controlBoard, ControlBoard.Button.kDeployFourBar.getChannel());
+	Button spinIntakeOut  = new JoystickButton(controlBoard, ControlBoard.Button.kIntakeOut.getChannel());
+	Button spinIntakeIn   = new JoystickButton(controlBoard, ControlBoard.Button.kIntakeIn.getChannel());
+	Button leftTarget     = new JoystickButton(controlBoard, ControlBoard.Button.kLeftTarget.getChannel()); //If pressed, left target, otherwise right target
+	Button enableClimber  = new JoystickButton(controlBoard, ControlBoard.Button.kClimber.getChannel());
+	Button hatchMode      = new JoystickButton(controlBoard, ControlBoard.Button.kHatchMode.getChannel());
+	Button cargoMode      = new JoystickButton(controlBoard, ControlBoard.Button.kCargoMode.getChannel());
 	
 	public void setUpTriggers() {
 		elevatorHigh.whenPressed(new ElevatorPreset(PresetHeight.kHigh));
@@ -125,13 +123,7 @@ public class OI {
     }
     
     public double getElevatorThrottle() {
-        if(controlBoard.getFineAdjustUp()) {
-            return 1;
-        } else if(controlBoard.getFineAdjustDown()) {
-            return -1;
-        } else {
-            return 0;
-        }
+        return controlBoard.getFineAdjustDown() + controlBoard.getFineAdjustDown();
     }
     
     public double getClimberThrottle() {
