@@ -9,14 +9,15 @@ import frc.robot.Robot;
 
 public class ApproachTarget extends CommandGroup {
 	
+	//TODO: Fix
 	public ApproachTarget(TargetType targetType) {
 		addSequential(new InstantCommand(
 				() -> {
-					if(Robot.oi.controlBoard.getLeftTarget()) {
+					//if(Robot.oi.getLeftTarget()) {
 						Limelight.switchPipeline(Pipeline.kLeftTarget);
-					} else {
-						Limelight.switchPipeline(Pipeline.kRightTarget);
-					}
+					//} else {
+				//		Limelight.switchPipeline(Pipeline.kRightTarget);
+					//}
 				}
 			)
 		);

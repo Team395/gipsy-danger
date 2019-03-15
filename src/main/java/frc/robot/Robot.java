@@ -155,9 +155,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("ElevatorThrottle", Robot.oi.getElevatorThrottle());
-		SmartDashboard.putNumber("FAU", Robot.oi.controlBoard.getFineAdjustUp());
-		SmartDashboard.putNumber("FAD", Robot.oi.controlBoard.getFineAdjustDown());
 
 	}
 	

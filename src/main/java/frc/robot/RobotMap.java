@@ -15,7 +15,7 @@ public class RobotMap {
     public static final int driveShiftHighChannelID = 1; 
 
     //Intake
-    public static final int intakeRollerTalonID = 11;  
+    public static final int intakeRollerTalonID = 10;  
     public static final int vacuumPumpTalonID = 9;  
     public static final int suctionValveRelayChannel = 0;  
     public static final int deployPopoutChannel = 4;  

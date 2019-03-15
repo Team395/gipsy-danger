@@ -7,8 +7,12 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.Robot;
+import frc.robot.enums.IntakeMode;
 
 public class ElevatorPreset extends Command {
 	
@@ -55,7 +59,7 @@ public class ElevatorPreset extends Command {
 	
  	public ElevatorPreset(PresetHeight setpoint) {
 		requires(Robot.elevator);
-		if(Robot.oi.getHatchMode()) {
+		if(Robot.manipulator.getIntakeMode() == IntakeMode.kHatchPanel) {
 			switch(setpoint) {
 				case kHigh:
 					this.setpoint = Height.kHatchHigh;
@@ -81,7 +85,7 @@ public class ElevatorPreset extends Command {
 				default:
 					this.setpoint = Height.kZero;
 			}
-		} else if(Robot.oi.getCargoMode()) {
+		} else if(Robot.manipulator.getIntakeMode() == IntakeMode.kCargo) {
 			switch(setpoint) {
 				case kHigh:
 					this.setpoint = Height.kCargoHigh;
@@ -115,6 +119,16 @@ public class ElevatorPreset extends Command {
 	protected void initialize() {
 
 		Robot.elevator.setEndEffectorHeight(setpoint.getHeight());
+
+		if(Math.abs(setpoint.getHeight() - Robot.elevator.getEndEffectorHeight()) > 3) {
+			Scheduler.getInstance().add(
+				new InstantCommand(
+                	Robot.manipulator,
+                	() -> Robot.manipulator.actuateFloor(DoubleSolenoid.Value.kReverse)
+				)
+			);
+
+		}
 	}
 	
 	// Called repeatedly when this Command is scheduled to run

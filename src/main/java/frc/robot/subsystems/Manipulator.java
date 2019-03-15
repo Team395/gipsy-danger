@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.manipulator.IntakeJoystick;
+import frc.robot.enums.IntakeMode;
 
 public class Manipulator extends Subsystem {
 	
@@ -48,6 +49,7 @@ public class Manipulator extends Subsystem {
 	DoubleSolenoid lockingSolenoid = new DoubleSolenoid(RobotMap.lockManipulatorChannel, 
 	RobotMap.unlockManipulatorChannel);
 	
+	IntakeMode intakeMode = IntakeMode.kHatchPanel;
 	
 	final static double vacuumCurrentReducedPowerNoLoad = 0;
 	final static double vacuumCurrentFullPowerLoad = 9999999;
@@ -87,7 +89,10 @@ public class Manipulator extends Subsystem {
 			currentVacuumState = VacuumState.kOff;
 		}
 	}
-	
+
+	public boolean getVacuum() {
+		return currentVacuumState != VacuumState.kOff;
+	}	
 	public boolean getSuctionValveClosed() {
 		return suctionValveRelay.get() == Relay.Value.kOff ? true : false;
 	}
@@ -117,7 +122,6 @@ public class Manipulator extends Subsystem {
 		}
 		
 		vacuumPumpTalon.set(ControlMode.PercentOutput, currentVacuumState.get());
-		Robot.oi.setHatchLED(getHatchAquired());
 	}
 	
 	//Controls the popout piston
@@ -132,6 +136,14 @@ public class Manipulator extends Subsystem {
 	//Controls the roller
 	public void setRollerSpeed(double speed) {
 		intakeController.set(ControlMode.PercentOutput,speed);
+	}
+
+	public IntakeMode getIntakeMode() {
+		return intakeMode;
+	}
+
+	public void setIntakeMode(IntakeMode intakeMode) {
+		this.intakeMode = intakeMode;
 	}
 	
 	@Override
