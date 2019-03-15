@@ -56,10 +56,10 @@ public class Elevator extends Subsystem {
 
   final double inchesPerTick = 0.00115342;
   final double ticksPerInch = 866.986;
-  final double cascadeCorrection = 2;
+  final double cascadeCorrection = 1; //HALF for two stage elevator
   
   final double allowableErrorInches = 0.25;
-  final double climbingFeedforward = -0.17; //TODO
+  final double climbingFeedforward = -0.17; 
 
   public Elevator() {
     slot0.kP = 0.5; //TODO
@@ -67,24 +67,23 @@ public class Elevator extends Subsystem {
     slot0.kD = 0; //TODO
     slot0.kF = 0.27; //0.2046; //5000 units/100 ms
 
-    slot0.integralZone = 0; //TODO
+    slot0.integralZone = 0; 
     slot0.allowableClosedloopError = 0;
 
-    leaderConfig.motionCruiseVelocity = 5000; //TODO
-    leaderConfig.motionAcceleration = 1500; //TODO
+    leaderConfig.motionCruiseVelocity = 5000;
+    leaderConfig.motionAcceleration = 1500; 
     
     leaderConfig.continuousCurrentLimit = 30;
     leaderConfig.peakCurrentLimit = 30;
     leaderConfig.peakCurrentDuration = 0;  
     
-    //TODO: Retune
     leaderConfig.closedloopRamp = 0.5;
     leaderConfig.openloopRamp = 0.5;
     
     leaderConfig.reverseSoftLimitEnable = true;
     leaderConfig.reverseSoftLimitThreshold = 100;
     leaderConfig.forwardSoftLimitEnable = true;
-    leaderConfig.forwardSoftLimitThreshold = 36600;//TODO
+    leaderConfig.forwardSoftLimitThreshold = 36600/2; //HALF for two stage elevator
     
     leaderConfig.slot0 = slot0;
 
@@ -133,7 +132,6 @@ public class Elevator extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+
   }
 }
