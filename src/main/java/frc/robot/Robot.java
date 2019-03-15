@@ -1,9 +1,13 @@
 package frc.robot;
 
+import java.util.ArrayList;
+
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.autonomous.ScoreDoubleFrontRocketFromSide;
 import frc.robot.autonomous.ScoreDoubleShipFromCenter;
 import frc.robot.autonomous.ScoreDoubleShipFromSide;
@@ -35,7 +39,7 @@ public class Robot extends TimedRobot {
 	public static Drivetrain drivetrain = new Drivetrain();
 	public static DrivetrainEncoders encoders = new DrivetrainEncoders();
 	public static DrivetrainGyro gyro = new DrivetrainGyro();
-	public static Climber climber = new Climber();
+	public static Climber climber;// = new Climber();
 	
 	static SendableChooser<Side> sideChooser = new SendableChooser<>();
 	static SendableChooser<AutoMode> autoChooser = new SendableChooser<>();
@@ -48,9 +52,24 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		oi = new OI();
 		oi.setUpTriggers();
+
+		sideChooser.setDefaultOption("Start left or prefer left loading station.", Side.kLeft);
+		sideChooser.addOption("Start right or prefer right loading station.", Side.kRight);
+		SmartDashboard.putData(sideChooser);
+		
+		autoChooser.addOption("Score two on center from center", AutoMode.kDoubleCenterScoreFromCenter);
+		autoChooser.addOption("Score one on center from center", AutoMode.kSingleCenterScoreFromCenter);
+		autoChooser.addOption("Score two on center from side", AutoMode.kDoubleCenterScoreFromSide);
+		autoChooser.addOption("Score one on center from side", AutoMode.kSingleCenterScoreFromSide);
+		autoChooser.addOption("Score two on front rocket from side ", AutoMode.kDoubleFrontRocketScore);
+		autoChooser.addOption("Score one on front rocket from side", AutoMode.kSingleFrontRocketScore);
+		autoChooser.addOption("Score one on back rocket from side", AutoMode.kSingleBackRocketScore);
+		autoChooser.setDefaultOption("Joystick control", AutoMode.kJoystickControl);
+		SmartDashboard.putData(autoChooser);
+
 	}
 	
-	/**s
+	/**
 	* This function is called every robot packet, no matter the mode. Use
 	* this for items like diagnostics that you want ran during disabled,
 	* autonomous, teleoperated and test.
@@ -69,22 +88,12 @@ public class Robot extends TimedRobot {
 	*/
 	@Override
 	public void disabledInit() {
-		sideChooser.addOption("Start left or prefer left loading station.", Side.kLeft);
-		sideChooser.addOption("Start right or prefer right loading station.", Side.kRight);
-		
-		autoChooser.addOption("Score two on center from center", AutoMode.kDoubleCenterScoreFromCenter);
-		autoChooser.addOption("Score one on center from center", AutoMode.kSingleCenterScoreFromCenter);
-		autoChooser.addOption("Score two on center from side", AutoMode.kDoubleCenterScoreFromSide);
-		autoChooser.addOption("Score one on center from side", AutoMode.kSingleCenterScoreFromSide);
-		autoChooser.addOption("Score two on front rocket from side ", AutoMode.kDoubleFrontRocketScore);
-		autoChooser.addOption("Score one on front rocket from side", AutoMode.kSingleFrontRocketScore);
-		autoChooser.addOption("Score one on back rocket from side", AutoMode.kSingleBackRocketScore);
-		autoChooser.addOption("Joystick control", AutoMode.kJoystickControl);
 	}
 	
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		
 	}
 	
 	@Override
@@ -117,7 +126,10 @@ public class Robot extends TimedRobot {
 				command = null;
 		}
 
-		Scheduler.getInstance().add(command);
+		if(command != null){
+			Scheduler.getInstance().add(command);
+		}
+
 	}
 	
 	/**
@@ -135,6 +147,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		
 	}
+
 	
 	/**
 	* This function is called periodically during operator control.
@@ -142,12 +155,30 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("ElevatorThrottle", Robot.oi.getElevatorThrottle());
+		SmartDashboard.putNumber("FAU", Robot.oi.controlBoard.getFineAdjustUp());
+		SmartDashboard.putNumber("FAD", Robot.oi.controlBoard.getFineAdjustDown());
+
 	}
 	
+	ArrayList<Solenoid> solenoids = new ArrayList<>();
+
+	@Override
+	public void testInit() {
+		super.testInit();
+		
+		for(int i = 0; i < 8; i++) {
+			solenoids.add(new Solenoid(i));
+		}
+		
+		SmartDashboard.putNumber("SolenoidToFire", 8);
+	}
 	/**
 	* This function is called periodically during test mode.
 	*/
 	@Override
 	public void testPeriodic() {
+		
 	}
 }
+

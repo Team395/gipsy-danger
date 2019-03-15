@@ -15,14 +15,14 @@ public class OneShotClimb extends CommandGroup {
   public OneShotClimb() {
     setInterruptible(false);
     addSequential(new ManipulatorClimbMode());
-    addSequential(new LevelRobot());
-    addParallel(new CommandGroup() {
-      {
-        addSequential(new DriveDownClimber());
-        addSequential(new DriveForwardClimber());
-      }
-    });
+  //   addSequential(new LevelRobot());
+  //   addParallel(new CommandGroup() {
+  //     {
+  //       addSequential(new DriveDownClimber());
+  //       addSequential(new DriveForwardClimber());
+  //     }
+  //   });
     
-    addSequential(new RetractToSafeDistance());
-  }
+  //   addSequential(new RetractToSafeDistance());
+   }
 }

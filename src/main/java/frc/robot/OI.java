@@ -5,21 +5,21 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.commands.AutoScoreChooser;
-import frc.robot.commands.ConditionalAutoIntake;
+import frc.robot.commands.ElevatorJoystick;
 import frc.robot.commands.ElevatorPreset;
 import frc.robot.commands.ElevatorPreset.PresetHeight;
 import frc.robot.commands.OneShotClimb;
-import frc.robot.utils.limelight.Limelight;
-import frc.robot.utils.limelight.Limelight.Pipeline;
+import frc.robot.commands.manipulator.RetractManipulator;
+import frc.robot.triggers.ElevatorTrigger;
 
 public class OI {
-	Joystick leftJoystick = new Joystick(0);
-	Joystick rightJoystick = new Joystick(1);
-	public ControlBoard controlBoard = new ControlBoard(2);
-	
+    Joystick leftJoystick = new Joystick(0);
+    Joystick rightJoystick = new Joystick(1);
+    public ControlBoard controlBoard = new ControlBoard(2);
+
 	static final double joystickDeadzone = 0.1;
     
+    ElevatorTrigger elevatorTrigger = new ElevatorTrigger();
 	Button elevatorHigh   = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorHigh.getChannel());
 	Button elevatorMedium = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorMedium.getChannel());
 	Button elevatorLow    = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorLow.getChannel());
@@ -37,18 +37,46 @@ public class OI {
 	Button enableClimber  = new JoystickButton(controlBoard, ControlBoard.Button.kClimber.getChannel());
 	Button hatchMode      = new JoystickButton(controlBoard, ControlBoard.Button.kHatchMode.getChannel());
 	Button cargoMode      = new JoystickButton(controlBoard, ControlBoard.Button.kCargoMode.getChannel());
-	
+    Button retractIntake  = new JoystickButton(controlBoard, ControlBoard.Button.kRetractIntake.getChannel());
+    
 	public void setUpTriggers() {
 		elevatorHigh.whenPressed(new ElevatorPreset(PresetHeight.kHigh));
 		elevatorMedium.whenPressed(new ElevatorPreset(PresetHeight.kMedium));
 		elevatorLow.whenPressed(new ElevatorPreset(PresetHeight.kLow));
 		elevatorShip.whenPressed(new ElevatorPreset(PresetHeight.kShip));
 		elevatorIntake.whenPressed(new ElevatorPreset(PresetHeight.kLoading));
-		
-		autoIntake.whenPressed(new ConditionalAutoIntake());
-		autoScore.whenPressed(new AutoScoreChooser());
-		
-		disableVacuum.whenPressed(
+        elevatorTrigger.whenActive(new ElevatorJoystick()); 
+        /**
+         * TODO: Replace
+         *  autoIntake.whenPressed(new ConditionalAutoIntake());
+         *	autoScore.whenPressed(new AutoScoreChooser());
+         */
+
+         //TODO: Remove
+        // autoIntake.whenPressed(
+        //     new ConditionalCommand(
+        //         new PrepIntakeCargo(),
+        //         new PrepIntakeHatch()) {
+        //             @Override
+        //             public boolean condition(){
+        //                 return Robot.oi.getCargoMode();
+        //             }
+        //     }
+        // );
+        
+        // //TODO: Remove
+        // autoScore.whenPressed(
+        //     new ConditionalCommand(
+        //         new EjectCargo(),
+        //         new EjectHatch()) {
+        //             @Override
+        //             public boolean condition(){
+        //                 return Robot.oi.getCargoMode();
+        //             }
+        //     }
+        // );
+
+        disableVacuum.whenPressed(
             new InstantCommand(
                 Robot.manipulator, 
                 () -> {
@@ -78,22 +106,15 @@ public class OI {
 		extendFourBar.whenPressed(
             new InstantCommand(
                 Robot.manipulator, 
-                () -> Robot.manipulator.actuateFloor(Value.kForward)
+                () -> {
+                    Robot.manipulator.actuateFloor(Value.kForward);
+                    if(Robot.oi.getCargoMode()) {
+                        Robot.manipulator.actuatePopout(Value.kForward);
+                    }
+                }
             )
 		);
 		
-		leftTarget.whenPressed(
-            new InstantCommand(
-                () -> Limelight.switchPipeline(Pipeline.kLeftTarget)
-            )
-        );
-
-		leftTarget.whenReleased(
-            new InstantCommand(
-                () -> Limelight.switchPipeline(Pipeline.kRightTarget)
-            )
-        );
-
         enableClimber.whenPressed(new OneShotClimb());
         
         hatchMode.whenPressed(
@@ -109,6 +130,8 @@ public class OI {
                 () -> Robot.manipulator.actuatePopout(Value.kForward)
             ) 
         );
+
+        retractIntake.whenPressed(new RetractManipulator());
 	}
 	
 	private double getJoyY(Joystick stick) {
@@ -138,7 +161,7 @@ public class OI {
     }
     
     public double getElevatorThrottle() {
-        return controlBoard.getFineAdjustDown() + controlBoard.getFineAdjustDown();
+        return -controlBoard.getFineAdjustDown();
     }
     
     public double getClimberThrottle() {

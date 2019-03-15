@@ -47,7 +47,7 @@ public class ElevatorPreset extends Command {
 		kMaxHeight;
 	}
 	
-	Height setpoint;
+	Height setpoint = Height.kZero;
 	
 	public ElevatorPreset(Height setpoint) {
 		this.setpoint = setpoint;
@@ -78,6 +78,8 @@ public class ElevatorPreset extends Command {
 				case kMaxHeight:
 					this.setpoint = Height.kMaxHeight;
 					break;
+				default:
+					this.setpoint = Height.kZero;
 			}
 		} else if(Robot.oi.getCargoMode()) {
 			switch(setpoint) {
@@ -102,6 +104,8 @@ public class ElevatorPreset extends Command {
 				case kMaxHeight:
 					this.setpoint = Height.kHatchHigh;
 					break;
+				default:
+					this.setpoint = Height.kZero;
 			}
 		}
 	}
@@ -109,6 +113,7 @@ public class ElevatorPreset extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+
 		Robot.elevator.setEndEffectorHeight(setpoint.getHeight());
 	}
 	

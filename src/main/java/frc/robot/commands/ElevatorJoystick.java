@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class ElevatorJoystick extends Command {
+  double positionAtCommandEntry;
+
   public ElevatorJoystick() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -20,15 +22,16 @@ public class ElevatorJoystick extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.elevator.setEndEffectorHeight(Robot.elevator.getEndEffectorHeight());
+    positionAtCommandEntry = Robot.elevator.getEndEffectorHeight();
+    Robot.elevator.setEndEffectorHeight(positionAtCommandEntry);
   }
 
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.elevator.setEndEffectorHeight(Robot.oi.getElevatorThrottle() + 
-                                        Robot.elevator.getEndEffectorHeight());
+    positionAtCommandEntry = Robot.oi.getElevatorThrottle() + positionAtCommandEntry;
+    Robot.elevator.setEndEffectorHeight(positionAtCommandEntry);
   }
 
   // Make this return true when this Command no longer needs to run execute()

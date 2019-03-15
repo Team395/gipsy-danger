@@ -71,7 +71,7 @@ public class Elevator extends Subsystem {
     slot0.allowableClosedloopError = 0;
 
     leaderConfig.motionCruiseVelocity = 5000; //TODO
-    leaderConfig.motionAcceleration = 3500; //TODO
+    leaderConfig.motionAcceleration = 1500; //TODO
     
     leaderConfig.continuousCurrentLimit = 30;
     leaderConfig.peakCurrentLimit = 30;

@@ -6,7 +6,7 @@ public class ControlBoard extends GenericHID {
 	
 	public enum Axis {
 		kFineAdjustUp(7),
-		kFineAdjustDown(8);
+		kFineAdjustDown(6);
 
 		private int channel;
 		
@@ -208,11 +208,11 @@ public class ControlBoard extends GenericHID {
 	}
 
 	public double getFineAdjustUp(){
-		return getRawAxis(Axis.kFineAdjustUp.getChannel());
+		return (getRawAxis(Axis.kFineAdjustUp.getChannel()) + 1) / 2;
 	}
 
 	public double getFineAdjustDown(){
-		return getRawAxis(Axis.kFineAdjustDown.getChannel());
+		return (getRawAxis(Axis.kFineAdjustDown.getChannel()) + 1) / 3;
 	}
 	
 	public boolean getIntakeOut(){

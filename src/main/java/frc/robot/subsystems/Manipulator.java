@@ -81,7 +81,11 @@ public class Manipulator extends Subsystem {
 	
 	//Controls the vacuum pump
 	public void setVacuum(boolean enabled) {
-		currentVacuumState = VacuumState.kFullPower;
+		if(enabled) {
+			currentVacuumState = VacuumState.kFullPower;
+		} else {
+			currentVacuumState = VacuumState.kOff;
+		}
 	}
 	
 	public boolean getSuctionValveClosed() {
