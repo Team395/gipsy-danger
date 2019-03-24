@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.autonomous.ScoreDoubleFrontRocketFromSide;
+import frc.robot.autonomous.ScoreDoubleRocketFromSide;
 import frc.robot.autonomous.ScoreDoubleShipFromCenter;
 import frc.robot.autonomous.ScoreDoubleShipFromSide;
 import frc.robot.autonomous.ScoreSingleBackRocketFromSide;
@@ -16,14 +16,14 @@ import frc.robot.autonomous.ScoreSingleFromSide;
 import frc.robot.autonomous.ScoreSingleFrontRocketFromSide;
 import frc.robot.autonomous.ScoreSingleShipFromCenter;
 import frc.robot.enums.AutoMode;
-import frc.robot.enums.IntakeMode;
 import frc.robot.enums.Side;
+import frc.robot.subsystems.CargoManipulator;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DrivetrainEncoders;
 import frc.robot.subsystems.DrivetrainGyro;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.HatchManipulator;
 import frc.robot.utils.limelight.Limelight;
 import frc.robot.utils.limelight.Limelight.CamMode;
 
@@ -38,7 +38,8 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static SpeedControllerMap speedControllerMap = new SpeedControllerMap();
 	public static Elevator elevator;// = new Elevator();
-	public static Manipulator manipulator;// = new Manipulator();
+	public static CargoManipulator manipulator;// = new Manipulator();
+	public static HatchManipulator hatchManipulator;
 	public static Drivetrain drivetrain = new Drivetrain();
 	public static DrivetrainEncoders encoders = new DrivetrainEncoders();
 	public static DrivetrainGyro gyro = new DrivetrainGyro();
@@ -120,7 +121,7 @@ public class Robot extends TimedRobot {
 				command = new ScoreSingleFromSide(side);
 				break;
 			case kDoubleFrontRocketScore:
-				command = new ScoreDoubleFrontRocketFromSide(side);
+				command = new ScoreDoubleRocketFromSide(side);
 				break;
 			case kSingleFrontRocketScore:
 				command = new ScoreSingleFrontRocketFromSide(side);
@@ -159,21 +160,19 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		Limelight.setCamMode(CamMode.kVision);
-		Limelight.switchPipeline(2);
 	}
 	
 	ArrayList<Solenoid> solenoids = new ArrayList<>();
 
 	@Override
 	public void testInit() {
-		super.testInit();
+		// super.testInit();
 		
-		for(int i = 0; i < 8; i++) {
-			solenoids.add(new Solenoid(i));
-		}
+		// for(int i = 0; i < 8; i++) {
+		// 	solenoids.add(new Solenoid(i));
+		// }
 		
-		SmartDashboard.putNumber("SolenoidToFire", 8);
+		// SmartDashboard.putNumber("SolenoidToFire", 8);
 	}
 	/**
 	* This function is called periodically during test mode.

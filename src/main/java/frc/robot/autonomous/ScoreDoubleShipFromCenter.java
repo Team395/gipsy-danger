@@ -24,7 +24,7 @@ public class ScoreDoubleShipFromCenter extends CommandGroup {
     //Turn towards the cargo bay on the loadingStationSide
     addSequential(new TurnToDegree(turnInversion * 6.556));
     //Score
-    addSequential(new AutoScore(ScoringPosition.kHatchShip));
+    addSequential(new AutoScoreHatch());
     //Back up from scoring position
     addSequential(new DriveFeet(-1));
     //Turn to loading station
@@ -44,7 +44,7 @@ public class ScoreDoubleShipFromCenter extends CommandGroup {
     //Turn to cargo bay
     addSequential(new TurnToDegree(turnInversion * -5.035));
     //Score
-    addSequential(new AutoScore(ScoringPosition.kHatchShip));
+    addSequential(new AutoScoreHatch());
     //Back up from scoring position
     addSequential(new DriveFeet(-1));
     //Turn to loading station

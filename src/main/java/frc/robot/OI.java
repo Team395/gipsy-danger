@@ -13,7 +13,6 @@ import frc.robot.commands.DriveFeet;
 import frc.robot.commands.ElevatorJoystick;
 import frc.robot.commands.ElevatorPreset;
 import frc.robot.commands.ElevatorPreset.PresetHeight;
-import frc.robot.commands.manipulator.RetractManipulator;
 import frc.robot.enums.IntakeMode;
 import frc.robot.triggers.ElevatorTrigger;
 
@@ -31,13 +30,10 @@ public class OI {
 	// Button elevatorLow     = new JoystickButton(xboxController, 2);
     // Button elevatorShip    = new JoystickButton(xboxController, 1);
     // Button elevatorIntake  = new JoystickButton(xboxController, 9); 
-    // Button toggleVacuum    = new JoystickButton(xboxController, 3);
-    // Button extendFourBar   = new JoystickButton(xboxController, 6);
-    // Button retractFourBar  = new JoystickButton(xboxController, 5);
     // Button toggleGamePiece = new JoystickButton(xboxController, 8);
     // Button retractIntake   = new JoystickButton(xboxController, 7);
-    Button driveOffStep = 
-    new JoystickButton(leftJoystick, 10);
+    
+    Button driveOffStep = new JoystickButton(leftJoystick, 10);
     // Button elevatorHigh   = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorHigh.getChannel());
 	// Button elevatorMedium = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorMedium.getChannel());
 	// Button elevatorLow    = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorLow.getChannel());
@@ -45,10 +41,6 @@ public class OI {
 	// Button elevatorIntake = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorIntake.getChannel());
 	// Button autoIntake     = new JoystickButton(controlBoard, ControlBoard.Button.kAutoIntake.getChannel());
 	// Button autoScore      = new JoystickButton(controlBoard, ControlBoard.Button.kAutoScore.getChannel());
-	// Button disableVacuum  = new JoystickButton(controlBoard, ControlBoard.Button.kDisableVacuum.getChannel());
-	// Button enableVacuum   = new JoystickButton(controlBoard, ControlBoard.Button.kEnableVacuum.getChannel());
-	// Button retractFourBar = new JoystickButton(controlBoard, ControlBoard.Button.kRetractFourBar.getChannel());
-	// Button extendFourBar  = new JoystickButton(controlBoard, ControlBoard.Button.kDeployFourBar.getChannel());
 	// Button spinIntakeOut  = new JoystickButton(controlBoard, ControlBoard.Button.kIntakeOut.getChannel());
 	// Button spinIntakeIn   = new JoystickButton(controlBoard, ControlBoard.Button.kIntakeIn.getChannel());
 	// Button leftTarget     = new JoystickButton(controlBoard, ControlBoard.Button.kLeftTarget.getChannel()); //If pressed, left target, otherwise right target
@@ -95,39 +87,6 @@ public class OI {
         //     }
         // );
 
-        // toggleVacuum.whenPressed(
-        //     new InstantCommand(
-        //         Robot.manipulator, 
-        //         () -> {
-        //             if(Robot.manipulator.getVacuum()) {
-        //                 Robot.manipulator.setVacuum(false);
-        //                 Robot.manipulator.openSuctionValve();
-        //             } else {
-        //                 Robot.manipulator.setVacuum(true);
-        //                 Robot.manipulator.closeSuctionValve();
-        //             }
-        //         }
-        //     )
-        // );        
-        
-        // retractFourBar.whenPressed(
-        //     new InstantCommand(
-        //         Robot.manipulator,
-        //         () -> Robot.manipulator.actuateFloor(Value.kReverse)
-        //     )
-		// );
-        
-		// extendFourBar.whenPressed(
-        //     new InstantCommand(
-        //         Robot.manipulator, 
-        //         () -> {
-        //             Robot.manipulator.actuateFloor(Value.kForward);
-        //             if(Robot.manipulator.getIntakeMode() == IntakeMode.kCargo) {
-        //                 Robot.manipulator.actuatePopout(Value.kForward);
-        //             }
-        //         }
-        //     )
-		// );
         
         // // enableClimber.whenPressed(new OneShotClimb());
         
@@ -152,6 +111,7 @@ public class OI {
         //         }
         //     )
         // );
+    
         // hatchMode.whenPressed(
         //     new InstantCommand(
         //         Robot.manipulator, 
@@ -167,6 +127,7 @@ public class OI {
         // );
 
         //retractIntake.whenPressed(new RetractManipulator());
+    
         driveOffStep.whenPressed(
             new ConditionalCommand( 
                 new DriveFeet(-5, false)) {

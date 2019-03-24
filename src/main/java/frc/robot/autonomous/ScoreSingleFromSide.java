@@ -8,19 +8,18 @@
 package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.Robot;
 import frc.robot.commands.AutoIntakeHatch;
-import frc.robot.commands.AutoScore;
+import frc.robot.commands.AutoScoreHatch;
 import frc.robot.commands.DriveFeet;
 import frc.robot.commands.TurnToDegree;
-import frc.robot.enums.ScoringPosition;
 import frc.robot.enums.Side;
-import frc.robot.Robot;
 
 public class ScoreSingleFromSide extends CommandGroup {
 
   public ScoreSingleFromSide(Side startingPosition) {
     double turnInversion = (startingPosition == Side.kLeft ? 1 : -1);
-    //Drive off the step
+    // Drive off the step
     addSequential(new DriveFeet(9));
     //Turn towards the cargo bay
     addSequential(new TurnToDegree(turnInversion * -35));
@@ -29,7 +28,7 @@ public class ScoreSingleFromSide extends CommandGroup {
     //Roughly center
     addSequential(new TurnToDegree(turnInversion * -5.823));
     //Score
-    addSequential(new AutoScore(ScoringPosition.kHatchShip));
+    addSequential(new AutoScoreHatch());
     //Back up from scoring position
     addSequential(new DriveFeet(-1));
     //Turn to loading station
