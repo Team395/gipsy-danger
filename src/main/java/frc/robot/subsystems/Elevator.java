@@ -47,16 +47,15 @@ public class Elevator extends Subsystem {
 
   /**
    * 1 rot / 4096 ticks *
-   * 24 teeth / rot *
-   * 5 mm / tooth *
-   * 1 in / 25.4 mm =
-   * 0.00115342 inches / tick
-   * 866.986 ticks / inch
+   * 16 teeth / rot *
+   * 0.25 in / tooth = 
+   * 0.0009765625 inches / tick
+   * 1024 ticks / inch
    */
 
-  final double inchesPerTick = 0.00115342;
-  final double ticksPerInch = 866.986;
-  final double cascadeCorrection = 1; //HALF for two stage elevator
+  final double inchesPerTick = 0.0009765625;
+  final double ticksPerInch = 1024;
+  final double cascadeCorrection = 2; //HALF for two stage elevator
   
   final double allowableErrorInches = 0.25;
   final double climbingFeedforward = -0.17; 
@@ -70,8 +69,8 @@ public class Elevator extends Subsystem {
     slot0.integralZone = 0; 
     slot0.allowableClosedloopError = 0;
 
-    leaderConfig.motionCruiseVelocity = 5000;
-    leaderConfig.motionAcceleration = 1500; 
+    leaderConfig.motionCruiseVelocity = 1500;
+    leaderConfig.motionAcceleration = 1000; 
     
     leaderConfig.continuousCurrentLimit = 30;
     leaderConfig.peakCurrentLimit = 30;
@@ -83,11 +82,12 @@ public class Elevator extends Subsystem {
     leaderConfig.reverseSoftLimitEnable = true;
     leaderConfig.reverseSoftLimitThreshold = 100;
     leaderConfig.forwardSoftLimitEnable = true;
-    leaderConfig.forwardSoftLimitThreshold = 36600/2; //HALF for two stage elevator
+    leaderConfig.forwardSoftLimitThreshold = (int) (60 * ticksPerInch); //HALF for two stage elevator
     
     leaderConfig.slot0 = slot0;
 
     elevatorFollower.configAllSettings(defaultConfig);
+
 
     elevatorFollower.follow(elevatorLeader); 
     
@@ -128,6 +128,7 @@ public class Elevator extends Subsystem {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("ElevatorHeight", getEndEffectorHeight());
+    SmartDashboard.putNumber("ElevatorSetpoint", elevatorLeader.getClosedLoopError() * inchesPerTick);
   }
 
   @Override

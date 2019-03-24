@@ -35,6 +35,10 @@ public class Limelight {
 		return limelightTable.getEntry("pipeline").setNumber(pipeline.id);
 	}
 	
+	public static boolean switchPipeline(int pipeline) {
+		return limelightTable.getEntry("pipeline").setNumber(pipeline);
+	}
+	
 	public static boolean setCamMode(CamMode camMode){
 		return limelightTable.getEntry("camMode").setNumber(camMode.id);
 	}

@@ -16,6 +16,7 @@ import frc.robot.autonomous.ScoreSingleFromSide;
 import frc.robot.autonomous.ScoreSingleFrontRocketFromSide;
 import frc.robot.autonomous.ScoreSingleShipFromCenter;
 import frc.robot.enums.AutoMode;
+import frc.robot.enums.IntakeMode;
 import frc.robot.enums.Side;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -23,6 +24,8 @@ import frc.robot.subsystems.DrivetrainEncoders;
 import frc.robot.subsystems.DrivetrainGyro;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Manipulator;
+import frc.robot.utils.limelight.Limelight;
+import frc.robot.utils.limelight.Limelight.CamMode;
 
 /**
 * The VM is configured to automatically run this class, and to call the
@@ -34,8 +37,8 @@ import frc.robot.subsystems.Manipulator;
 public class Robot extends TimedRobot {
 	public static OI oi;
 	public static SpeedControllerMap speedControllerMap = new SpeedControllerMap();
-	public static Elevator elevator = new Elevator();
-	public static Manipulator manipulator = new Manipulator();
+	public static Elevator elevator;// = new Elevator();
+	public static Manipulator manipulator;// = new Manipulator();
 	public static Drivetrain drivetrain = new Drivetrain();
 	public static DrivetrainEncoders encoders = new DrivetrainEncoders();
 	public static DrivetrainGyro gyro = new DrivetrainGyro();
@@ -54,19 +57,21 @@ public class Robot extends TimedRobot {
 		oi.setUpTriggers();
 
 		sideChooser.setDefaultOption("Start left or prefer left loading station.", Side.kLeft);
-		sideChooser.addOption("Start right or prefer right loading station.", Side.kRight);
+		//sideChooser.addOption("Start right or prefer right loading station.", Side.kRight);
 		SmartDashboard.putData(sideChooser);
 		
-		autoChooser.addOption("Score two on center from center", AutoMode.kDoubleCenterScoreFromCenter);
-		autoChooser.addOption("Score one on center from center", AutoMode.kSingleCenterScoreFromCenter);
-		autoChooser.addOption("Score two on center from side", AutoMode.kDoubleCenterScoreFromSide);
-		autoChooser.addOption("Score one on center from side", AutoMode.kSingleCenterScoreFromSide);
-		autoChooser.addOption("Score two on front rocket from side ", AutoMode.kDoubleFrontRocketScore);
-		autoChooser.addOption("Score one on front rocket from side", AutoMode.kSingleFrontRocketScore);
-		autoChooser.addOption("Score one on back rocket from side", AutoMode.kSingleBackRocketScore);
+		// autoChooser.addOption("Score two on center from center", AutoMode.kDoubleCenterScoreFromCenter);
+		// autoChooser.addOption("Score one on center from center", AutoMode.kSingleCenterScoreFromCenter);
+		// autoChooser.addOption("Score two on center from side", AutoMode.kDoubleCenterScoreFromSide);
+		// autoChooser.addOption("Score one on center from side", AutoMode.kSingleCenterScoreFromSide);
+		// autoChooser.addOption("Score two on front rocket from side ", AutoMode.kDoubleFrontRocketScore);
+		// autoChooser.addOption("Score one on front rocket from side", AutoMode.kSingleFrontRocketScore);
+		// autoChooser.addOption("Score one on back rocket from side", AutoMode.kSingleBackRocketScore);
 		autoChooser.setDefaultOption("Joystick control", AutoMode.kJoystickControl);
 		SmartDashboard.putData(autoChooser);
 
+		Limelight.setCamMode(CamMode.kVision);
+		Limelight.switchPipeline(2);
 	}
 	
 	/**
@@ -145,7 +150,6 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopInit() {
-		
 	}
 
 	
@@ -155,7 +159,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-
+		Limelight.setCamMode(CamMode.kVision);
+		Limelight.switchPipeline(2);
 	}
 	
 	ArrayList<Solenoid> solenoids = new ArrayList<>();

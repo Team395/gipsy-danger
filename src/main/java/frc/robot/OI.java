@@ -3,14 +3,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.commands.DriveFeet;
 import frc.robot.commands.ElevatorJoystick;
 import frc.robot.commands.ElevatorPreset;
 import frc.robot.commands.ElevatorPreset.PresetHeight;
-import frc.robot.commands.OneShotClimb;
 import frc.robot.commands.manipulator.RetractManipulator;
 import frc.robot.enums.IntakeMode;
 import frc.robot.triggers.ElevatorTrigger;
@@ -22,19 +24,20 @@ public class OI {
 
 	static final double joystickDeadzone = 0.1;
     
-    ElevatorTrigger elevatorTrigger = new ElevatorTrigger();
+    public ElevatorTrigger elevatorTrigger;//= new ElevatorTrigger();
     
 
-    Button elevatorMedium  = new JoystickButton(xboxController, 4);
-	Button elevatorLow     = new JoystickButton(xboxController, 2);
-    Button elevatorShip    = new JoystickButton(xboxController, 1);
-    Button elevatorIntake  = new JoystickButton(xboxController, 9); 
-    Button toggleVacuum    = new JoystickButton(xboxController, 3);
-    Button extendFourBar   = new JoystickButton(xboxController, 6);
-    Button retractFourBar  = new JoystickButton(xboxController, 5);
-    Button toggleGamePiece = new JoystickButton(xboxController, 8);
-    Button retractIntake   = new JoystickButton(xboxController, 7);
-    
+    // Button elevatorMedium  = new JoystickButton(xboxController, 4);
+	// Button elevatorLow     = new JoystickButton(xboxController, 2);
+    // Button elevatorShip    = new JoystickButton(xboxController, 1);
+    // Button elevatorIntake  = new JoystickButton(xboxController, 9); 
+    // Button toggleVacuum    = new JoystickButton(xboxController, 3);
+    // Button extendFourBar   = new JoystickButton(xboxController, 6);
+    // Button retractFourBar  = new JoystickButton(xboxController, 5);
+    // Button toggleGamePiece = new JoystickButton(xboxController, 8);
+    // Button retractIntake   = new JoystickButton(xboxController, 7);
+    Button driveOffStep = 
+    new JoystickButton(leftJoystick, 10);
     // Button elevatorHigh   = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorHigh.getChannel());
 	// Button elevatorMedium = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorMedium.getChannel());
 	// Button elevatorLow    = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorLow.getChannel());
@@ -56,11 +59,11 @@ public class OI {
     
 	public void setUpTriggers() {
 		// elevatorHigh.whenPressed(new ElevatorPreset(PresetHeight.kHigh));
-		elevatorMedium.whenPressed(new ElevatorPreset(PresetHeight.kMedium));
-		elevatorLow.whenPressed(new ElevatorPreset(PresetHeight.kLow));
-		elevatorShip.whenPressed(new ElevatorPreset(PresetHeight.kShip));
-		elevatorIntake.whenPressed(new ElevatorPreset(PresetHeight.kLoading));
-        elevatorTrigger.whenActive(new ElevatorJoystick()); 
+		// elevatorMedium.whenPressed(new ElevatorPreset(PresetHeight.kMedium));
+		// elevatorLow.whenPressed(new ElevatorPreset(PresetHeight.kLow));
+		// elevatorShip.whenPressed(new ElevatorPreset(PresetHeight.kShip));
+		// elevatorIntake.whenPressed(new ElevatorPreset(PresetHeight.kZero));
+        // elevatorTrigger.whenActive(new ElevatorJoystick()); 
 
         /**
          * TODO: Replace
@@ -92,56 +95,63 @@ public class OI {
         //     }
         // );
 
-        toggleVacuum.whenPressed(
-            new InstantCommand(
-                Robot.manipulator, 
-                () -> {
-                    if(Robot.manipulator.getVacuum()) {
-                        Robot.manipulator.setVacuum(false);
-                        Robot.manipulator.openSuctionValve();
-                    } else {
-                        Robot.manipulator.setVacuum(true);
-                        Robot.manipulator.closeSuctionValve();
-                    }
-                }
-            )
-        );        
+        // toggleVacuum.whenPressed(
+        //     new InstantCommand(
+        //         Robot.manipulator, 
+        //         () -> {
+        //             if(Robot.manipulator.getVacuum()) {
+        //                 Robot.manipulator.setVacuum(false);
+        //                 Robot.manipulator.openSuctionValve();
+        //             } else {
+        //                 Robot.manipulator.setVacuum(true);
+        //                 Robot.manipulator.closeSuctionValve();
+        //             }
+        //         }
+        //     )
+        // );        
         
-        retractFourBar.whenPressed(
-            new InstantCommand(
-                Robot.manipulator,
-                () -> Robot.manipulator.actuateFloor(Value.kReverse)
-            )
-		);
+        // retractFourBar.whenPressed(
+        //     new InstantCommand(
+        //         Robot.manipulator,
+        //         () -> Robot.manipulator.actuateFloor(Value.kReverse)
+        //     )
+		// );
         
-		extendFourBar.whenPressed(
-            new InstantCommand(
-                Robot.manipulator, 
-                () -> {
-                    Robot.manipulator.actuateFloor(Value.kForward);
-                    if(Robot.manipulator.getIntakeMode() == IntakeMode.kCargo) {
-                        Robot.manipulator.actuatePopout(Value.kForward);
-                    }
-                }
-            )
-		);
+		// extendFourBar.whenPressed(
+        //     new InstantCommand(
+        //         Robot.manipulator, 
+        //         () -> {
+        //             Robot.manipulator.actuateFloor(Value.kForward);
+        //             if(Robot.manipulator.getIntakeMode() == IntakeMode.kCargo) {
+        //                 Robot.manipulator.actuatePopout(Value.kForward);
+        //             }
+        //         }
+        //     )
+		// );
         
-        // enableClimber.whenPressed(new OneShotClimb());
+        // // enableClimber.whenPressed(new OneShotClimb());
         
-        toggleGamePiece.whenPressed(
-            new InstantCommand(
-                Robot.manipulator,
-                () -> {
-                    if(Robot.manipulator.getIntakeMode() == IntakeMode.kCargo) {
-                        Robot.manipulator.setIntakeMode(IntakeMode.kHatchPanel);
-                        Robot.manipulator.actuateFloor(Value.kReverse);
-                    } if(Robot.manipulator.getIntakeMode() == IntakeMode.kHatchPanel) {
-                        Robot.manipulator.setIntakeMode(IntakeMode.kCargo);
-                        Robot.manipulator.actuateFloor(Value.kForward);
-                    }
-                }
-            )
-        );
+        // toggleGamePiece.whenPressed(
+        //     new InstantCommand(
+        //         Robot.manipulator,
+        //         () -> {
+        //             if(Robot.manipulator.getPopoutPosition() == Value.kReverse) {
+        //                 Robot.manipulator.actuatePopout(Value.kForward);
+        //             } else if(Robot.manipulator.getPopoutPosition() == Value.kForward) {
+        //                 Robot.manipulator.actuatePopout(Value.kReverse);
+        //             } else {
+        //                 Robot.manipulator.actuatePopout(Value.kReverse);
+        //             }
+        //             // if(Robot.manipulator.getIntakeMode() == IntakeMode.kCargo) {
+        //             //     Robot.manipulator.setIntakeMode(IntakeMode.kHatchPanel);
+        //             //     Robot.manipulator.actuatePopout(Value.kReverse);
+        //             // } if(Robot.manipulator.getIntakeMode() == IntakeMode.kHatchPanel) {
+        //             //     Robot.manipulator.setIntakeMode(IntakeMode.kCargo);
+        //             //     Robot.manipulator.actuatePopout(Value.kForward);
+        //             // }
+        //         }
+        //     )
+        // );
         // hatchMode.whenPressed(
         //     new InstantCommand(
         //         Robot.manipulator, 
@@ -156,7 +166,16 @@ public class OI {
         //     ) 
         // );
 
-        retractIntake.whenPressed(new RetractManipulator());
+        //retractIntake.whenPressed(new RetractManipulator());
+        driveOffStep.whenPressed(
+            new ConditionalCommand( 
+                new DriveFeet(-5, false)) {
+                    @Override
+                    public boolean condition() {
+                        return Timer.getMatchTime() <= 15;
+                    }
+                }
+        );
 	}
 	
 	private double getJoyY(Joystick stick) {
@@ -176,11 +195,11 @@ public class OI {
 	}
 	
 	public double getIntakeThrottle() {
-        return xboxController.getY(Hand.kRight);
+        return -xboxController.getY(Hand.kRight);
     }
     
     public double getElevatorThrottle() {
-        return xboxController.getY(Hand.kLeft);
+        return -xboxController.getY(Hand.kLeft);
     }
     
     public double getClimberThrottle() {

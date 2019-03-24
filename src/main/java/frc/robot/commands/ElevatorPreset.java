@@ -18,14 +18,14 @@ public class ElevatorPreset extends Command {
 	
 	public static enum Height {
 		kCargoHigh(83.5),
-		kCargoMedium(55.5),
+		kCargoMedium(54),
 		kCargoLow(27.5),
-		kCargoShip(0), //TODO
-		kCargoLoading(0), //TODO
+		kCargoShip(54), //TODO
+		kCargoLoading(8), //TODO
 		kHatchHigh(75.0),
-		kHatchMedium(47.0),
+		kHatchMedium(54.0),
 		kHatchLow(19.0),
-		kHatchShip(19.0),
+		kHatchShip(54.0),
 		kHatchLoading(19.0),
 		kZero(1.0),
 		kMaxHeight(84.43);
@@ -120,15 +120,12 @@ public class ElevatorPreset extends Command {
 
 		Robot.elevator.setEndEffectorHeight(setpoint.getHeight());
 
-		if(Math.abs(setpoint.getHeight() - Robot.elevator.getEndEffectorHeight()) > 3) {
-			Scheduler.getInstance().add(
-				new InstantCommand(
-                	Robot.manipulator,
-                	() -> Robot.manipulator.actuateFloor(DoubleSolenoid.Value.kReverse)
-				)
-			);
-
-		}
+		Scheduler.getInstance().add(
+			new InstantCommand(
+				Robot.manipulator,
+				() -> Robot.manipulator.actuateFloor(DoubleSolenoid.Value.kForward)
+			)
+		);
 	}
 	
 	// Called repeatedly when this Command is scheduled to run

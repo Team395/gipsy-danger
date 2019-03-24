@@ -14,9 +14,6 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Drivetrain.Gear;
 import frc.robot.utils.SparkMAX;
 
-/**
-* Add your docs here.
-*/
 public class DrivetrainEncoders implements PIDSource{
 	Gear currentGearing = Robot.drivetrain.getShifterState();
 	
@@ -65,7 +62,7 @@ public class DrivetrainEncoders implements PIDSource{
 	}
 	
 	public double getAveragedEncoderFeet() {
-		return (getLeftEncoderFeet()+getRightEncoderFeet())/2;
+		return (getLeftEncoderFeet() + getRightEncoderFeet()) / 2;
 	}
 	
 	@Override

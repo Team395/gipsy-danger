@@ -55,6 +55,10 @@ public class Manipulator extends Subsystem {
 	final static double vacuumCurrentFullPowerLoad = 9999999;
 	VacuumState currentVacuumState = VacuumState.kOff;
 	
+	public Manipulator() {
+
+	}
+
 	public void lockManipulator() {
 		lockingSolenoid.set(Value.kForward);
 	}
@@ -111,7 +115,7 @@ public class Manipulator extends Subsystem {
 	
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("Vacuum Current", vacuumPumpTalon.getOutputCurrent());
+		//SmartDashboard.putNumber("Vacuum Current", vacuumPumpTalon.getOutputCurrent());
 		
 		if(currentVacuumState == VacuumState.kFullPower &&
 			vacuumPumpTalon.getOutputCurrent() > vacuumCurrentFullPowerLoad) {
@@ -135,7 +139,7 @@ public class Manipulator extends Subsystem {
 	
 	//Controls the roller
 	public void setRollerSpeed(double speed) {
-		intakeController.set(ControlMode.PercentOutput,speed);
+		intakeController.set(ControlMode.PercentOutput,Math.min(speed, 0.75));
 	}
 
 	public IntakeMode getIntakeMode() {

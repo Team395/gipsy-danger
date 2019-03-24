@@ -14,7 +14,7 @@ public class ApproachTarget extends CommandGroup {
 		addSequential(new InstantCommand(
 				() -> {
 					//if(Robot.oi.getLeftTarget()) {
-						Limelight.switchPipeline(Pipeline.kLeftTarget);
+						//Limelight.switchPipeline(Pipeline.kLeftTarget);
 					//} else {
 				//		Limelight.switchPipeline(Pipeline.kRightTarget);
 					//}
@@ -25,7 +25,7 @@ public class ApproachTarget extends CommandGroup {
 		addSequential(new AimAtOffset(targetType));
 		addSequential(new DriveToTarget(targetType));
 		addSequential(new InstantCommand(
-				() -> Limelight.switchPipeline(Pipeline.kDriverControl)
+				//() -> Limelight.switchPipeline(Pipeline.kDriverControl)
 			)
 		);
 	}
