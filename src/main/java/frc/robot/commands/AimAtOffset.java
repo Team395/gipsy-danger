@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.utils.limelight.Contour;
 import frc.robot.Robot;
@@ -49,7 +50,9 @@ public class AimAtOffset extends Command {
 			double totalOffset = HeadingOffsetCalculator.calculateTotalOffset(contour, corners, targetType);
 			pidController.setSetpoint(Robot.gyro.getYaw() + totalOffset);
 			pidController.enable();
-		} 
+		} else {
+			System.out.println("Contour is null");
+		}
 	}
 	
 	// Called repeatedly when this Command is scheduled to run
