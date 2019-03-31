@@ -2,10 +2,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import frc.robot.enums.TargetType;
 import frc.robot.utils.limelight.Limelight;
-import frc.robot.utils.limelight.Limelight.Pipeline;
-import frc.robot.Robot;
 
 public class ApproachTarget extends CommandGroup {
 	
@@ -14,18 +13,21 @@ public class ApproachTarget extends CommandGroup {
 		addSequential(new InstantCommand(
 				() -> {
 					//if(Robot.oi.getLeftTarget()) {
-						//Limelight.switchPipeline(Pipeline.kLeftTarget);
+					Limelight.switchPipeline(0);
 					//} else {
 				//		Limelight.switchPipeline(Pipeline.kRightTarget);
 					//}
 				}
 			)
 		);
+		addSequential(new WaitCommand(0.25));
 
 		addSequential(new AimAtOffset(targetType));
 		addSequential(new DriveToTarget(targetType));
 		addSequential(new InstantCommand(
-				//() -> Limelight.switchPipeline(Pipeline.kDriverControl)
+				() -> {
+					Limelight.switchPipeline(2);
+				}
 			)
 		);
 	}
