@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.manipulator.EjectHatch;
-import frc.robot.commands.manipulator.PrepScoreHatch;
 import frc.robot.enums.TargetType;
 
 public class AutoScoreHatch extends CommandGroup {
@@ -19,7 +18,6 @@ public class AutoScoreHatch extends CommandGroup {
 	 */
 	public AutoScoreHatch() {
 		addSequential(new ApproachTarget(TargetType.kLowTarget));
-		addParallel(new PrepScoreHatch());
 		addSequential(new EjectHatch());
 	}
 
