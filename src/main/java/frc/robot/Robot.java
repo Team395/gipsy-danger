@@ -26,6 +26,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.HatchManipulator;
 import frc.robot.utils.limelight.Limelight;
 import frc.robot.utils.limelight.Limelight.CamMode;
+import frc.robot.utils.limelight.Limelight.Pipeline;
 
 /**
 * The VM is configured to automatically run this class, and to call the
@@ -39,7 +40,7 @@ public class Robot extends TimedRobot {
 	public static SpeedControllerMap speedControllerMap = new SpeedControllerMap();
 	public static Elevator elevator;// = new Elevator();
 	public static CargoManipulator manipulator;// = new Manipulator();
-	public static HatchManipulator hatchManipulator;
+	public static HatchManipulator hatchManipulator = new HatchManipulator();
 	public static Drivetrain drivetrain = new Drivetrain();
 	public static DrivetrainEncoders encoders = new DrivetrainEncoders();
 	public static DrivetrainGyro gyro = new DrivetrainGyro();
@@ -70,9 +71,8 @@ public class Robot extends TimedRobot {
 		// autoChooser.addOption("Score one on back rocket from side", AutoMode.kSingleBackRocketScore);
 		autoChooser.setDefaultOption("Joystick control", AutoMode.kJoystickControl);
 		SmartDashboard.putData(autoChooser);
-
 		Limelight.setCamMode(CamMode.kVision);
-		Limelight.switchPipeline(2);
+		Limelight.switchPipeline(Pipeline.kDriverControl);
 	}
 	
 	/**
