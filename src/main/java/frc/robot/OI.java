@@ -9,11 +9,12 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.commands.AimAtOffset;
+import frc.robot.commands.ApproachTarget;
+import frc.robot.commands.AutoIntakeHatch;
+import frc.robot.commands.AutoScoreHatch;
 import frc.robot.commands.DriveFeet;
-import frc.robot.commands.ElevatorJoystick;
-import frc.robot.commands.ElevatorPreset;
-import frc.robot.commands.ElevatorPreset.PresetHeight;
-import frc.robot.enums.IntakeMode;
+import frc.robot.enums.TargetType;
 import frc.robot.triggers.ElevatorTrigger;
 
 public class OI {
@@ -34,23 +35,35 @@ public class OI {
     // Button retractIntake   = new JoystickButton(xboxController, 7);
     
     Button driveOffStep = new JoystickButton(leftJoystick, 10);
-    // Button elevatorHigh   = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorHigh.getChannel());
-	// Button elevatorMedium = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorMedium.getChannel());
-	// Button elevatorLow    = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorLow.getChannel());
-	// Button elevatorShip   = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorShip.getChannel());
-	// Button elevatorIntake = new JoystickButton(controlBoard, ControlBoard.Button.kElevatorIntake.getChannel());
-	// Button autoIntake     = new JoystickButton(controlBoard, ControlBoard.Button.kAutoIntake.getChannel());
-	// Button autoScore      = new JoystickButton(controlBoard, ControlBoard.Button.kAutoScore.getChannel());
-	// Button spinIntakeOut  = new JoystickButton(controlBoard, ControlBoard.Button.kIntakeOut.getChannel());
-	// Button spinIntakeIn   = new JoystickButton(controlBoard, ControlBoard.Button.kIntakeIn.getChannel());
-	// Button leftTarget     = new JoystickButton(controlBoard, ControlBoard.Button.kLeftTarget.getChannel()); //If pressed, left target, otherwise right target
-	// Button enableClimber  = new JoystickButton(controlBoard, ControlBoard.Button.kClimber.getChannel());
-	// Button hatchMode      = new JoystickButton(controlBoard, ControlBoard.Button.kHatchMode.getChannel());
-	// Button cargoMode      = new JoystickButton(controlBoard, ControlBoard.Button.kCargoMode.getChannel());
-    // Button retractIntake  = new JoystickButton(controlBoard, ControlBoard.Button.kRetractIntake.getChannel());
-    
-	public void setUpTriggers() {
-		// elevatorHigh.whenPressed(new ElevatorPreset(PresetHeight.kHigh));
+
+    Button deployHatchManipulator = new JoystickButton(xboxController, 6);
+    Button retractHatchManipulator = new JoystickButton(xboxController, 5);
+    Button autoScoreHatch = new JoystickButton(xboxController, 3);
+    Button approachTarget = new JoystickButton(xboxController, 4);
+    Button autoIntakeHatch = new JoystickButton(xboxController, 2);
+    Button turnToOffset = new JoystickButton(xboxController, 1);
+
+    public void setUpTriggers() {
+        deployHatchManipulator.whenPressed(
+            new InstantCommand(
+                Robot.hatchManipulator,
+                () -> Robot.hatchManipulator.setHatchSolenoid(Value.kForward)
+            )
+        );
+
+        retractHatchManipulator.whenPressed(
+            new InstantCommand(
+                Robot.hatchManipulator,
+                () -> Robot.hatchManipulator.setHatchSolenoid(Value.kReverse)
+            )
+        );
+
+        approachTarget.whenPressed(new ApproachTarget(TargetType.kLowTarget));
+        autoIntakeHatch.whenPressed(new AutoIntakeHatch());
+        autoScoreHatch.whenPressed(new AutoScoreHatch());
+        turnToOffset.whenPressed(new AimAtOffset(TargetType.kLowTarget));
+
+        // elevatorHigh.whenPressed(new ElevatorPreset(PresetHeight.kHigh));
 		// elevatorMedium.whenPressed(new ElevatorPreset(PresetHeight.kMedium));
 		// elevatorLow.whenPressed(new ElevatorPreset(PresetHeight.kLow));
 		// elevatorShip.whenPressed(new ElevatorPreset(PresetHeight.kShip));
@@ -171,7 +184,6 @@ public class OI {
         return 0;
     }
     
-
     public boolean getCancelAuton() {
         return rightJoystick.getTop() && leftJoystick.getTop();
     }
