@@ -31,7 +31,7 @@ public class DriveToTarget extends Command {
     static final double minOutput = 0.15;
     
     //The proportional constant for the angle adjustment 
-    static final double rotationP = -0.005;
+    static final double rotationP = 0.005;
 
     //The PID controller and PIDOutput. We maintain a reference to linearOutput to set the heading correction.
     LinearOutput linearOutput = Robot.drivetrain.getLinearOutput();
