@@ -16,12 +16,28 @@ import frc.robot.RobotMap;
 import frc.robot.commands.manipulator.IntakeJoystick;
 
 public class CargoManipulator extends Subsystem {
+	final static double maxRollerSpeed = 0.5;
 
-	WPI_TalonSRX intakeController = Robot.speedControllerMap.getTalonByID(RobotMap.intakeRollerTalonID);
-	
+	static double boundToMaxSpeed(double speed) {
+		return Math.max(Math.min(speed, maxRollerSpeed), -maxRollerSpeed);
+	}
+
+	WPI_TalonSRX intakeRollerTopController
+		= Robot.speedControllerMap.getTalonByID(RobotMap.intakeRollerTopTalonID);
+	WPI_TalonSRX intakeRollerBottomController
+		= Robot.speedControllerMap.getTalonByID(RobotMap.intakeRollerBottomTalonId);
+
+	public CargoManipulator() {
+		intakeRollerTopController.setInverted(false);
+		intakeRollerBottomController.setInverted(true);
+	}
+
 	//Controls the roller
 	public void setRollerSpeed(double speed) {
-		intakeController.set(ControlMode.PercentOutput,Math.min(speed, 0.75));
+		intakeRollerTopController.set(ControlMode.PercentOutput,
+			boundToMaxSpeed(speed));
+		intakeRollerBottomController.set(ControlMode.PercentOutput,
+			boundToMaxSpeed(speed));
 	}
 
 	@Override
