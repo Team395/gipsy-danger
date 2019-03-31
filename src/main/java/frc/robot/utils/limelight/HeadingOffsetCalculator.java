@@ -3,11 +3,12 @@ package frc.robot.utils.limelight;
 import frc.robot.enums.TargetType;
 /**
  * This class is responsible for calculating the heading offset used by
- * AimAtOffset and DriveToTarget. The top of the camera is rotated to the left side of the robot.dnsURLContext
- */
+ * AimAtOffset and DriveToTarget
+*/
 public class HeadingOffsetCalculator {
-    static final double cameraHeightInches = 8.375; //TODO: Remeasure
-	static final double cameraAngle = 45;
+    static final double cameraHeightInches = 8;
+    static final double cameraAngle = 30;
+
 
     /**
      * maxOffset: The maximum angle offset an approach will target.
@@ -19,11 +20,12 @@ public class HeadingOffsetCalculator {
     public static Side getSide(Corners corners) {
         corners = Limelight.getContourCorners();
         
+
         if(!corners.validCorners) {
             return null;
         }
 
-        return corners.bottomLeft.x > corners.topLeft.x ? Side.kRight : Side.kLeft;
+        return corners.topRight.y > corners.topLeft.y ? Side.kRight : Side.kLeft;
     }
     
     public static double calculateDistance(Contour contour, TargetType targetType) {
@@ -43,6 +45,7 @@ public class HeadingOffsetCalculator {
         if(contour == null) {
             throw new IllegalArgumentException("Contour passed in was null");
         }    
+
         double distance = calculateDistance(contour, targetType);
         Side side = getSide(corners);
 
@@ -57,7 +60,7 @@ public class HeadingOffsetCalculator {
      * A positive angle denotes turning in a positive direction.
      */
     public static double calculateTotalOffset(Contour contour, Corners corners, TargetType targetType) {
-        return -contour.yOffset + calculateAdditionalOffset(contour, corners, targetType);
+        return -contour.xOffset + calculateAdditionalOffset(contour, corners, targetType);
     }
 
     private HeadingOffsetCalculator() {
