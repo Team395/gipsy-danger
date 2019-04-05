@@ -8,8 +8,11 @@ import frc.robot.utils.limelight.Limelight;
 
 public class ApproachTarget extends CommandGroup {
 	
-	//TODO: Fix
 	public ApproachTarget(TargetType targetType) {
+		this(targetType, true);
+	}
+
+	public ApproachTarget(TargetType targetType, boolean useOffset) {
 		addSequential(new InstantCommand(
 				() -> {
 					//if(Robot.oi.getLeftTarget()) {
@@ -22,8 +25,8 @@ public class ApproachTarget extends CommandGroup {
 		);
 		addSequential(new WaitCommand(0.25));
 
-		addSequential(new AimAtOffset(targetType));
-		addSequential(new DriveToTarget(targetType));
+		addSequential(new AimAtOffset(targetType, useOffset));
+		addSequential(new DriveToTarget(targetType, useOffset));
 		addSequential(new InstantCommand(
 				() -> {
 					Limelight.switchPipeline(2);

@@ -1,156 +1,104 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.AimAtOffset;
-import frc.robot.commands.ApproachTarget;
+import frc.robot.commands.AutoIntakeCargo;
 import frc.robot.commands.AutoIntakeHatch;
+import frc.robot.commands.AutoScoreCargo;
 import frc.robot.commands.AutoScoreHatch;
 import frc.robot.commands.DriveFeet;
-import frc.robot.enums.TargetType;
+import frc.robot.commands.OneShotClimb;
+import frc.robot.commands.manipulator.RetractManipulator;
 import frc.robot.triggers.ElevatorTrigger;
+import frc.robot.triggers.XboxTriggerTrigger;
+import frc.robot.enums.TargetType;
 
 public class OI {
+    static final double joystickDeadzone = 0.1;
+
+    public Trigger elevatorTrigger = new ElevatorTrigger();
+
     Joystick leftJoystick = new Joystick(0);
     Joystick rightJoystick = new Joystick(1);
     XboxController xboxController = new XboxController(2);
 
-	static final double joystickDeadzone = 0.1;
+    //Joystick Controls
+    Button autoIntakeHatch = new JoystickButton(leftJoystick, 4);
+    Button autoIntakeCargo = new JoystickButton(rightJoystick, 4);
+    Button autoScoreHatch = new JoystickButton(leftJoystick, 5);
+    Button autoScoreCargo = new JoystickButton(rightJoystick, 5);
     
-    public ElevatorTrigger elevatorTrigger;//= new ElevatorTrigger();
-    
+    Button climbMode = new JoystickButton(leftJoystick, 10);
 
-    // Button elevatorMedium  = new JoystickButton(xboxController, 4);
-	// Button elevatorLow     = new JoystickButton(xboxController, 2);
-    // Button elevatorShip    = new JoystickButton(xboxController, 1);
-    // Button elevatorIntake  = new JoystickButton(xboxController, 9); 
-    // Button toggleGamePiece = new JoystickButton(xboxController, 8);
-    // Button retractIntake   = new JoystickButton(xboxController, 7);
-    
-    Button driveOffStep = new JoystickButton(leftJoystick, 10);
+    //Xbox Controls
+    Button cargoLevelTwo = new JoystickButton(xboxController, 4);
+    Button cargoShip = new JoystickButton(xboxController, 2);
+    Button cargoIntake = new JoystickButton(xboxController, 1);
+    Button hatchLevelTwo = new JoystickButton(xboxController, 3);
+    Button hatchLevelOne = new JoystickButton(xboxController, 9);
 
-    Button deployHatchManipulator = new JoystickButton(xboxController, 6);
-    Button retractHatchManipulator = new JoystickButton(xboxController, 5);
-    Button autoScoreHatch = new JoystickButton(xboxController, 3);
-    Button approachTarget = new JoystickButton(xboxController, 4);
-    Button autoIntakeHatch = new JoystickButton(xboxController, 2);
-    Button turnToOffset = new JoystickButton(xboxController, 1);
+    Button defenseMode = new JoystickButton(xboxController, 10);
+    
+    Button openHatchMechanism = new JoystickButton(xboxController, 6);
+    Button closeHatchMechanism = new JoystickButton(xboxController, 5);
+    Trigger deployHatchMechanism = new XboxTriggerTrigger(xboxController, Hand.kRight);
+    Trigger retractHatchMechanism = new XboxTriggerTrigger(xboxController, Hand.kLeft);
 
     public void setUpTriggers() {
-        deployHatchManipulator.whenPressed(
-            new InstantCommand(
-                Robot.hatchManipulator,
-                () -> Robot.hatchManipulator.setHatchSolenoid(Value.kForward)
-            )
-        );
-
-        retractHatchManipulator.whenPressed(
-            new InstantCommand(
-                Robot.hatchManipulator,
-                () -> Robot.hatchManipulator.setHatchSolenoid(Value.kReverse)
-            )
-        );
-
-        approachTarget.whenPressed(new ApproachTarget(TargetType.kLowTarget));
+        //Joystick Controls
         autoIntakeHatch.whenPressed(new AutoIntakeHatch());
-        autoScoreHatch.whenPressed(new AutoScoreHatch());
-        turnToOffset.whenPressed(new AimAtOffset(TargetType.kLowTarget));
-
-        // elevatorHigh.whenPressed(new ElevatorPreset(PresetHeight.kHigh));
-		// elevatorMedium.whenPressed(new ElevatorPreset(PresetHeight.kMedium));
-		// elevatorLow.whenPressed(new ElevatorPreset(PresetHeight.kLow));
-		// elevatorShip.whenPressed(new ElevatorPreset(PresetHeight.kShip));
-		// elevatorIntake.whenPressed(new ElevatorPreset(PresetHeight.kZero));
-        // elevatorTrigger.whenActive(new ElevatorJoystick()); 
-
-        /**
-         * TODO: Replace
-         *  autoIntake.whenPressed(new ConditionalAutoIntake());
-         *	autoScore.whenPressed(new AutoScoreChooser());
-         */
-
-         //TODO: Remove
-        // autoIntake.whenPressed(
-        //     new ConditionalCommand(
-        //         new PrepIntakeCargo(),
-        //         new PrepIntakeHatch()) {
-        //             @Override
-        //             public boolean condition(){
-        //                 return Robot.oi.getCargoMode();
-        //             }
-        //     }
-        // );
+        autoIntakeCargo.whenPressed(new AutoIntakeCargo());
+        autoScoreHatch.whenPressed(new AutoScoreHatch()); //TODO: Finish implementing multiple heights
+        autoScoreCargo.whenPressed(new AutoScoreCargo());
         
-        // //TODO: Remove
-        // autoScore.whenPressed(
-        //     new ConditionalCommand(
-        //         new EjectCargo(),
-        //         new EjectHatch()) {
-        //             @Override
-        //             public boolean condition(){
-        //                 return Robot.oi.getCargoMode();
-        //             }
-        //     }
-        // );
+        climbMode.whenPressed(new OneShotClimb());
 
+
+        //todo: delete
+        cargoLevelTwo.whenPressed(new DriveFeet(-1));
+        //Xbox Controls
+        //cargoLevelTwo.whenPressed(new ElevatorPreset(PresetHeight.kCargoLevelTwo));
+        //cargoShip.whenPressed(new ElevatorPreset(PresetHeight.kCargoShip));
+        //cargoIntake.whenPressed(new ElevatorPreset(PresetHeight.kCargoIntake));
+        //hatchLevelTwo.whenPressed(new ElevatorPreset(PresetHeight.kHatchLevelTwo));
+        //hatchLevelOne.whenPressed(new ElevatorPreset(PresetHeight.kHatchLevelOne));
+
+        defenseMode.whenPressed(new RetractManipulator());
         
-        // // enableClimber.whenPressed(new OneShotClimb());
-        
-        // toggleGamePiece.whenPressed(
-        //     new InstantCommand(
-        //         Robot.manipulator,
-        //         () -> {
-        //             if(Robot.manipulator.getPopoutPosition() == Value.kReverse) {
-        //                 Robot.manipulator.actuatePopout(Value.kForward);
-        //             } else if(Robot.manipulator.getPopoutPosition() == Value.kForward) {
-        //                 Robot.manipulator.actuatePopout(Value.kReverse);
-        //             } else {
-        //                 Robot.manipulator.actuatePopout(Value.kReverse);
-        //             }
-        //             // if(Robot.manipulator.getIntakeMode() == IntakeMode.kCargo) {
-        //             //     Robot.manipulator.setIntakeMode(IntakeMode.kHatchPanel);
-        //             //     Robot.manipulator.actuatePopout(Value.kReverse);
-        //             // } if(Robot.manipulator.getIntakeMode() == IntakeMode.kHatchPanel) {
-        //             //     Robot.manipulator.setIntakeMode(IntakeMode.kCargo);
-        //             //     Robot.manipulator.actuatePopout(Value.kForward);
-        //             // }
-        //         }
-        //     )
-        // );
-    
-        // hatchMode.whenPressed(
-        //     new InstantCommand(
-        //         Robot.manipulator, 
-        //         () -> Robot.manipulator.actuatePopout(Value.kReverse)
-        //     ) 
-        // );
-
-        // cargoMode.whenPressed(
-        //     new InstantCommand(
-        //         Robot.manipulator, 
-        //         () -> Robot.manipulator.actuatePopout(Value.kForward)
-        //     ) 
-        // );
-
-        //retractIntake.whenPressed(new RetractManipulator());
-    
-        driveOffStep.whenPressed(
-            new ConditionalCommand( 
-                new DriveFeet(-5, false)) {
-                    @Override
-                    public boolean condition() {
-                        return Timer.getMatchTime() <= 15;
-                    }
-                }
+        openHatchMechanism.whenPressed(
+            new InstantCommand(
+                Robot.hatchManipulator,
+                () -> Robot.hatchManipulator.setHatchMechanismOpen(true)
+            )
         );
-	}
+
+        closeHatchMechanism.whenPressed(
+            new InstantCommand(
+                Robot.hatchManipulator,
+                () -> Robot.hatchManipulator.setHatchMechanismOpen(false)
+            )
+        );
+        
+        deployHatchMechanism.whenActive(
+            new InstantCommand(
+                Robot.hatchManipulator,
+                () -> Robot.hatchManipulator.setHatchMechanismDeployed(true)
+            )
+        );
+        
+        retractHatchMechanism.whenActive(
+            new InstantCommand(
+                Robot.hatchManipulator,
+                () -> Robot.hatchManipulator.setHatchMechanismDeployed(false)
+            )
+        );
+    }
 	
 	private double getJoyY(Joystick stick) {
 		if(Math.abs(stick.getY()) < joystickDeadzone) {
@@ -168,8 +116,11 @@ public class OI {
 		return getJoyY(rightJoystick);
 	}
 	
-	public double getIntakeThrottle() {
-        return -xboxController.getY(Hand.kRight);
+	public double getCargoIntakeRollerThrottle() {
+        double value = xboxController.getY(Hand.kRight);
+        if(Math.abs(value) < 0.3) { return 0; }
+
+        return -value;
     }
     
     public double getElevatorThrottle() {

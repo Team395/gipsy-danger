@@ -14,6 +14,7 @@ import frc.robot.utils.limelight.Contour;
 import frc.robot.Robot;
 import frc.robot.utils.limelight.*;
 import frc.robot.enums.TargetType;
+import frc.robot.subsystems.Elevator;
 
 public class AimAtOffset extends Command {
 	
@@ -30,12 +31,18 @@ public class AimAtOffset extends Command {
 	
 	//Initalize a PIDController with a 10 ms period
 	PIDController pidController = new PIDController(p, 0, d, Robot.gyro.getYawSource(), Robot.drivetrain.getTurnOutput(), 0.01);
-	
+	boolean useOffset;
+
 	public AimAtOffset(TargetType targetType) {
+		this(targetType, true);
+	}
+
+	public AimAtOffset(TargetType targetType, boolean useOffset) {
 		requires(Robot.drivetrain);
 		setInterruptible(false);
 
 		this.targetType = targetType;
+		this.useOffset = useOffset;
 		pidController.setOutputRange(-maxOutput, maxOutput);
 	}
 	
@@ -46,8 +53,15 @@ public class AimAtOffset extends Command {
 		
 		if(contour != null) {
 			Corners corners = Limelight.getContourCorners();
-			
-			double totalOffset = HeadingOffsetCalculator.calculateTotalOffset(contour, corners, targetType);
+			double totalOffset;
+			if(useOffset) {
+				totalOffset = HeadingOffsetCalculator.calculateTotalOffset(contour
+										, corners
+										, targetType
+										, 0);//Robot.elevator.getEndEffectorHeight());
+			} else {
+				totalOffset = HeadingOffsetCalculator.calculateXAngle(contour);
+			}
 			pidController.setSetpoint(Robot.gyro.getYaw() + totalOffset);
 			pidController.enable();
 		} else {
@@ -58,7 +72,20 @@ public class AimAtOffset extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-
+		contour = Limelight.getBestContour();
+		if(contour != null) {
+			Corners corners = Limelight.getContourCorners();
+			double totalOffset;
+			if(useOffset) {
+				totalOffset = HeadingOffsetCalculator.calculateTotalOffset(contour
+										, corners
+										, targetType
+										, 0);//Robot.elevator.getEndEffectorHeight());
+			} else {
+				totalOffset = HeadingOffsetCalculator.calculateXAngle(contour);
+			}
+			pidController.setSetpoint(Robot.gyro.getYaw() + totalOffset);
+		}
 	}
 	
 	// Make this return true when this Command no longer needs to run execute()

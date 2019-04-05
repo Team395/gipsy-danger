@@ -17,7 +17,7 @@ public class Corners {
     public final Point bottomRight;
 
     public Corners(double[] xCorners, double[] yCorners) {
-        if((xCorners == null || xCorners.length != 8) || (yCorners == null || yCorners.length != 8)) {
+        if((xCorners == null || yCorners == null || yCorners.length != xCorners.length)) {
             validCorners = false;
             topLeft = null;
             topRight = null;
@@ -29,7 +29,7 @@ public class Corners {
         validCorners = true;
         ArrayList<Point> temp = new ArrayList<>();
 
-        for(int i = 0; i < 8; i++) {
+        for(int i = 0; i < xCorners.length; i++) {
             temp.add(i, new Point(xCorners[i], yCorners[i]));
         }
 

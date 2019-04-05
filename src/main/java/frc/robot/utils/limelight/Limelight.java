@@ -4,7 +4,9 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight {
-	
+	static Contour lastContourPulled;
+	public static double successfulDriveArea = 0.12;
+
 	public static enum Pipeline{
 		kLeftTarget(0),
 		kRightTarget(1),
@@ -46,18 +48,26 @@ public class Limelight {
 	public static Contour getBestContour() {
 		//Check if a valid contour is found 
 		if(limelightTable.getEntry("tv").getNumber(0).equals(1.0)) {
-			return new Contour(limelightTable.getEntry("tx").getDouble(0),
+			lastContourPulled = new Contour(limelightTable.getEntry("tx").getDouble(0),
 			limelightTable.getEntry("ty").getDouble(0),
 			limelightTable.getEntry("ta").getDouble(0),
 			limelightTable.getEntry("ts").getDouble(0),
 			limelightTable.getEntry("tl").getDouble(0));
+			return lastContourPulled;
 		} else {
 			return null;
 		}
 	}
 	
+	public static Contour getLastContourPulled() {
+		return lastContourPulled;
+	}
 	public static Corners getContourCorners() {
 		return new Corners(limelightTable.getEntry("tcornx").getDoubleArray((double[]) null),
 		limelightTable.getEntry("tcorny").getDoubleArray((double[]) null));
+	}
+
+	public static void clearLastSeenContour() {
+		lastContourPulled = null;
 	}
 }

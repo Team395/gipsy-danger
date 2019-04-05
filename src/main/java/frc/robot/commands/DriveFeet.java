@@ -37,14 +37,14 @@ public class DriveFeet extends Command {
 		this.distance = distance;
 		//Set up PIDController and sensors
 		pidController.setAbsoluteTolerance(1);
-		pidController.setOutputRange(-0.75, 0.75);
-		
+		pidController.setOutputRange(-0.5, 0.5);
 		setInterruptible(false);
 	}
 	
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		Robot.encoders.zeroEncoders();
 		this.initialHeading = Robot.gyro.getYaw();
 		//Set setpoint and enable
 		pidController.setSetpoint(distance + Robot.encoders.getAveragedEncoderFeet());

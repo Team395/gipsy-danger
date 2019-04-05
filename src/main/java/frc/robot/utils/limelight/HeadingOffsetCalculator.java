@@ -1,13 +1,15 @@
 package frc.robot.utils.limelight;
 
 import frc.robot.enums.TargetType;
+import frc.robot.enums.Side;
+
 /**
  * This class is responsible for calculating the heading offset used by
  * AimAtOffset and DriveToTarget
 */
 public class HeadingOffsetCalculator {
-    static final double cameraHeightInches = 8;
-    static final double cameraAngle = 30;
+    static final double cameraHeightInches = 30;
+    static final double cameraAngle = 0;
 
 
     /**
@@ -28,25 +30,29 @@ public class HeadingOffsetCalculator {
         return corners.topRight.y > corners.topLeft.y ? Side.kRight : Side.kLeft;
     }
     
-    public static double calculateDistance(Contour contour, TargetType targetType) {
+    public static double calculateDistance(Contour contour, TargetType targetType, double elevatorHeight) {
         if(contour == null) {
             throw new IllegalArgumentException("Contour passed in was null");
         }    
 
-        return (targetType.getHeightInches() - cameraHeightInches) / 
-            Math.tan(Math.toRadians(cameraAngle + contour.yOffset)) / 12;
+        return 80.6364/Math.pow(contour.percentArea, 0.5) / 12;
+        // return (targetType.getHeightInches() - (cameraHeightInches + elevatorHeight)) / 
+        //     Math.tan(Math.toRadians(cameraAngle + contour.yOffset)) / 12;
     }
 
     /**
      * Calculates the distance to turn past center to hit the offset point.
      * A positive angle denotes turning in a positive direction.
      */
-    public static double calculateAdditionalOffset(Contour contour, Corners corners, TargetType targetType) {
+    public static double calculateAdditionalOffset(Contour contour
+            , Corners corners
+            , TargetType targetType
+            , double elevatorHeight) {
         if(contour == null) {
             throw new IllegalArgumentException("Contour passed in was null");
         }    
 
-        double distance = calculateDistance(contour, targetType);
+        double distance = calculateDistance(contour, targetType, elevatorHeight);
         Side side = getSide(corners);
 
         double additionalOffsetSign = side == Side.kLeft ? 1 : -1;
@@ -59,16 +65,18 @@ public class HeadingOffsetCalculator {
      * Calculates the distance to turn to hit the offset point.
      * A positive angle denotes turning in a positive direction.
      */
-    public static double calculateTotalOffset(Contour contour, Corners corners, TargetType targetType) {
-        return -contour.xOffset + calculateAdditionalOffset(contour, corners, targetType);
+    public static double calculateTotalOffset(Contour contour
+            , Corners corners
+            , TargetType targetType
+            , double elevatorHeight) {
+        return calculateXAngle(contour) + calculateAdditionalOffset(contour, corners, targetType, elevatorHeight);
+    }
+
+    public static double calculateXAngle(Contour contour) {
+        return -contour.xOffset;
     }
 
     private HeadingOffsetCalculator() {
 
     }
-
-    private enum Side {
-        kLeft,
-        kRight
-    };
 }

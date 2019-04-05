@@ -8,21 +8,31 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.commands.manipulator.RetractManipulator;
+import frc.robot.Robot;
 
 public class OneShotClimb extends CommandGroup {
 	
 	public OneShotClimb() {
-		setInterruptible(false);
-		//   addSequential(new ManipulatorClimbMode());
-		//   addSequential(new LevelRobot());
-		//   addParallel(new CommandGroup() {
-		//     {
-		//       addSequential(new DriveDownClimber());
-		//       addSequential(new DriveForwardClimber());
-		//     }
-		//   });
-		//   addSequential(new RetractToSafeDistance());
+		// setInterruptible(false);
+		// addSequential(new RetractManipulator());
+		// addParallel(
+		// 	new InstantCommand(
+		// 		Robot.climber,
+		// 		() -> Robot.climber.deployWheels()
+		// 	)
+		// );
+		// addSequential(new LevelRobot());
+		// addParallel(
+		// 	new CommandGroup() {
+		// 		{
+		// 			addSequential(new DriveDownClimber());
+		// 			addSequential(new DriveForwardClimber());
+		// 		}
+		// 	}
+		// );
+		// addSequential(new RetractToSafeDistance());
 	}
 }
 		

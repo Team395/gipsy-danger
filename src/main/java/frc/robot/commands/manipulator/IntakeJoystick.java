@@ -13,7 +13,7 @@ import frc.robot.Robot;
 public class IntakeJoystick extends Command {
 
   public IntakeJoystick() {
-    requires(Robot.manipulator);
+    requires(Robot.cargoManipulator);
   }
 
   // Called just before this Command runs the first time
@@ -24,7 +24,7 @@ public class IntakeJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.manipulator.setRollerSpeed(Robot.oi.getIntakeThrottle());
+    Robot.cargoManipulator.setRollerSpeed(Robot.oi.getCargoIntakeRollerThrottle());
   }
 
   // Make this return true when this Command no longer needs to run execute()

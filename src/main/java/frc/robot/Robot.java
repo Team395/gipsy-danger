@@ -17,6 +17,7 @@ import frc.robot.autonomous.ScoreSingleFrontRocketFromSide;
 import frc.robot.autonomous.ScoreSingleShipFromCenter;
 import frc.robot.enums.AutoMode;
 import frc.robot.enums.Side;
+import frc.robot.enums.TargetType;
 import frc.robot.subsystems.CargoManipulator;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -24,6 +25,7 @@ import frc.robot.subsystems.DrivetrainEncoders;
 import frc.robot.subsystems.DrivetrainGyro;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.HatchManipulator;
+import frc.robot.utils.limelight.HeadingOffsetCalculator;
 import frc.robot.utils.limelight.Limelight;
 import frc.robot.utils.limelight.Limelight.CamMode;
 import frc.robot.utils.limelight.Limelight.Pipeline;
@@ -39,7 +41,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static SpeedControllerMap speedControllerMap = new SpeedControllerMap();
 	public static Elevator elevator;// = new Elevator();
-	public static CargoManipulator manipulator;// = new Manipulator();
+	public static CargoManipulator cargoManipulator = new CargoManipulator();
 	public static HatchManipulator hatchManipulator = new HatchManipulator();
 	public static Drivetrain drivetrain = new Drivetrain();
 	public static DrivetrainEncoders encoders = new DrivetrainEncoders();
@@ -160,6 +162,21 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		var contour = Limelight.getBestContour();
+
+		if(contour != null) {
+			SmartDashboard.putNumber("Distance", HeadingOffsetCalculator.calculateDistance(
+				contour,
+				TargetType.kLowTarget, 
+				0)
+			);
+
+			SmartDashboard.putBoolean("SideIsLeft"
+				, HeadingOffsetCalculator
+					.getSide(Limelight.getContourCorners())
+				== Side.kLeft
+			);
+		}
 	}
 	
 	ArrayList<Solenoid> solenoids = new ArrayList<>();

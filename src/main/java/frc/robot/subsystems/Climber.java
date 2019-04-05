@@ -9,34 +9,53 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ClimberDrive;
 
 /**
- * Add your docs here.
- */
+* Add your docs here.
+*/
 public class Climber extends Subsystem {
 
-  WPI_TalonSRX leadScrew = Robot.speedControllerMap.getTalonByID(RobotMap.climberLeadScrewTalonID);
-  WPI_TalonSRX wheelPod = Robot.speedControllerMap.getTalonByID(RobotMap.climberWheelPodTalonID);
+	final static double leftLocked = 0;
+	final static double leftFreed = 0;
+	final static double rightLocked = 0;
+	final static double rightFreed = 0;
 
-  double fixedSpeedForTesting = 0;
+	WPI_TalonSRX leadScrew = Robot.speedControllerMap.getTalonByID(RobotMap.climberLeadScrewTalonID);
+	WPI_TalonSRX wheelPod = Robot.speedControllerMap.getTalonByID(RobotMap.climberWheelPodTalonID);
+	Servo leftWheelLock = new Servo(RobotMap.leftLockServoPWM);
+	Servo rightWheelLock = new Servo(RobotMap.rightLockServoPWM);
+	
+	double fixedSpeedForTesting = 0;
+	
+	public Climber() {
+		resetWheels();
+	}
+	
+	@Override
+	public void initDefaultCommand() {
+		setDefaultCommand(new ClimberDrive());
+	}
+	
+	public void leadScrewDrive(double speed) {
+		leadScrew.set(speed);
+	}
+	
+	public void wheelPodDrive(double speed) {
+		wheelPod.set(speed);
+	}
 
-  public Climber() {
-  }
+	public void deployWheels() {
+		leftWheelLock.set(leftFreed);
+		rightWheelLock.set(rightFreed);
+	}
 
-  @Override
-  public void initDefaultCommand() {
-    setDefaultCommand(new ClimberDrive());
-  }
-
-  public void leadScrewDrive(double speed) {
-    leadScrew.set(speed);
-  }
-
-  public void wheelPodDrive(double speed) {
-    wheelPod.set(speed);
-  }
+	public void resetWheels() {
+		leftWheelLock.set(leftLocked);
+		rightWheelLock.set(rightLocked);
+	}
 }

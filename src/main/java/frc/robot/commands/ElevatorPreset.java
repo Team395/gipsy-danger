@@ -8,13 +8,13 @@ public class ElevatorPreset extends Command {
 	PresetHeight setpoint;
 
 	public static enum PresetHeight {
-		kHigh(83.5),
-		kMedium(54),
-		kLow(27.5),
-		kShip(54),
-		kLoading(8),
+		kCargoLevelTwo(0),
+		kCargoShip(0),
+		kCargoIntake(0),
+		kHatchLevelTwo(0),
+		kHatchLevelOne(0),
 		kZero(0),
-		kMaxHeight(84.43);
+		kMaxHeight(0);
 		
 		private final double height;
 		

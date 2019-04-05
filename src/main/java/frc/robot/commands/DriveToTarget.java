@@ -19,7 +19,7 @@ import frc.robot.utils.limelight.HeadingOffsetCalculator;
 public class DriveToTarget extends Command {
     
     //The amount of time the command will continue to run without seeing a contour in seconds.
-    static final double maxTimeWithoutContour = 0.30;
+    static final double maxTimeWithoutContour = 0.05;
     //A double variable holding the last time a valid contour was seen.
     double contourLastSeenTime;
 
@@ -38,15 +38,20 @@ public class DriveToTarget extends Command {
     PIDController pidController = new PIDController(p, i, d, Robot.encoders, linearOutput);
     
     TargetType targetType;
+    boolean useOffset;
 
     Contour contour;
     
     public DriveToTarget(TargetType targetType) {
+        this(targetType, true);
+    }
+
+    public DriveToTarget(TargetType targetType, boolean useOffset) {
         requires(Robot.drivetrain);
         setInterruptible(false);
 
         this.targetType = targetType;
-
+        this.useOffset = useOffset;
         pidController.setOutputRange(minOutput, maxOutput);
     }
     
@@ -71,13 +76,22 @@ public class DriveToTarget extends Command {
 
             //Set the setpoint for distance relative to current position
             pidController.setSetpoint(
-                Robot.encoders.getAveragedEncoderFeet() + 
-                HeadingOffsetCalculator.calculateDistance(contour, targetType)
+                Robot.encoders.getAveragedEncoderFeet()
+                    + HeadingOffsetCalculator.calculateDistance(contour
+                        , targetType
+                        , 0)//Robot.elevator.getEndEffectorHeight())
             );
-
-            linearOutput.setHeadingCorrection(
-                rotationP * HeadingOffsetCalculator.calculateTotalOffset(contour, corners, targetType)
-            );
+            double totalOffset;
+            if(useOffset) {
+				totalOffset = HeadingOffsetCalculator.calculateTotalOffset(contour
+										, corners
+										, targetType
+										, 0);//Robot.elevator.getEndEffectorHeight());
+			} else {
+				totalOffset = HeadingOffsetCalculator.calculateXAngle(contour);
+            }
+            
+            linearOutput.setHeadingCorrection(rotationP * totalOffset);
         } else {
             linearOutput.setHeadingCorrection(0);
         }

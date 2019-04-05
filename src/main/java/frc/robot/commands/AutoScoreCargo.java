@@ -3,21 +3,17 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import frc.robot.Robot;
-import frc.robot.commands.manipulator.IntakeHatch;
-import frc.robot.commands.manipulator.PrepIntakeHatch;
 import frc.robot.enums.TargetType;
 import frc.robot.utils.limelight.Limelight;
+import frc.robot.commands.manipulator.EjectCargo;
 
-public class AutoIntakeHatch extends CommandGroup {
-
-	public AutoIntakeHatch() {
+public class AutoScoreCargo extends CommandGroup {
+	public AutoScoreCargo() {
 		setInterruptible(false);
-		//addSequential(new ElevatorPreset(ElevatorPreset.PresetHeight.kHatchLevelOne));
-		addParallel(new PrepIntakeHatch());
+		//addSequential(new ElevatorPreset(PresetHeight.kCargoShip));
 		addSequential(new ApproachTarget(TargetType.kLowTarget));
-		addSequential(new TimedDrive(0.25, 0.5));
 		addSequential(new ConditionalCommand(
-			new IntakeHatch()) {
+			new EjectCargo()) {
 				@Override
 				public boolean condition() {
 					return Limelight.getLastContourPulled() != null &&
