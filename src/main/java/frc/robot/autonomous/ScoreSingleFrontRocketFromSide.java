@@ -12,7 +12,6 @@ import frc.robot.Robot;
 import frc.robot.commands.AutoIntakeHatch;
 import frc.robot.commands.AutoScoreHatch;
 import frc.robot.commands.DriveFeet;
-import frc.robot.commands.ElevatorPreset;
 import frc.robot.commands.TurnToDegree;
 import frc.robot.enums.Side;
 

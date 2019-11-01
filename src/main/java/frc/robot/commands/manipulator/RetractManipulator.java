@@ -13,7 +13,8 @@ public class RetractManipulator extends Command {
 
 	Timer timer = new Timer();
 
-	public RetractManipulator()	{
+	public 
+	RetractManipulator()	{
 		requires(Robot.hatchManipulator);
 	}
 	
@@ -35,7 +36,7 @@ public class RetractManipulator extends Command {
 			Robot.hatchManipulator.setHatchMechanismOpen(false);
 			timer.reset();
 			timer.start();
-		} else if(timer.hasPeriodPassed(retractWaitTime)) {
+		} else if(!Robot.hatchManipulator.getHatchMechanismOpen() && timer.hasPeriodPassed(retractWaitTime)) {
 			Robot.hatchManipulator.setHatchMechanismDeployed(false);
 		}
 	}

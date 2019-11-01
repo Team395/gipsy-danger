@@ -28,8 +28,8 @@ public class CargoManipulator extends Subsystem {
 		= Robot.speedControllerMap.getTalonByID(RobotMap.intakeRollerBottomTalonId);
 
 	public CargoManipulator() {
-		intakeRollerTopController.setInverted(false);
-		intakeRollerBottomController.setInverted(true);
+		intakeRollerTopController.setInverted(true);
+		intakeRollerBottomController.setInverted(false);
 	}
 
 	//Controls the roller

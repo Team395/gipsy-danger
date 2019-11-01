@@ -19,7 +19,8 @@ public class TankDrive extends Command {
 	public final static double highShiftSpeed = 9;
 	double lastShiftTime = Timer.getFPGATimestamp();
 	final static double shiftDelay = 1;
-	boolean easyMode = false;
+	boolean easyMode = true;
+	final double slowdown = 0.4;
 
 	public TankDrive() {
 		// Use requires() here to declare subsystem dependencies
@@ -47,8 +48,8 @@ public class TankDrive extends Command {
 		}
 
 		if(Robot.oi.getHalfSpeed()) {
-			Robot.drivetrain.tankDrive(Robot.oi.getLeftY() / 2,
-								       Robot.oi.getRightY() / 2);
+			Robot.drivetrain.tankDrive(Robot.oi.getLeftY() * slowdown,
+								       Robot.oi.getRightY() * slowdown);
 		} else {
 			Robot.drivetrain.tankDrive(Robot.oi.getLeftY(),
 			Robot.oi.getRightY());

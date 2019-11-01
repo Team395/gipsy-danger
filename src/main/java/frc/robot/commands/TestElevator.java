@@ -10,9 +10,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ClimberDrive extends Command {
-  public ClimberDrive() {
-    requires(Robot.climber);
+public class TestElevator extends Command {
+  public TestElevator() {
+    requires(Robot.elevator);
+    setInterruptible(false);
   }
 
   // Called just before this Command runs the first time
@@ -23,7 +24,7 @@ public class ClimberDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.climber.leadScrewDrive(Robot.oi.getClimberThrottle());
+    Robot.elevator.test(Robot.oi.getElevatorThrottle());
   }
 
   // Make this return true when this Command no longer needs to run execute()

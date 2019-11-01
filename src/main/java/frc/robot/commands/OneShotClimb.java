@@ -8,9 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.commands.manipulator.RetractManipulator;
-import frc.robot.Robot;
 
 public class OneShotClimb extends CommandGroup {
 	

@@ -1,16 +1,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.command.WaitForChildren;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
  * Waits for all paralleled commands to end
  */
-public class LevelRobot extends WaitForChildren {
+public class LevelRobot extends Command {
 
-  final static double p = 1.0/20.0;
-  final static double d = 1.0/200.0;
+  final static double p = 1.0/15.0;
+  final static double d = 1.0/20.0;
 
   //The forward/backward tilt axis is roll rather than pitch
   PIDController pidController = new PIDController(p, 0, d, Robot.gyro.getRollSource(), Robot.elevator.levelElevator());
@@ -42,6 +42,11 @@ public class LevelRobot extends WaitForChildren {
   @Override
   protected void interrupted() {
     end();
+  }
+
+  @Override 
+  protected boolean isFinished() {
+    return false;
   }
 
 }

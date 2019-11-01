@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.can.FilterConfiguration;
 import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPXConfiguration;
@@ -43,8 +42,6 @@ public class Elevator extends Subsystem {
   SlotConfiguration slot0 = new SlotConfiguration();
   SlotConfiguration slot1 = new SlotConfiguration();
 
-  FilterConfiguration gyroFilterConfiguration = new FilterConfiguration();
-
   /**
    * 1 rot / 4096 ticks *
    * 16 teeth / rot *
@@ -55,22 +52,21 @@ public class Elevator extends Subsystem {
 
   final double inchesPerTick = 0.0009765625;
   final double ticksPerInch = 1024;
-  final double cascadeCorrection = 2; //HALF for two stage elevator
   
   final double allowableErrorInches = 0.25;
-  final double climbingFeedforward = -0.17; 
+  final double climbingFeedforward = -0.18; 
 
   public Elevator() {
     slot0.kP = 0.5; //TODO
     slot0.kI = 0; //TODO
     slot0.kD = 0; //TODO
-    slot0.kF = 0.27; //0.2046; //5000 units/100 ms
+    slot0.kF = 0.22;
 
     slot0.integralZone = 0; 
     slot0.allowableClosedloopError = 0;
 
-    leaderConfig.motionCruiseVelocity = 1500;
-    leaderConfig.motionAcceleration = 1000; 
+    leaderConfig.motionCruiseVelocity = 8000;
+    leaderConfig.motionAcceleration = 3500; 
     
     leaderConfig.continuousCurrentLimit = 30;
     leaderConfig.peakCurrentLimit = 30;
@@ -82,13 +78,12 @@ public class Elevator extends Subsystem {
     leaderConfig.reverseSoftLimitEnable = true;
     leaderConfig.reverseSoftLimitThreshold = 100;
     leaderConfig.forwardSoftLimitEnable = true;
-    leaderConfig.forwardSoftLimitThreshold = (int) (60 * ticksPerInch); //HALF for two stage elevator
+    leaderConfig.forwardSoftLimitThreshold = (int) (11 * ticksPerInch); 
     
     leaderConfig.slot0 = slot0;
 
-    elevatorFollower.configAllSettings(defaultConfig);
-
-
+    //elevatorFollower.configAllSettings(defaultConfig);
+    
     elevatorFollower.follow(elevatorLeader); 
     
     elevatorLeader.configAllSettings(leaderConfig);
@@ -98,11 +93,11 @@ public class Elevator extends Subsystem {
   }
 
   public double getEndEffectorHeight() {
-    return (elevatorLeader.getSelectedSensorPosition() * inchesPerTick * cascadeCorrection);
+    return (elevatorLeader.getSelectedSensorPosition() * inchesPerTick);
   }
 
   public void setEndEffectorHeight(double inches) {
-    int setpointTicks = (int) (inches * ticksPerInch / cascadeCorrection);
+    int setpointTicks = (int) (inches * ticksPerInch);
     elevatorLeader.set(ControlMode.MotionMagic, setpointTicks, DemandType.ArbitraryFeedForward, 0.05);
   }
 
@@ -111,6 +106,7 @@ public class Elevator extends Subsystem {
                     allowableErrorInches;
   }
   
+
   public PIDOutput levelElevator() {
     return new PIDOutput(){
     
@@ -133,6 +129,10 @@ public class Elevator extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-
   }
+
+  public void operatorControl(double speed) {
+    elevatorLeader.set(ControlMode.PercentOutput, speed, DemandType.ArbitraryFeedForward, 0.05);
+  }
+
 }

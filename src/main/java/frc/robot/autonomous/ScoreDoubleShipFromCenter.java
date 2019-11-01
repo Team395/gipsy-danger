@@ -8,10 +8,12 @@
 package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.*;
-import frc.robot.enums.ScoringPosition;
-import frc.robot.enums.Side;
 import frc.robot.Robot;
+import frc.robot.commands.AutoIntakeHatch;
+import frc.robot.commands.AutoScoreHatch;
+import frc.robot.commands.DriveFeet;
+import frc.robot.commands.TurnToDegree;
+import frc.robot.enums.Side;
 
 public class ScoreDoubleShipFromCenter extends CommandGroup {
   /**

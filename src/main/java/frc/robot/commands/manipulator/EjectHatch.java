@@ -1,9 +1,7 @@
 package frc.robot.commands.manipulator;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
-import frc.robot.utils.limelight.Limelight;
 
 
 /**

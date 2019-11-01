@@ -1,7 +1,6 @@
 package frc.robot.commands.manipulator;
 
 import edu.wpi.first.wpilibj.command.TimedCommand;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.Robot;
 
 /**

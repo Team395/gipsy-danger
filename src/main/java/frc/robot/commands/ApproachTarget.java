@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import frc.robot.enums.TargetType;
 import frc.robot.utils.limelight.Limelight;
+import frc.robot.utils.limelight.Limelight.Pipeline;
 
 public class ApproachTarget extends CommandGroup {
 	
@@ -13,26 +14,306 @@ public class ApproachTarget extends CommandGroup {
 	}
 
 	public ApproachTarget(TargetType targetType, boolean useOffset) {
-		addSequential(new InstantCommand(
-				() -> {
-					//if(Robot.oi.getLeftTarget()) {
-					Limelight.switchPipeline(0);
-					//} else {
-				//		Limelight.switchPipeline(Pipeline.kRightTarget);
-					//}
-				}
-			)
-		);
-		addSequential(new WaitCommand(0.25));
-
+		addSequential(new WaitCommand(0.35));
 		addSequential(new AimAtOffset(targetType, useOffset));
 		addSequential(new DriveToTarget(targetType, useOffset));
-		addSequential(new InstantCommand(
-				() -> {
-					Limelight.switchPipeline(2);
-				}
-			)
-		);
 	}
-	
+
+	@Override
+	public void initialize() {
+		super.initialize();
+		Limelight.switchPipeline(Pipeline.kLeftTarget);
+	}
+
+	@Override
+	public void end() {
+		super.end();
+		Limelight.switchPipeline(Pipeline.kDriverControl);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

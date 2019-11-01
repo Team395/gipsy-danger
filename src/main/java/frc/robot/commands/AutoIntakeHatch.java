@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import frc.robot.Robot;
+import frc.robot.commands.ElevatorPreset.PresetHeight;
 import frc.robot.commands.manipulator.IntakeHatch;
 import frc.robot.commands.manipulator.PrepIntakeHatch;
 import frc.robot.enums.TargetType;
@@ -12,7 +13,7 @@ public class AutoIntakeHatch extends CommandGroup {
 
 	public AutoIntakeHatch() {
 		setInterruptible(false);
-		//addSequential(new ElevatorPreset(ElevatorPreset.PresetHeight.kHatchLevelOne));
+		addSequential(new ElevatorPreset(PresetHeight.kHatchLevelOne));
 		addParallel(new PrepIntakeHatch());
 		addSequential(new ApproachTarget(TargetType.kLowTarget));
 		addSequential(new TimedDrive(0.25, 0.5));

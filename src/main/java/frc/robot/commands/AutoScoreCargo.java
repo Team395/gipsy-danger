@@ -5,12 +5,13 @@ import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import frc.robot.Robot;
 import frc.robot.enums.TargetType;
 import frc.robot.utils.limelight.Limelight;
+import frc.robot.commands.ElevatorPreset.PresetHeight;
 import frc.robot.commands.manipulator.EjectCargo;
 
 public class AutoScoreCargo extends CommandGroup {
 	public AutoScoreCargo() {
 		setInterruptible(false);
-		//addSequential(new ElevatorPreset(PresetHeight.kCargoShip));
+		addSequential(new ElevatorPreset(PresetHeight.kHatchLevelOne));
 		addSequential(new ApproachTarget(TargetType.kLowTarget));
 		addSequential(new ConditionalCommand(
 			new EjectCargo()) {

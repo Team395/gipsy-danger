@@ -55,8 +55,9 @@ public class Limelight {
 			limelightTable.getEntry("tl").getDouble(0));
 			return lastContourPulled;
 		} else {
-			return null;
+			lastContourPulled = null;
 		}
+		return lastContourPulled;
 	}
 	
 	public static Contour getLastContourPulled() {

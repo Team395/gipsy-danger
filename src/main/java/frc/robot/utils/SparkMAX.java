@@ -75,7 +75,6 @@ public class SparkMAX {
         output = Math.max(output, -1);
 
         pidController.setReference(output * 12, ControlType.kVoltage);
-        //TODO: Test that this isn't affected by PID parameters
         controlType = ControlType.kVoltage;
     }
 
@@ -116,6 +115,7 @@ public class SparkMAX {
      *  Returns the last setpoint given to the PIDController.
      */ 
 
+    @SuppressWarnings("unused")
     private double getPIDSetpoint() {
         if(controlType != ControlType.kPosition && controlType != ControlType.kVelocity)
             throw new IllegalStateException("Invalid ControlType: Not PID");

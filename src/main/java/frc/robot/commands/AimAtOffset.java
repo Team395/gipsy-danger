@@ -8,16 +8,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.utils.limelight.Contour;
 import frc.robot.Robot;
-import frc.robot.utils.limelight.*;
 import frc.robot.enums.TargetType;
-import frc.robot.subsystems.Elevator;
+import frc.robot.utils.limelight.Contour;
+import frc.robot.utils.limelight.Corners;
+import frc.robot.utils.limelight.HeadingOffsetCalculator;
+import frc.robot.utils.limelight.Limelight;
 
 public class AimAtOffset extends Command {
-	
+
 	TargetType targetType;
 	Contour contour;
 
