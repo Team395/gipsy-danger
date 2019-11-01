@@ -32,6 +32,9 @@ public class Drivetrain extends Subsystem {
         leftFollower.setInverted(true);
         rightLeader.setInverted(false);
         rightFollower.setInverted(false);
+
+        leftFollower.follow(leftLeader);
+        rightFollower.follow(rightLeader);
     }
 
     @Override
@@ -41,9 +44,7 @@ public class Drivetrain extends Subsystem {
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
         leftLeader.set(leftSpeed);
-        leftFollower.set(leftSpeed);
         rightLeader.set(rightSpeed);
-        rightFollower.set(rightSpeed);
     }
 
     public PIDOutput getTurnOutput() {
